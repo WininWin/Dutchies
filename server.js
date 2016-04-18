@@ -1,7 +1,8 @@
 // Get the packages we need
 var express = require('express');
 var mongoose = require('mongoose');
-var Llama = require('./models/llama');
+var User = require('./models/user');
+var Product = require('./models/product');
 var bodyParser = require('body-parser');
 var router = express.Router();
 
@@ -38,17 +39,22 @@ app.use('/api', router);
 var homeRoute = router.route('/');
 
 homeRoute.get(function(req, res) {
-  res.json({ message: 'Hello World!' });
+  res.json({ message: 'try using the /users or /products route' });
 });
 
-//Llama route
-var llamaRoute = router.route('/llamas');
+//User route
+var userRoute = router.route('/users');
 
-llamaRoute.get(function(req, res) {
-  res.json([{ "name": "alice", "height": 12 }, { "name": "jane", "height": 13 }]);
+userRoute.get(function(req, res) {
+  res.status(400).send("you've successfully reached the users route.");
 });
 
-//Add more routes here
+//Product route
+var productRoute = router.route('/products');
+
+productRoute.get(function(req, res) {
+  res.status(400).send("you've successfully reached the products route.");
+});
 
 // Start the server
 app.listen(port);
