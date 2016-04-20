@@ -8,6 +8,17 @@ var UserSchema = new mongoose.Schema({
   email: { type: String, required: true, index:{unique: true}},
   password: { type: String },
   mobilePhone: { type: String, required: true },
+  card:{
+  	number:{type: Number},
+  	holderName:{type:String},
+  	ExpireDate:{type:String}
+  },
+  address:{
+  	addressInfo:{type:String},
+  	state:{type:String},
+  	zipcode:{type:Number}
+  },
+
   dateCreated: { type: Date, default: Date.now },
   productsSelling: { type: [String], default: []},
   productsWatching: { type: [String], default: []},
