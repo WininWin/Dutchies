@@ -30,17 +30,17 @@ def getUsers(conn):
 
     return users
 
-def getTasks(conn):
+def getProducts(conn):
     # Retrieve the list of tasks
-    conn.request("GET","""/api/tasks?filter={"_id":1}""")
+    conn.request("GET","""/api/products?filter={"_id":1}""")
     response = conn.getresponse()
     data = response.read()
     d = json.loads(data)
 
     # Array of user IDs
-    tasks = [str(d['data'][x]['_id']) for x in xrange(len(d['data']))]
+    products = [str(d['data'][x]['_id']) for x in xrange(len(d['data']))]
 
-    return tasks
+    return products
 
 def main(argv):
 
@@ -81,23 +81,23 @@ def main(argv):
         users = getUsers(conn)
 
     # Fetch a list of tasks
-    tasks = getTasks(conn)
+    products = getProducts(conn)
 
     # Loop for as long as the database still returns tasks
-    while len(tasks):
+    while len(products):
 
         # Delete each individual task
-        for task in tasks:
-            conn.request("DELETE","/api/tasks/"+task)
+        for product in products:
+            conn.request("DELETE","/api/products/"+product)
             response = conn.getresponse()
             data = response.read()
 
         # Fetch a list of tasks
-        tasks = getTasks(conn)
+        products = getProducts(conn)
 
     # Exit gracefully
     conn.close()
-    print "All users and tasks removed at "+baseurl+":"+str(port)
+    print "All users and products removed at "+baseurl+":"+str(port)
 
 
 if __name__ == "__main__":
