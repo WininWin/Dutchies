@@ -4,25 +4,40 @@ var mongoose = require('mongoose');
 var User = require('./models/user');
 var Product = require('./models/product');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var morgan = require('morgan');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var configDB = require('./auth/database.js');
 var router = express.Router();
 
-//replace this with your Mongolab URL
-mongoose.connect('mongodb://dbuser:dc37cc626997d140f8174b1c141b240fbaa1dd55fb315f0e60d549ddcd84c163@ds059682.mlab.com:59682/cs498rk-fp');
+//connect to the database on mlab
+mongoose.connect(configDB.url);
+
+//passport configuration for accounts
+require('./auth/passport')(passport);
 
 // Create our Express application
 var app = express();
 
-// Use environment defined port or 4000
-var port = process.env.PORT || 4000;
+// Use environment defined port or 3000
+var port = process.env.PORT || 3000;
+
+app.use(morgan('dev'));
+app.use(cookieParser());
+app.use(session({ secret: 'b3289dc35a565e1334112c56378ef66a4b08913ab265a6b0ec0c374decf02cb33def22e1dd1ce3f595e2c08ac226dda7990139ea1df634c16f07e1616153b749' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 //Allow CORS so that backend and frontend could pe put on different servers
-var allowCrossDomain = function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-  next();
-};
-app.use(allowCrossDomain);
+// var allowCrossDomain = function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
+//   res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+//   next();
+// };
+// app.use(allowCrossDomain);
 
 // Use the body-parser package in our application
 app.use(bodyParser.urlencoded({
@@ -32,9 +47,10 @@ app.use(bodyParser.json({
 	extended: true
 }));
 
-// All our routes will start with /api
+// All our API routes will start with /api
 app.use('/api', router);
-
+app.use('/',express.static(__dirname + '/../client-fp-cs498rk/public'));
+require('./auth/routes.js')(app, passport);
 
 /******************* Helper functions *******************/
 
