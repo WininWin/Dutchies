@@ -2,9 +2,8 @@
 
 """
  * @file dbClean.py
- * Used in CS498RK MP4 to empty database of all users and tasks.
+ * Used in CS498RK MP4 to empty database of all users and products.
  *
- * @author Aswin Sivaraman
  * @date Created: Spring 2015
  * @date Modified: Spring 2015
 """
@@ -17,6 +16,18 @@ import json
 
 def usage():
     print 'dbClean.py -u <baseurl> -p <port>'
+
+def emptyDBquick(conn):
+    conn.request("GET","""/dev/emptydb""")
+    response = conn.getresponse()
+    data = response.read()
+    d = json.loads(data)
+
+    if(d['message']=="Database is now empty"):
+        return 0
+    else:
+        return -1
+
 
 def getUsers(conn):
     # Retrieve the list of users
@@ -31,7 +42,7 @@ def getUsers(conn):
     return users
 
 def getProducts(conn):
-    # Retrieve the list of tasks
+    # Retrieve the list of products
     conn.request("GET","""/api/products?filter={"_id":1}""")
     response = conn.getresponse()
     data = response.read()
@@ -65,6 +76,12 @@ def main(argv):
     # Server to connect to (1: url, 2: port number)
     conn = httplib.HTTPConnection(baseurl, port)
 
+    # try fast empty of the db
+    if(not(emptyDBquick(conn))):
+        sys.exit()
+        conn.close()
+        print "All users and products removed at "+baseurl+":"+str(port)
+
     # Fetch a list of users
     users = getUsers(conn)
 
@@ -80,19 +97,19 @@ def main(argv):
         # Fetch a list of users
         users = getUsers(conn)
 
-    # Fetch a list of tasks
+    # Fetch a list of products
     products = getProducts(conn)
 
-    # Loop for as long as the database still returns tasks
+    # Loop for as long as the database still returns products
     while len(products):
 
-        # Delete each individual task
+        # Delete each individual product
         for product in products:
             conn.request("DELETE","/api/products/"+product)
             response = conn.getresponse()
             data = response.read()
 
-        # Fetch a list of tasks
+        # Fetch a list of products
         products = getProducts(conn)
 
     # Exit gracefully

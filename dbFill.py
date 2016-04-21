@@ -2,9 +2,8 @@
 
 """
  * @file dbFill.py
- * Used in CS498RK MP4 to populate database with randomly generated users and products.
+ * Used in CS498RK FP to populate database with randomly generated users and products.
  *
- * @author Aswin Sivaraman
  * @date Created: Spring 2015
  * @date Modified: Spring 2015
 """
@@ -16,6 +15,7 @@ import urllib
 import json
 from random import randint
 from random import choice
+from random import sample
 from datetime import date
 from datetime import datetime
 from time import mktime
@@ -38,13 +38,14 @@ def getUsers(conn):
 def main(argv):
     Seller_Product_Dic =  {}
     SoldTo_Product_Dic =  {}
+    Watching_Product_Dic =  {}
     # Server Base URL and port
     baseurl = "localhost"
     port = 3000
 
     # Number of POSTs that will be made to the server
     userCount = 10
-    productCount = 30
+    productCount = 50
 
     try:
         opts, args = getopt.getopt(argv,"hu:p:n:t:",["url=","port=","users=","products="])
@@ -124,6 +125,7 @@ def main(argv):
         userEmails.append(str(d['data']['email']))
         Seller_Product_Dic[str(d['data']['_id'])] = []
         SoldTo_Product_Dic[str(d['data']['_id'])] = []
+        Watching_Product_Dic[str(d['data']['_id'])] = []
 
 
     products = ["feminine","Lithium Carbonate","Torsemide","Dust, House Mixture","ULTRA HYDRA TONER","Senna","PHENDIMETRAZINE TARTRATE","Gold","NIGHTTIME TEETHING","Anacin","Prevail-FX One Step","Shaving Factory","Glimepiride","AVAR LS","Levetiracetam","Anastrozole","Metoprolol Tartrate","PrameGel","Fentanyl","Tan Expert Finish Makeup Makeup Broad Spectrum SPF 25","Colgate Optic White Dual Action Crystal Mint","Pravastatin Sodium","Stem Cell Wrinkle Serum","Fibromyalgia Relief","Treatment Set TS331634","Oxycodone Hydrochloride","Ferric Subsulfate","LEVORPHANOL TARTRATE","Oxygen","Motion sickness","CVS Nighttime Cold/Flu Relief","Crest Pro-Health","AHC Revitalizing Special Gen Solution","Diphenoxylate Hydrochloride and Atropine Sulfate","Topiramate","BLACK WALNUT POLLEN","Labetalol hydrochloride","Old Spice Red Zone Sweat Defense","Hydralazine Hydrochloride","Sertraline Hydrochloride","Mucor","GRAIN SORGHUM POLLEN","POPULUS DELTOIDES POLLEN","Oil-Free Foaming Acne Wash Facial Cleanser","Losartan Potassium","Ritussin Expectorant","GMC Medical","Torsemide","Jute","Milk of Magnesia Mint","NARS PURE RADIANT TINTED MOISTURIZER","Stratuscare Antacid and Antigas Regular Strength","Bupropion Hydrochloride","equate Fiber Therapy Smooth Texture Orange Flavor","Quetiapine Fumarate","Ofloxacin","NEXT CHOICE","Bromocriptine mesylate","Therapytion Nokmosu Neutral and oily Hair","etomidate","EPIVIR","Nifedipine","Pioglitazone","Cetirizine Hydrochloride","Amoxicillin","levocetirizine dihydrochloride","Sodium Citrate and Citric Acid","care one pain relief","PULMICORT RESPULES","acid reducer","Naproxen","Penicillin V Potassium","EMINENCE Red Currant Protective Moisturizer","Anti-Bacterial Hand","Tangerine","Trifluoperazine Hydrochloride","Trandolapril","Diclofenac Potassium","Neova DNA Damage Control - Everyday","Mustard Pollen","Immediate Comfort","ibuprofen","Family Wellness","Cold Sores and Herpes","Propranolol Hydrochloride","INFANTS GAS AND COLIC RELIEF","Phenazopyridine HCl","Lorazepam","Aurum Prunus","Berkley and Jensen Naproxen Sodium","Zyprexa","Lotensin","acid reducer complete","Triple Antibiotic Ointment","Non-Drowsy Sinus Congestion and Pain Relief","QUERCUS ALBA POLLEN","Kitchen Citrus","Nitroglycerin Transdermal Delivery System","SACCHAROMYCES CEREVISIAE","In-7-One"]
@@ -149,9 +151,14 @@ def main(argv):
         
         price = randint(50,200)
 
+        # users watching
+        # choose a number of users who will be watching
+        numUsersWatching = randint(0,userCount/2)
+        usersWatching = sample(userIDs,numUsersWatching)
+
         description = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
         
-        params = urllib.urlencode({'name': choice(products), 'description': description, 'category': choice(categories), 'reservePrice': price,'currentPrice': price + 100, 'sold': sold, 'sellerUser': sellerUser, 'sellerUserName': sellerUserName, 'sellerUserEmail': sellerUserEmail, 'dateSold': dateSold, 'soldToUser': soldToUser, 'soldToUserName': soldToUserName, 'soldToUserEmail': soldToUserEmail})
+        params = urllib.urlencode({'name': choice(products), 'description': description, 'category': choice(categories), 'reservePrice': price,'currentPrice': price + 100, 'sold': sold, 'sellerUser': sellerUser, 'sellerUserName': sellerUserName, 'sellerUserEmail': sellerUserEmail, 'dateSold': dateSold, 'soldToUser': soldToUser, 'soldToUserName': soldToUserName, 'soldToUserEmail': soldToUserEmail, 'usersWatching': usersWatching}, True)
 
         # POST the product
         conn.request("POST", "/api/products", params, headers)
@@ -160,8 +167,9 @@ def main(argv):
         d = json.loads(data)
 
         productID = str(d['data']['_id'])
-        # print assignedUserID
         Seller_Product_Dic[sellerUser].append(productID)
+        for watcherID in usersWatching:
+            Watching_Product_Dic[watcherID].append(productID)
         if sold:
             SoldTo_Product_Dic[soldToUser].append(productID)
 
@@ -182,6 +190,17 @@ def main(argv):
         productlist = SoldTo_Product_Dic[key]
         if (len(productlist)!=0):
             putDict = {'productsBought': [str(x).replace('[','').replace(']','').replace("'",'').replace('"','') for x in productlist]}
+            params = urllib.urlencode(putDict,True)
+            conn.request("PUT", "/api/users/"+key, params, headers)
+            response = conn.getresponse()
+            data = response.read()
+            d = json.loads(data)
+
+    for key in Watching_Product_Dic:
+        
+        productlist = Watching_Product_Dic[key]
+        if (len(productlist)!=0):
+            putDict = {'productsWatching': [str(x).replace('[','').replace(']','').replace("'",'').replace('"','') for x in productlist]}
             params = urllib.urlencode(putDict,True)
             conn.request("PUT", "/api/users/"+key, params, headers)
             response = conn.getresponse()

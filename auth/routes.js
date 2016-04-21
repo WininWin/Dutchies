@@ -47,6 +47,30 @@ module.exports = function(app, passport, User, Product) {
 
 
 
+
+	/****** Special Dev Routes ******/
+	app.get('/dev/emptydb', function(req, res) {
+		User.remove({},function(error) {
+			if(error) {
+				res.status(500);
+				res.json({"message":errorToString(error),"data":[]});
+			}
+			else {
+				Product.remove({},function(error) {
+				if(error) {
+					res.status(500);
+					res.json({"message":errorToString(error),"data":[]});
+				}
+				else {
+					res.status(200);
+					res.json({"message":"Database is now empty","data":[]})
+				}
+			});
+			}
+		});
+	});
+
+
 	/******************* Helper functions *******************/
 
 	//function that takes an error and turns it into a string for returning to the user
