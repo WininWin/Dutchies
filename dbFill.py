@@ -17,6 +17,7 @@ import json
 from random import randint
 from random import choice
 from datetime import date
+from datetime import datetime
 from time import mktime
 
 def usage():
@@ -35,14 +36,15 @@ def getUsers(conn):
     return users
 
 def main(argv):
-    User_Product_Dic =  {}
+    Seller_Product_Dic =  {}
+    SoldTo_Product_Dic =  {}
     # Server Base URL and port
-    baseurl = "www.uiucwp.com"
-    port = 4000
+    baseurl = "localhost"
+    port = 3000
 
     # Number of POSTs that will be made to the server
-    userCount = 50
-    productCount = 200
+    userCount = 10
+    productCount = 30
 
     try:
         opts, args = getopt.getopt(argv,"hu:p:n:t:",["url=","port=","users=","products="])
@@ -120,69 +122,76 @@ def main(argv):
         userIDs.append(str(d['data']['_id']))
         userNames.append(str(d['data']['name']))
         userEmails.append(str(d['data']['email']))
-        User_Product_Dic[str(d['data']['_id'])] = []
-    # Open 'products.txt' for sample product names
+        Seller_Product_Dic[str(d['data']['_id'])] = []
+        SoldTo_Product_Dic[str(d['data']['_id'])] = []
 
-    # f = open('products.txt','r')
-    # productNames = f.read().splitlines()
-    # # print User_Product_Dic
-    # # Loop 'productCount' number of times
-    # for i in xrange(productCount):
 
-    #     # Randomly generate product parameters
-    #     assigned = (randint(0,10) > 4)
-    #     assignedUser = randint(0,len(userIDs)-1) if assigned else -1
-    #     assignedUserID = userIDs[assignedUser] if assigned else 'unassigned'
-    #     assignedUserName = userNames[assignedUser] if assigned else 'unassigned'
-    #     #print assignedUserName
-    #     assignedUserEmail = userEmails[assignedUser] if assigned else 'unassigned'
-    #     completed = (randint(0,10) > 5)
-    #     deadline = (mktime(date.today().timetuple()) + randint(86400,864000)) * 1000
-    #     description = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
-    #     params = urllib.urlencode({'name': choice(productNames), 'deadline': deadline, 'assignedUserName': assignedUserName, 'assignedUser': assignedUserID, 'completed': str(completed).lower(), 'description': description})
+    products = ["feminine","Lithium Carbonate","Torsemide","Dust, House Mixture","ULTRA HYDRA TONER","Senna","PHENDIMETRAZINE TARTRATE","Gold","NIGHTTIME TEETHING","Anacin","Prevail-FX One Step","Shaving Factory","Glimepiride","AVAR LS","Levetiracetam","Anastrozole","Metoprolol Tartrate","PrameGel","Fentanyl","Tan Expert Finish Makeup Makeup Broad Spectrum SPF 25","Colgate Optic White Dual Action Crystal Mint","Pravastatin Sodium","Stem Cell Wrinkle Serum","Fibromyalgia Relief","Treatment Set TS331634","Oxycodone Hydrochloride","Ferric Subsulfate","LEVORPHANOL TARTRATE","Oxygen","Motion sickness","CVS Nighttime Cold/Flu Relief","Crest Pro-Health","AHC Revitalizing Special Gen Solution","Diphenoxylate Hydrochloride and Atropine Sulfate","Topiramate","BLACK WALNUT POLLEN","Labetalol hydrochloride","Old Spice Red Zone Sweat Defense","Hydralazine Hydrochloride","Sertraline Hydrochloride","Mucor","GRAIN SORGHUM POLLEN","POPULUS DELTOIDES POLLEN","Oil-Free Foaming Acne Wash Facial Cleanser","Losartan Potassium","Ritussin Expectorant","GMC Medical","Torsemide","Jute","Milk of Magnesia Mint","NARS PURE RADIANT TINTED MOISTURIZER","Stratuscare Antacid and Antigas Regular Strength","Bupropion Hydrochloride","equate Fiber Therapy Smooth Texture Orange Flavor","Quetiapine Fumarate","Ofloxacin","NEXT CHOICE","Bromocriptine mesylate","Therapytion Nokmosu Neutral and oily Hair","etomidate","EPIVIR","Nifedipine","Pioglitazone","Cetirizine Hydrochloride","Amoxicillin","levocetirizine dihydrochloride","Sodium Citrate and Citric Acid","care one pain relief","PULMICORT RESPULES","acid reducer","Naproxen","Penicillin V Potassium","EMINENCE Red Currant Protective Moisturizer","Anti-Bacterial Hand","Tangerine","Trifluoperazine Hydrochloride","Trandolapril","Diclofenac Potassium","Neova DNA Damage Control - Everyday","Mustard Pollen","Immediate Comfort","ibuprofen","Family Wellness","Cold Sores and Herpes","Propranolol Hydrochloride","INFANTS GAS AND COLIC RELIEF","Phenazopyridine HCl","Lorazepam","Aurum Prunus","Berkley and Jensen Naproxen Sodium","Zyprexa","Lotensin","acid reducer complete","Triple Antibiotic Ointment","Non-Drowsy Sinus Congestion and Pain Relief","QUERCUS ALBA POLLEN","Kitchen Citrus","Nitroglycerin Transdermal Delivery System","SACCHAROMYCES CEREVISIAE","In-7-One"]
+    categories = ["Automotive & Powersports","Baby Products (Excluding Apparel)","Beauty","Books","Camera & Photo","Cell Phones","Clothing & Accessories","Collectible Coins","Collectibles (Books)","Collectibles (Entertainment)","Electronics (Accessories)","Electronics (Consumer)","Fine Art","Grocery & Gourmet Food","Handmade","Health & Personal Care","Historical & Advertising Collectibles","Home & Garden","Industrial & Scientific","Jewelry","Luggage & Travel Accessories","Music","Musical Instruments","Office Products","Outdoors","Personal Computers","Shoes, Handbags & Sunglasses","Software & Computer Games","Sports","Sports Collectibles","Tools & Home Improvement","Toys & Games","Video, DVD & Blu-Ray","Video Games & Video Game Consoles","Watches","Wine"]
+    # print Seller_Product_Dic
+    # Loop 'productCount' number of times
+    for i in xrange(productCount):
 
-    #     # POST the product
-    #     conn.request("POST", "/api/products", params, headers)
-    #     response = conn.getresponse()
-    #     data = response.read()
-    #     d = json.loads(data)
+        # Randomly generate product parameters
+        sold = (randint(0,10) > 4)
+        soldToUserIndex = randint(0,len(userIDs)-1) if sold else ''
+        soldToUser = userIDs[soldToUserIndex] if sold else ''
+        soldToUserName = userNames[soldToUserIndex] if sold else ''
+        soldToUserEmail = userEmails[soldToUserIndex] if sold else ''
 
-    #     productID = str(d['data']['_id'])
-    #     # print assignedUserID
-    #     if assigned and not completed:
-    #         User_Product_Dic[assignedUserID].append(productID)
+        # make a random sell date
+        dateSold = datetime(randint(2010,2015), randint(1,12), randint(1,28))
+        
+        sellerUserIndex = randint(0,len(userIDs)-1)
+        sellerUser = userIDs[sellerUserIndex]
+        sellerUserName = userNames[sellerUserIndex]
+        sellerUserEmail = userEmails[sellerUserIndex]
+        
+        price = randint(50,200)
+
+        description = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
+        
+        params = urllib.urlencode({'name': choice(products), 'description': description, 'category': choice(categories), 'reservePrice': price,'currentPrice': price + 100, 'sold': sold, 'sellerUser': sellerUser, 'sellerUserName': sellerUserName, 'sellerUserEmail': sellerUserEmail, 'dateSold': dateSold, 'soldToUser': soldToUser, 'soldToUserName': soldToUserName, 'soldToUserEmail': soldToUserEmail})
+
+        # POST the product
+        conn.request("POST", "/api/products", params, headers)
+        response = conn.getresponse()
+        data = response.read()
+        d = json.loads(data)
+
+        productID = str(d['data']['_id'])
+        # print assignedUserID
+        Seller_Product_Dic[sellerUser].append(productID)
+        if sold:
+            SoldTo_Product_Dic[soldToUser].append(productID)
 
         
-    # for key in User_Product_Dic:
+    for key in Seller_Product_Dic:
         
-    #     productlist = User_Product_Dic[key]
-    #     if (len(productlist)!=0):
-    #         assignedUserID = key
-    #         conn.request("GET","""/api/users?where={"_id":\""""+assignedUserID+"""\"}""")
-    #         response = conn.getresponse()
-    #         data = response.read()
-    #         d = json.loads(data)
-    #         assignedUserName = str(d['data'][0]['name'])
-    #         assignedUserEmail = str(d['data'][0]['email'])
-    #         assignedUserDate = str(d['data'][0]['dateCreated'])
-    #         putDict = {}
-    #         putDict['_id'] =  assignedUserID
-    #         putDict['name'] = assignedUserName
-    #         putDict['email'] = assignedUserEmail
-    #         putDict['dateCreated'] = assignedUserDate
-    #         for i in range (len(productlist)):
-    #             dictkeyname = 'pendingProducts[' + str(i) + ']'
-    #             putDict[dictkeyname] = productlist[i]
-    #         params = urllib.urlencode(putDict)
-    #         conn.request("PUT", "/api/users/"+assignedUserID, params, headers)
-    #         response = conn.getresponse()
-    #         data = response.read()
-    #         d = json.loads(data)
+        productlist = Seller_Product_Dic[key]
+        if (len(productlist)!=0):
+            putDict = {'productsSelling': [str(x).replace('[','').replace(']','').replace("'",'').replace('"','') for x in productlist]}
+            params = urllib.urlencode(putDict,True)
+            conn.request("PUT", "/api/users/"+key, params, headers)
+            response = conn.getresponse()
+            data = response.read()
+            d = json.loads(data)
 
-    # # Exit gracefully
-    # conn.close()
-    # print str(userCount)+" users and "+str(productCount)+" products added at "+baseurl+":"+str(port)
-    # print User_Product_Dic
+    for key in SoldTo_Product_Dic:
+        
+        productlist = SoldTo_Product_Dic[key]
+        if (len(productlist)!=0):
+            putDict = {'productsBought': [str(x).replace('[','').replace(']','').replace("'",'').replace('"','') for x in productlist]}
+            params = urllib.urlencode(putDict,True)
+            conn.request("PUT", "/api/users/"+key, params, headers)
+            response = conn.getresponse()
+            data = response.read()
+            d = json.loads(data)
+
+    # Exit gracefully
+    conn.close()
+    print str(userCount)+" users and "+str(productCount)+" products added at "+baseurl+":"+str(port)
+    # print Seller_Product_Dic
 
 if __name__ == "__main__":
      main(sys.argv[1:])
