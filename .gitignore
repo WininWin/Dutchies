@@ -1,4 +1,6 @@
 .DS_Store
+grunt.log
+server.log
 
 .sass-cache/
 node_modules/
