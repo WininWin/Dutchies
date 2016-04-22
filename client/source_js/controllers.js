@@ -8,7 +8,7 @@ webAppControllers.run(function($rootScope,$http,$state) {
         $http.get("/auth/logout").success(function(data){
         	$state.go('app');
         	$rootScope.userdata = {};
-        	$rootScope.loggedin = 0;
+        	$rootScope.loggedin = 0; 
         });
     };
 });
