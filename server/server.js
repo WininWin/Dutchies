@@ -40,7 +40,7 @@ app.use(bodyParser.json({
 
 
 //serve our client side
-app.use('/',express.static(__dirname + '/../client-fp-cs498rk/public'));
+app.use('/',express.static(__dirname + '/../client/public'));
 //serve our API and authentication side
 require('./auth/routes.js')(app, passport, User, Product);
 

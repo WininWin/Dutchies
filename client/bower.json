@@ -1,0 +1,22 @@
+{
+  "name": "fp",
+  "version": "1.0",
+  "homepage": "https://github.com/rtylerhansen/client-fp-cs498rk",
+  "authors": [
+    "rtylerhansen <rthanse2@illinois.edu>"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-2.1.3.min": "http://code.jquery.com/jquery-2.1.3.min.js",
+    "angular": "~1.3.13",
+    "angular-route": "~1.3.14",
+    "angular-ui-router": "^0.2.18"
+  }
+}

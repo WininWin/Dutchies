@@ -1,12 +1,12 @@
-# server-fp-cs498rk
+# fp-cs498rk
 final project for cs498rk, implementing a web dutch auction system through a MEAN stack web app
 <br>
-This repo contains the code for the backend/server side.
+The ```client``` subdirectory contains code for the front end, built in Foundation and AngularJS. The ```server``` subdirectory contains code for the backend, using Mongoose, Express, and Node.js.
 
-You should be able to do
-`npm install` and `nodemon -L server.js`
+To install the components initially, run the following command;
+`./install.sh`
 
-Nodemon does auto-reloading the same way grunt does on the frontend. This will also serve the client code if you have the repo cloned into the same parent directory as the server repo. Run ```grunt``` in another window to refresh both the back end and the front end automatically when you make changes.
+To serve the both the front and back end, run the following command:
+`./serve.sh`
 
-You might have to install nodemon on the vagrant machine using
-`npm install -g nodemon`
+Running ```./serve.sh``` will launch both Grunt and the Express server on detached screens. To stop serving, simply run ```killall screen```.
