@@ -20,8 +20,8 @@ module.exports = function(app, passport, User, Product) {
 		});
 	});
 
-	/* get all the products data pertaining to the logged in user */
-	app.get('/auth/products/seller', isLoggedIn, function(req, res) {
+	/* get all the products that the logged in user has sold or is selling */
+	app.get('/auth/products/selling', isLoggedIn, function(req, res) {
 		Product.find({"sellerUser":req.user._id})
 		.sort(getParam(req.query.sort))
 		.select(getParam(req.query.select))
@@ -39,6 +39,43 @@ module.exports = function(app, passport, User, Product) {
 		})
 	});
 	
+	/* get all the products that the logged in user has bought */
+	app.get('/auth/products/buying', isLoggedIn, function(req, res) {
+		Product.find({"soldToUser":req.user._id})
+		.sort(getParam(req.query.sort))
+		.select(getParam(req.query.select))
+		.skip(req.query.skip)
+		.limit(req.query.limit)
+		.exec(function(error,result){
+			if(error) {
+				res.status(500);
+				res.json({"message":errorToString(error),"data":[]});
+			}
+			else {
+				res.status(200);
+				res.json({"message":"OK","data":result})
+			}
+		})
+	});
+
+	/* get all the products that the logged in user is watching */
+	app.get('/auth/products/watching', isLoggedIn, function(req, res) {
+		Product.find({"usersWatching":req.user._id})
+		.sort(getParam(req.query.sort))
+		.select(getParam(req.query.select))
+		.skip(req.query.skip)
+		.limit(req.query.limit)
+		.exec(function(error,result){
+			if(error) {
+				res.status(500);
+				res.json({"message":errorToString(error),"data":[]});
+			}
+			else {
+				res.status(200);
+				res.json({"message":"OK","data":result})
+			}
+		})
+	});
 
 	app.get('/auth/logout', function(req, res) {
 		req.logout();

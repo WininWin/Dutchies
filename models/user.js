@@ -14,7 +14,8 @@ var UserSchema = new mongoose.Schema({
   	ExpireDate:{type:String}
   },
   address:{
-  	addressInfo:{type:String},
+  	streetAddress:{type:String},
+  	city:{type:String},
   	state:{type:String},
   	zipcode:{type:Number}
   },

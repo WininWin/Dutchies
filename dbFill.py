@@ -73,6 +73,7 @@ def main(argv):
           "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
           "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
           "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
+    cities = ["North Lawrence","Conception Junction","Gardena","Fairford","Hudson","Zebulon","McKinley Heights","Cheviot","Chauvin","Rustburg","Kukuihaele","Salvisa","Winterstown","Verde Village","Gresham Park","Alamillo","Rozel","Venersborg","Prinsburg","Monett","Casselman","Green Springs","Shark River Hills","Tower Lakes","Friendswood","Schofield","Goldendale","West Union","Warrensburg","Mount Calm","Black Jack","Abilene","Wolcottville","Funkley","Brogan","Estill","Woodlands","Terlton","West Peoria","Davis Junction","Wheat Ridge","Rolette","Escudilla Bonita","Challis","Marblehead","Pismo Beach","Papillion","Clark Mills","Peterson","Orwigsburg"]
  
 
     # Server to connect to (1: url, 2: port number)
@@ -102,15 +103,15 @@ def main(argv):
         z = randint(0,99)
         statesidx = randint(0,50)
 
-        adds = "apt " + str(randint(000,999)) + ', ' +  lastNames[z] + ' street, ' + firstNames[z]
+        adds = str(randint(000,999)) + ' ' +  lastNames[z] + ' Street'
         zipcode = str(randint(00000,99999))
 
         phone = str(randint(0000000000,9999999999))
 
 
-        params = urllib.urlencode({'name': firstNames[x] + ' ' + lastNames[y], 'password': '$2a$08$IHT/ZGctDuBr03Fq1eRbf.9rN6tJCuwgFdT7RFJflmedHaS51q5SC', 'email': firstNames[x] + "@" + lastNames[y] + ".com", 
-            'mobilePhone':phone, 'card.number':cardnum,'card.holderName':firstNames[x]+ " " + lastNames[y],'card.ExpireDate':expdate,
-            'address.addressInfo':adds, 'address.state':states[statesidx],'address.zipcode':zipcode})
+        params = urllib.urlencode({'name': firstNames[x].capitalize() + ' ' + lastNames[y].capitalize(), 'password': '$2a$08$IHT/ZGctDuBr03Fq1eRbf.9rN6tJCuwgFdT7RFJflmedHaS51q5SC', 'email': firstNames[x] + "@" + lastNames[y] + ".com", 
+            'mobilePhone':phone, 'card.number':cardnum,'card.holderName':firstNames[x].capitalize()+ " " + lastNames[y].capitalize(),'card.ExpireDate':expdate,
+            'address.streetAddress':adds, 'address.city': choice(cities), 'address.state':states[statesidx],'address.zipcode':zipcode})
         
         # POST the user
         conn.request("POST", "/api/users", params, headers)
