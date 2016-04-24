@@ -2,10 +2,10 @@ var webAppControllers = angular.module('webAppControllers', []);
 
 
 //global functions
-webAppControllers.run(function($rootScope,$http,$state) {
+webAppControllers.run(function($rootScope,$http,$state, CurrentUser) {
 	$rootScope.loggedin = 0;
     $rootScope.logout = function() {
-        $http.get("/auth/logout").success(function(data){
+        CurrentUser.userLogout().success(function(data){
         	$state.go('app');
         	$rootScope.userdata = {};
         	$rootScope.loggedin = 0; 
@@ -34,11 +34,11 @@ webAppControllers.controller('FooterController',['$scope', '$state', function($s
 }]);
 
 
-webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$rootScope', function($scope,$state,$http,$rootScope) {
+webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$rootScope', 'CurrentUser', function($scope,$state,$http,$rootScope, CurrentUser) {
  	$scope.login = function() {
  		$scope.loginError = 0;
 		var login_creds = {"email":$scope.email,"password":$scope.password};
-	 	$http.post('/auth/login',login_creds).success(function(data) {
+	 	CurrentUser.userLogin(login_creds).success(function(data) {
 			if(!data.error) {
 				$rootScope.userdata = data;
 				$rootScope.loggedin = 1;
@@ -55,7 +55,7 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 	if($rootScope.loggedin)
 		$state.go("app.account");
 
-	$http.get('/api/users?select={"email":1,"_id":0}&limit=1&skip=' + Math.floor((Math.random() * 10))).success(function(data) {
+	CurrentUser.getSampleUser().success(function(data) {
 		if(data.message=="OK") {
 			$scope.sample_user = data.data[0].email;
 			$scope.email = data.data[0].email;
@@ -65,8 +65,8 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 
 }]);
 
-webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', function($scope, $state,$http) {
-    $http.get('/auth/products/buying').success(function(data) {
+webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', 'CurrentUser', function($scope, $state,$http, CurrentUser) {
+    CurrentUser.getUserBuying().success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
 		}
@@ -75,8 +75,8 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', fun
 
 }]);
 
-webAppControllers.controller('SellController', ['$scope', '$http', '$window' , function($scope, $http, $window) {
-	$http.get('/auth/products/selling').success(function(data) {
+webAppControllers.controller('SellController', ['$scope', '$http', '$window', 'CurrentUser', function($scope, $http, $window, CurrentUser) {
+	CurrentUser.getUserSelling().success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
 		}
@@ -85,8 +85,8 @@ webAppControllers.controller('SellController', ['$scope', '$http', '$window' , f
 
 }]);
 
-webAppControllers.controller('WatchingController', ['$scope' ,'$http', '$rootScope', function($scope,$http,$rootScope) {
-    $http.get('/auth/products/watching').success(function(data) {
+webAppControllers.controller('WatchingController', ['$scope' ,'$http', '$rootScope', 'CurrentUser', function($scope,$http,$rootScope, CurrentUser) {
+    CurrentUser.getUserWatching().success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
 		}
@@ -95,12 +95,12 @@ webAppControllers.controller('WatchingController', ['$scope' ,'$http', '$rootSco
 }]);
 
 
-webAppControllers.controller('AccountController', ['$scope', '$http' , '$window' , '$rootScope', '$state', function($scope, $http, $window, $rootScope, $state) {
+webAppControllers.controller('AccountController', ['$scope', '$http' , '$window' , '$rootScope', '$state', 'CurrentUser', function($scope, $http, $window, $rootScope, $state, CurrentUser) {
 
 
 	if($rootScope.userdata!=undefined)
 		$scope.user = $rootScope.userdata;
-    $http.get('/auth/user').success(function(data) {
+    CurrentUser.getAccountInfo().success(function(data) {
 		if(data.message=="OK") {
 			$scope.user = data.data;
 			$rootScope.userdata = data.data;
@@ -115,7 +115,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 }]);
 
 webAppControllers.controller('SignupController', ['$scope' , function($scope) {
-  
+
 
 
 }]);
