@@ -84,7 +84,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
       }
     }
     
-  });
+  })
  
+  .state('app.createItem', {
+    url: 'createItem',
+    views: {
+      'content@': {
+        templateUrl: 'partials/createItem.html',
+        controller: 'CreateItemController'
+      }
+    }
+  }); 
  
 }]);

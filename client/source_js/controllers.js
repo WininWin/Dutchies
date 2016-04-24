@@ -119,3 +119,9 @@ webAppControllers.controller('SignupController', ['$scope' , function($scope) {
 
 
 }]);
+
+webAppControllers.controller('CreateItemController', ['$scope', function($scope) {
+	$scope.createItem = function (product) {
+
+	};
+}]);

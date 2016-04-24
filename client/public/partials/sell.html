@@ -1,7 +1,22 @@
 <div class="list" ng-controller='SellController'>		
-	<h3>Sell your stuff!</h3>
-	<div ng-repeat="item in products">
-	{{item.name}}
-  </div>
+	<section class="row">
+		<div class="column small-12">
+			<h3>Your Products</h3>
+		</div>
+	</section>
+	<section class="row">
+		<div class="column small-12">
+			<ul>
+				<li ng-repeat="item in products">
+					{{item.name}}
+				</li>
+			</ul>
+		</div>
+	</section>
+	<section class="row">
+		<div class="column small-12">
+			<a class="button" ui-sref-active-eq="active-state" ui-sref="app.createItem">Sell A New Item</a></br>
+		</div>
+	</section>
 
 </div>

@@ -1,0 +1,39 @@
+<div class="row" ng-controller="CreateItemController">
+	<form name="itemForm" novalidate>
+        <section class="row">
+        	<div class="column small-5">
+			</div>
+    		<div class="column small-7">
+                <div class="form-group">
+                    <label>Product Name:</label>
+                    <input type="text" class="form-control" name="pName" ng-model="product.name" required/>
+                </div>
+                <div class="form-group">
+                    <label>Starting Value ($):</label>
+                    <input type="text" class="form-control" name="password" ng-model="product.starting" required/>
+                </div>
+                <div class="form-group">
+                	<label>Reserve Price ($):</label>
+					<input type="text" class="form-control" name="password" ng-model="product.reserve" required/>
+                </div>
+                <div class="form-group">
+                	<label>Shipping Fee ($):</label>
+					<input type="text" class="form-control" name="password" ng-model="product.shipping" required/>
+                </div>
+            </div>
+        </section>
+        <section class="row">
+        	<div class="column small-12">
+        		<div class="form-group">
+                	<label>Product Description:</label>
+					<input type="text" class="form-control" name="password" ng-model="product.description"/>
+                </div>
+        	</div>
+        </section>
+       	<section class="row">
+        	<div class="column small-12">
+        		<button class="button" ng-click="createItem(product)">Create Item Listing</button>
+        	</div>
+        </section>
+    </form>
+</div>
