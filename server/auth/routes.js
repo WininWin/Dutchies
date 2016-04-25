@@ -5,7 +5,7 @@ module.exports = function(app, passport, User, Product) {
 
 	app.post('/auth/signup', passport.authenticate('local-signup'), function(req, res) {
 		res.status(201);
-		res.json({"message":"OK", "data":result});
+		res.json({"message":"OK", "data": req.user});
 	});
 
 	app.post('/auth/login', passport.authenticate('local-login'), function(req, res) {
