@@ -4,27 +4,27 @@
 <div class="column">
 
     <h1><span class="fa fa-sign-in"></span> Signup</h1>
-
+    {{response}}
     <!-- LOGIN FORM -->
-    <form action="/auth/signup" method="post">
+    <form name="userForm" novalidate>
         <div class="form-group">
             <label>Email</label>
-            <input type="text" class="form-control" name="email">
+            <input type="email" class="form-control" name="uEmail" ng-model="user.email" required>
         </div>
         <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control" name="name">
+            <input type="text" class="form-control" name="name" ng-model="user.name">
         </div>
         <div class="form-group">
             <label>Mobile Phone</label>
-            <input type="text" class="form-control" name="mobilePhone">
+            <input type="text" class="form-control" name="mobilePhone" ng-model="user.mobilePhone">
         </div>
         <div class="form-group">
             <label>Password</label>
-            <input type="password" class="form-control" name="password">
+            <input type="password" class="form-control" name="uPassword" ng-model="user.password" required>
         </div>
 
-        <button type="submit">Signup</button>
+        <button type="submit" ng-click="createUser(user, userForm.uEmail.$error.email, userForm.uEmail.$error.required, userForm.uPassword.$error.required)">Signup</button>
     </form>
 
     <hr>

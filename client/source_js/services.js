@@ -34,6 +34,9 @@ webAppServices.factory('CurrentUser', function($http) {
 		},
 		userLogin : function(loginDetails) {
 			return $http.post('/auth/login', loginDetails);
+		},
+		createUser : function(user) {
+			return $http.post('/auth/signup', user);
 		}
 	}
 });

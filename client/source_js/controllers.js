@@ -114,14 +114,23 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 
 }]);
 
-webAppControllers.controller('SignupController', ['$scope' , function($scope) {
-
-
-
+webAppControllers.controller('SignupController', ['$scope' , '$location', 'CurrentUser', function($scope, $location, CurrentUser) {
+	$scope.createUser = function(user, invalidEmail, noEmail, noPassword) {
+		if (invalidEmail == null && noEmail == null && noPassword == null) {
+			CurrentUser.createUser(user).success(function(data) {
+				if(data.message=="OK") {
+					$location.path('/account');
+					console.log('created');
+				}
+			})
+		}
+	};
 }]);
 
 webAppControllers.controller('CreateItemController', ['$scope', function($scope) {
 	$scope.createItem = function (product) {
+		if (len(product.name) > 0 && product.starting > product.reserve && product.reserve > 0.00) {
 
+		}
 	};
 }]);

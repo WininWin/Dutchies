@@ -4,7 +4,8 @@ module.exports = function(app, passport, User, Product) {
 	/******************* Auth Routes *******************/
 
 	app.post('/auth/signup', passport.authenticate('local-signup'), function(req, res) {
-		res.sendStatus(201);
+		res.status(201);
+		res.json({"message":"OK", "data":result});
 	});
 
 	app.post('/auth/login', passport.authenticate('local-login'), function(req, res) {
