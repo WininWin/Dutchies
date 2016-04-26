@@ -10,7 +10,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var configDB = require('./auth/database.js');
 var router = express.Router();
-
+var fs = require('fs');
 //connect to the database on mlab
 mongoose.connect(configDB.url);
 
@@ -42,7 +42,7 @@ app.use(bodyParser.json({
 //serve our client side
 app.use('/',express.static(__dirname + '/../client/public'));
 //serve our API and authentication side
-require('./auth/routes.js')(app, passport, User, Product);
+require('./auth/routes.js')(app, passport, User, Product, fs);
 
 
 
