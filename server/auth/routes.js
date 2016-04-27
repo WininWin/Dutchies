@@ -77,6 +77,23 @@ module.exports = function(app, passport, User, Product) {
 		})
 	});
 
+	// when a user buys a product, marks it as sold, updates buying user PATCH??
+
+
+	// allow a user to create a new product for sale POST
+
+
+	// allow a user to delete their product DELETE
+
+
+	// change details about item PUT
+
+
+	// allow user to edit their account details PUT
+
+
+	// user wants to watch an item
+
 	app.get('/auth/logout', function(req, res) {
 		req.logout();
 		res.sendStatus(200);
