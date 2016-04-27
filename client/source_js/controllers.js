@@ -97,7 +97,6 @@ webAppControllers.controller('WatchingController', ['$scope' ,'$http', '$rootSco
 
 webAppControllers.controller('AccountController', ['$scope', '$http' , '$window' , '$rootScope', '$state', 'CurrentUser', function($scope, $http, $window, $rootScope, $state, CurrentUser) {
 
-
 	if($rootScope.userdata!=undefined)
 		$scope.user = $rootScope.userdata;
     CurrentUser.getAccountInfo().success(function(data) {

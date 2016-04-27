@@ -14,9 +14,10 @@ module.exports = function(passport) {
 
 	passport.use('local-signup', new LocalStrategy({
 		usernameField : 'email',
-		passwordField : 'password',
+		passwordField : 'password', 
+		passReqToCallback: true
 	},
-	function(email, password, done) {
+	function(req, email, password, done) {
 		User.findOne({'email' : email}, function(err, user) {
 			if(err)
 				return done(err);
@@ -25,6 +26,9 @@ module.exports = function(passport) {
 			} else {
 				var newUser = new User();
 				
+				//allow for passing in other fiels thru the body
+				for(var k in req.body)
+					newUser[k] = req.body[k]
 				newUser.email = email;
 				newUser.password = newUser.generateHash(password);
 
