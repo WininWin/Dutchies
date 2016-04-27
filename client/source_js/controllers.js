@@ -119,3 +119,20 @@ webAppControllers.controller('SignupController', ['$scope' , function($scope) {
 
 
 }]);
+
+webAppControllers.controller('ProductListController',['$scope','$http','$state',function($scope,$http,$state){
+	$http.get('/api/products').success(function(data) {
+		if(data.message=="OK") {
+			$scope.products = data.data;
+			console.log($scope.products.length);
+			$scope.imgproduct = $scope.products[258];
+			//console.log($scope.imgproduct.name);
+			//console.log($scope.imgproduct.img)
+		
+		}
+    });
+
+}]);
+
+
+

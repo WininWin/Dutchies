@@ -1,10 +1,11 @@
-module.exports = function(app, passport, User, Product) {
+module.exports = function(app, passport, User, Product,fs) {
 
 
 	/******************* Auth Routes *******************/
 
 	app.post('/auth/signup', passport.authenticate('local-signup'), function(req, res) {
 		res.sendStatus(201);
+		res.json({"message":"OK", "data": req.user});
 	});
 
 	app.post('/auth/login', passport.authenticate('local-login'), function(req, res) {
@@ -325,13 +326,102 @@ module.exports = function(app, passport, User, Product) {
 		/* POST */
 		productRoute.post(function(req, res) {
 			Product.create(req.body, function(error,result){
+				if (req)
 				if(error) {
 					res.status(500);
 					res.json({"message":errorToString(error),"data":[]});
 				}
 				else {
-					res.status(201);
-					res.json({"message":"Product added","data":result})
+					//res.status(201);
+					//res.json({"message":"Product added","data":result})
+					console.log(result._id);
+					Product.findById(result._id,function(error,result){
+						console.log(req.files)
+						if(error){
+							res.status(500);
+							res.json({"message":"Interesting error that cannot happen!","data":[]});
+						}
+						else{
+							
+							if(req.files){
+								fs.readFile(req.files.file.path, function(dataErr,data){
+									if(data){
+										var buf = new Buffer(data,'hex');
+										result.img = buf.toString('base64');
+										Product.findByIdAndUpdate(result._id,result,function(error){
+											if (error){
+												res.status(500);
+												res.json({"message":"image update fail","data":[]});
+											}
+
+											else{
+												res.status(201);
+												res.json({"message":"Product added","data":result});
+											}
+										})
+									}
+									else{
+										fs.readFile('./nopreview.jpg',function(dataErr_1,data_1){
+											if (data_1){
+												var buf = new Buffer(data_1,'hex');
+												result.img = buf.toString('base64');
+												Product.findByIdAndUpdate(result._id,result,function(error){
+													if (error){
+														res.status(500);
+														res.json({"message":"image update fail","data":[]});
+													}
+
+													else{
+														res.status(201);
+														res.json({"message":"Product added","data":result});
+													}
+												})
+											}
+
+											else{
+												console.log("IDK what happens");
+											}
+
+										})
+									}
+								})
+							}
+
+							else{
+								console.log("no img, add default img")
+								fs.readFile('./nopreview.jpg',function(dataErr_2,data_2){
+									if(data_2){
+										
+										
+										var buf = new Buffer(data_2,'hex');
+										result.img = buf.toString('base64');
+										Product.findByIdAndUpdate(result._id,result,function(error){
+											if (error){
+												res.status(500);
+												res.json({"message":"image update fail","data":[]});
+											}
+
+											else{
+												console.log("default img added");
+												res.status(201);
+												res.json({"message":"Product added","data":result});
+											}
+										})
+									}
+
+									else{
+										console.log("IDK what happens");
+									}
+								})
+
+
+							}
+
+						}
+					
+					})
+					
+					
 				}
 			});
 		});
@@ -344,11 +434,12 @@ module.exports = function(app, passport, User, Product) {
 			//get the user by id
 			Product.findById(req.params.id,function(error,result){
 				if(error || result==null) {
+
 					res.status(404);
 					res.json({"message":"Product not found","data":[]});
 				}
 				else {
-
+					console.log(result.img);
 					res.status(200);
 					res.json({"message":"OK","data":result})
 				}

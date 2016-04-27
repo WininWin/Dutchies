@@ -75,6 +75,19 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     
   })
 
+
+  .state('app.productlist',{
+    url: 'productlist',
+    views:{
+      'content@': {
+        templateUrl: 'partials/productlist.html',
+        controller: 'ProductListController'
+      }
+    }
+
+
+  })
+
   .state('app.signup', {
     url: 'signup',
     views: {

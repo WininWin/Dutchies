@@ -18,7 +18,7 @@ var ProductSchema = new mongoose.Schema({
   soldToUser: { type: String, default: '' },
   soldToUserName: { type: String, default: ''},
   soldToUserEmail: { type: String, default: ''},
-  img: {type: Buffer},
+  img: {type: String},
   shipping:{type: Number, required:true}
 });
 
