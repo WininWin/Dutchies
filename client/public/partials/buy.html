@@ -1,7 +1,16 @@
-<div class="row" ng-controller='BuyController'>
-   <h3>Buy stuff!</h3>
-   <div ng-repeat="item in products">
-	{{item.name}}
-  </div>
-
+<div class="list" ng-controller='BuyController'>		
+	<section class="row">
+		<div class="column small-12">
+			<h3>Your Products</h3>
+		</div>
+	</section>
+	<section class="row">
+		<div class="column small-12">
+			<ul>
+				<li ng-repeat="item in products">
+					{{item.name}}
+				</li>
+			</ul>
+		</div>
+	</section>
 </div>
