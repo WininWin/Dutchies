@@ -1,4 +1,4 @@
-<div ng-controller='HeaderController'>
+<!-- <div ng-controller='HeaderController'>
 	<a class="button" ui-sref-active-eq="active-state" ui-sref="app">Home</a>
 	<a class="button float-right" ui-sref-active-eq="active-state" ui-sref="app.login">Login</a>
 	<div class="row text-center">
@@ -7,6 +7,30 @@
 	    <a class="button" ui-sref-active-eq="active-state" ui-sref="app.watching">Watching</a>
 	    <a class="button" ui-sref-active-eq="active-state" ui-sref="app.account">Account</a>
 	</div>
+</div>
+
+<hr> -->
+
+<div ng-controller='HeaderController'>
+	<div class="top-bar">
+		<div class="top-bar-left">
+			<ul class="menu">
+				<li class="menu-text" id = "headerText"ui-sref="app">Dutchies
+										</li>
+				<!-- <li><a ui-sref-active-eq="active-state" ui-sref="app.login">Login</a></li> -->
+				<!-- <li><a href="#">Two</a></li> -->
+			</ul>
+		</div>
+		<div class="top-bar-right">
+			<ul class="menu">
+				<li><a id = "headerText" ui-sref-active-eq="active-state" ui-sref="app.buy">Buy</a></li>
+				<li><a id = "headerText" ui-sref-active-eq="active-state" ui-sref="app.sell">Sell</a></li>
+				<li><a id = "headerText" ui-sref-active-eq="active-state" ui-sref="app.watching">Watch</a></li>
+				<li><a id = "headerText" ui-sref-active-eq="active-state" ui-sref="app.account">{{account}}</a></li>
+			</ul>
+	</div>
+	</div>
+
 </div>
 
 <hr>
