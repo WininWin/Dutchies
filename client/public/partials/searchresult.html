@@ -1,0 +1,39 @@
+<div ng-controller='ContentController'>		
+
+
+	 <div class="row">
+                <div class="small-8 small-centered columns">
+                      <label>Find Your Product
+                    <input name = "search_input" type="text" ng-model = "query" ng-minlength="1">
+                     <button type="button" class = "button success"  ng-click="search(query)">search
+         				</button>
+                    </label>
+                </div>
+               
+             </div>
+
+
+
+             <div class="row" ng-repeat="item in products | filter:result">
+
+					<div class="columns small-4 text-center">
+						<img class="thumbnail" src="http://placehold.it/100x100">
+					</div>
+					<div class="columns small-4">
+						{{item.name}}
+					</div>
+					<div class="columns small-4">
+						{{item.currentPrice}}
+					</div>
+					
+				</div>
+
+        
+
+
+		
+
+
+
+
+	</div>

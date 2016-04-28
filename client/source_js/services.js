@@ -1,14 +1,11 @@
 var webAppServices = angular.module('webAppServices', []);
 
-webAppServices.factory('CommonData', function(){
-    var data = "";
+webAppServices.factory('CommonData', function($http){
+
     return{
-        getData : function(){
-            return data;
-        },
-        setData : function(newData){
-            data = newData;
-        }
+       getAllproducts : function() {
+			return $http.get("/api/products");
+		}
     }
 });
 

@@ -31,6 +31,19 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     
   })
 
+  .state('app.searchresult', {
+    url: 'searchresult',
+    views: {
+      'content@': {
+        templateUrl: 'partials/searchresult.html',
+        controller: 'ContentController'
+      }
+    }
+    
+  })
+
+
+
   .state('app.sell', {
     url: 'sell',
     views: {
