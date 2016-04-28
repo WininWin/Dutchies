@@ -10,6 +10,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var configDB = require('./auth/database.js');
 var router = express.Router();
+var lib = require("./lib.js")
 
 //connect to the database on mlab
 mongoose.connect(configDB.url);
@@ -32,7 +33,7 @@ app.use(passport.session());
 
 // Use the body-parser package in our application
 app.use(bodyParser.urlencoded({
-  extended: true
+	extended: true
 }));
 app.use(bodyParser.json({
 	extended: true
@@ -44,6 +45,10 @@ app.use('/',express.static(__dirname + '/../client/public'));
 //serve our API and authentication side
 require('./auth/routes.js')(app, passport, User, Product);
 
+
+// Launch the script to update prices
+var priceUpdateRate = 5000
+setInterval(lib.priceDaemon, priceUpdateRate);
 
 
 // Start the server
