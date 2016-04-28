@@ -48,6 +48,7 @@ require('./auth/routes.js')(app, passport, User, Product);
 
 // Launch the script to update prices
 var priceUpdateRate = 5000
+console.log('Launching price update daemon');
 setInterval(lib.priceDaemon, priceUpdateRate);
 
 
