@@ -4,19 +4,27 @@ var webAppControllers = angular.module('webAppControllers', []);
 //global functions
 webAppControllers.run(function($rootScope,$http,$state, CurrentUser) {
 	$rootScope.loggedin = 0;
+	$rootScope.account = "";
     $rootScope.logout = function() {
         CurrentUser.userLogout().success(function(data){
         	$state.go('app');
         	$rootScope.userdata = {};
         	$rootScope.loggedin = 0; 
+        	$rootScope.account = "Login";
         });
     };
 });
 
 
 
-webAppControllers.controller('HeaderController',['$scope', '$state', function($scope,$state) {
-  
+webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope', function($scope,$state, $rootScope) {
+  	
+  	if($rootScope.loggedin){
+  		$rootScope.account = "My Account";
+  	}
+  	else{
+  		$rootScope.account = "Login";
+  	}
 
 
 }]);
@@ -35,6 +43,7 @@ webAppControllers.controller('FooterController',['$scope', '$state', function($s
 
 
 webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$rootScope', 'CurrentUser', function($scope,$state,$http,$rootScope, CurrentUser) {
+ 	
  	$scope.login = function() {
  		$scope.loginError = 0;
 		var login_creds = {"email":$scope.email,"password":$scope.password};
@@ -103,6 +112,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 		if(data.message=="OK") {
 			$scope.user = data.data;
 			$rootScope.userdata = data.data;
+			$rootScope.account = "My Account";
 		}
 
     })

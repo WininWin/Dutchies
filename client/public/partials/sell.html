@@ -1,20 +1,28 @@
 <div class="list" ng-controller='SellController'>		
 	<section class="row">
-		<div class="column small-12">
+		<div class="column small-8 text-center">
 			<h3>Your Products</h3>
 		</div>
 	</section>
 	<section class="row">
-		<div class="column small-12">
-			<ul>
-				<li ng-repeat="item in products">
-					{{item.name}}
-				</li>
-			</ul>
+		<div class="column small-8 small-centered">
+			
+				<div class="row" ng-repeat="item in products">
+
+					<div class="columns small-4 text-center">
+						<img class="thumbnail" src="http://placehold.it/100x100">
+					</div>
+					<div class="columns small-4">
+						{{item.name}}
+					</div>
+					<div class="columns small-4">
+						<button class="success button">Pay</button>
+					</div>
+				</div>
 		</div>
 	</section>
 	<section class="row">
-		<div class="column small-12">
+		<div class="column small-6 small-centered">
 			<a class="button" ui-sref-active-eq="active-state" ui-sref="app.createItem">Sell A New Item</a></br>
 		</div>
 	</section>

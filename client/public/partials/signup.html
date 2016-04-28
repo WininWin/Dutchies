@@ -1,7 +1,7 @@
 
 <div class="row" ng-controller="SignupController">
 
-<div class="column">
+<div class="columns small-6 small-centered">
 
     <h1><span class="fa fa-sign-in"></span> Signup</h1>
     {{response}}
@@ -24,7 +24,7 @@
             <input type="password" class="form-control" name="uPassword" ng-model="user.password" required>
         </div>
 
-        <button type="submit" ng-click="createUser(user, userForm.uEmail.$error.email, userForm.uEmail.$error.required, userForm.uPassword.$error.required)">Signup</button>
+        <button class = "success button" type="submit" ng-click="createUser(user, userForm.uEmail.$error.email, userForm.uEmail.$error.required, userForm.uPassword.$error.required)">Signup</button>
     </form>
 
     <hr>
