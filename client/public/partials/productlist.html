@@ -27,20 +27,12 @@
             <input type="number" class="form-control" name="shipping" ng-model='formData.shipping'>
         </div>
 
-       <!--  <input type="file" ngf-select ng-model="img" name="img"    
-             accept="image/*" ngf-max-size="1MB" required ngf-model-invalid = "errorFile">
-        <i ng-show = "new_product_form.file.$error.required">*required</i> </br> -->
-
-       <input type="file" name="file" accept="image/*" onchange="angular.element(this).scope().uploadFile(this.files)"/>
 
         <button type="submit" ng-click="createproduct()">Signup</button>
     </form>
 
 
-    <button type="file" ngf-select="upload($file)"
-          name="img1"  accept="image/*"  ngf-max-size="1MB">
-      Select File</button>
-
+   
 
 
 <button ng-click='click()'>click to select and get base64</button>
@@ -49,7 +41,4 @@
   <br> 
   <span style='color: red'>{{data.alert}}</span>
   
-
-    <div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
-    ngf-accept="'image/*'" ngf-max-size="20MB">Select</div>
 </div>

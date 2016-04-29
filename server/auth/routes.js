@@ -325,62 +325,59 @@ module.exports = function(app, passport, User, Product,fs) {
 
 		/* POST */
 		productRoute.post(function(req, res) {
-			console.log("starting post");
-			console.log(req.body.img);
-			console.log(typeof req.body.img)
-			Product.create(req.body, function(error,result){
-				if (req)
-				if(error) {
-					res.status(500);
-					res.json({"message":errorToString(error),"data":[]});
-				}
-				else {
-					Product.findById(result._id,function(error,result){
-						if(error){
-							res.status(500);
-							res.json({"message":"Interesting error that cannot happen!","data":[]});
-						}
-						else{						
-							if(req.body.img){
-								console.log("we have img");							}
+			
+			if (req.body.img){
+				console.log("Image updated");
+				Product.create(req.body, function(error,result){
+					if (req)
+					if(error) {
+						res.status(500);
+						res.json({"message":errorToString(error),"data":[]});
+					}
+					else {
+						res.status(201);
+						res.json({"message":"Product added","data":result});
 
-							else{
-								console.log("no img, add default img")
-								fs.readFile('./nopreview.jpg',function(dataErr_2,data_2){
-									if(data_2){
-										
-										
-										var buf = new Buffer(data_2,'hex');
-										result.img = buf.toString('base64');
-										Product.findByIdAndUpdate(result._id,result,function(error){
-											if (error){
-												res.status(500);
-												res.json({"message":"image update fail","data":[]});
-											}
-
-											else{
-												console.log("default img added");
-												res.status(201);
-												res.json({"message":"Product added","data":result});
-											}
-										})
-									}
-
-									else{
-										console.log("IDK what happens");
-									}
-								})
-
+					}
+						
+				})
+			}
+			else{
+				fs.readFile('./nopreview.jpg',function(dataErr_2,data_2){
+					if(data_2){
+						console.log("add default img")
+						var buf = new Buffer(data_2,'hex');
+						req.body.img = buf.toString('base64');
+						Product.create(req.body, function(error,result){
+							if (req)
+							if(error) {
+								res.status(500);
+								res.json({"message":errorToString(error),"data":[]});
+							}
+							else {
+								res.status(201);
+								res.json({"message":"Product added","data":result});
 
 							}
+								
+						})
+					}
 
-						}
+					else{
+						console.log("default img doesn't exists");
+						res.status(500);
+						res.json({"message":"Default img doesn't exist","data":[]});
+
+					}
+				})
+
+			}
+
+
+			
 					
-					})
 					
-					
-				}
-			});
+				
 		});
 
 	/***** products/:id Route *****/
