@@ -121,16 +121,70 @@ webAppControllers.controller('SignupController', ['$scope' , function($scope) {
 }]);
 
 webAppControllers.controller('ProductListController',['$scope','$http','$state',function($scope,$http,$state){
+	
+
+	$scope.formData = {};
+
+	$scope.data = {}; //init variable
+    $scope.click = function() { //default function, to be override if browser supports input type='file'
+      $scope.data.alert = "Your browser doesn't support HTML5 input type='File'"
+    }
+
+    var fileSelect = document.createElement('input'); //input it's not displayed in html, I want to trigger it form other elements
+    fileSelect.type = 'file';
+
+    if (fileSelect.disabled) { //check if browser support input type='file' and stop execution of controller
+      return;
+    }
+  
+      $scope.click = function() { //activate function to begin input file on click
+        fileSelect.click();
+      }
+
+      fileSelect.onchange = function() { //set callback to action after choosing file
+        var f = fileSelect.files[0], r = new FileReader();
+
+        r.onloadend = function(e) { //callback after files finish loading
+          $scope.data.b64 = e.target.result;
+          $scope.$apply();
+          console.log($scope.data.b64.replace(/^data:image\/(png|jpeg|jpg);base64,/, "")); //replace regex if you want to rip off the base 64 "header"
+          //here you can send data over your server as desired
+          $scope.formData.img = $scope.data.b64.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
+        }
+
+        r.readAsDataURL(f); //once defined all callbacks, begin reading the file
+
+      };
+
+	$scope.createproduct = function(){
+		$http.post('/api/products',$scope.formData).success(function(data) {
+			if(data.message=="OK") {
+				console.log(data.data);
+			}
+
+    	})
+	}
+
+	
+	$scope.uploadFile = function(files){
+		var fd = new FormData();
+		fd.append("file", files[0]);
+		$scope.formData.img = files[0];
+
+	}
+
 	$http.get('/api/products').success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
 			console.log($scope.products.length);
-			$scope.imgproduct = $scope.products[258];
-			//console.log($scope.imgproduct.name);
-			//console.log($scope.imgproduct.img)
+			$scope.imgproduct = $scope.products[$scope.products.length-1];
+			
 		
 		}
     });
+
+
+
 
 }]);
 

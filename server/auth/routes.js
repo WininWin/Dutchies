@@ -325,6 +325,9 @@ module.exports = function(app, passport, User, Product,fs) {
 
 		/* POST */
 		productRoute.post(function(req, res) {
+			console.log("starting post");
+			console.log(req.body.img);
+			console.log(typeof req.body.img)
 			Product.create(req.body, function(error,result){
 				if (req)
 				if(error) {
@@ -332,60 +335,14 @@ module.exports = function(app, passport, User, Product,fs) {
 					res.json({"message":errorToString(error),"data":[]});
 				}
 				else {
-					//res.status(201);
-					//res.json({"message":"Product added","data":result})
-					console.log(result._id);
 					Product.findById(result._id,function(error,result){
-						console.log(req.files)
 						if(error){
 							res.status(500);
 							res.json({"message":"Interesting error that cannot happen!","data":[]});
 						}
-						else{
-							
-							if(req.files){
-								fs.readFile(req.files.file.path, function(dataErr,data){
-									if(data){
-										var buf = new Buffer(data,'hex');
-										result.img = buf.toString('base64');
-										Product.findByIdAndUpdate(result._id,result,function(error){
-											if (error){
-												res.status(500);
-												res.json({"message":"image update fail","data":[]});
-											}
-
-											else{
-												res.status(201);
-												res.json({"message":"Product added","data":result});
-											}
-										})
-									}
-									else{
-										fs.readFile('./nopreview.jpg',function(dataErr_1,data_1){
-											if (data_1){
-												var buf = new Buffer(data_1,'hex');
-												result.img = buf.toString('base64');
-												Product.findByIdAndUpdate(result._id,result,function(error){
-													if (error){
-														res.status(500);
-														res.json({"message":"image update fail","data":[]});
-													}
-
-													else{
-														res.status(201);
-														res.json({"message":"Product added","data":result});
-													}
-												})
-											}
-
-											else{
-												console.log("IDK what happens");
-											}
-
-										})
-									}
-								})
-							}
+						else{						
+							if(req.body.img){
+								console.log("we have img");							}
 
 							else{
 								console.log("no img, add default img")
