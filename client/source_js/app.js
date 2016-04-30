@@ -1,4 +1,4 @@
-var app = angular.module('webApp', ['webAppControllers', 'webAppServices', 'ui.router']);
+var app = angular.module('webApp', ['webAppControllers', 'webAppServices', 'ui.router','credit-cards']);
 
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
