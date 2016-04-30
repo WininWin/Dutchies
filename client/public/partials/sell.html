@@ -5,28 +5,6 @@
 			<section class="row">
 				<div class="column small-11 small-offset-1">
 					<h3>Your Products</h3>
-=======
-<div class="list" ng-controller='SellController'>		
-	<section class="row">
-		<div class="column small-8 text-center">
-			<h3>Your Products</h3>
-		</div>
-	</section>
-	<section class="row">
-		<div class="column small-8 small-centered">
-			
-				<div class="row" ng-repeat="item in products">
-
-					<div class="columns small-4 text-center">
-						<img class="thumbnail" src="http://placehold.it/100x100">
-					</div>
-					<div class="columns small-4">
-						{{item.name}}
-					</div>
-					<div class="columns small-4">
-						<button class="alert button">Delete</button>
-					</div>
->>>>>>> 571525590d5a8a2b66199d0b01330077e23a4879
 				</div>
 			</section>
 			<section class="row" id="product-container">
@@ -35,7 +13,7 @@
 							<div class="columns small-2 text-center small-offset">
 								<img class="thumbnail" src="http://placehold.it/100x100">
 							</div>
-							<div class="columns small-7">
+							<div class="columns small-6">
 								<a ui-sref="app.itemDetails({item_id: item._id})">
 									<div class="product-listing-title">{{item.name}}</div>
 									<div class="product-listing-info">${{item.currentPrice}} | Watched By: {{item.usersWatching.length}} Users</div>
@@ -44,8 +22,9 @@
 									<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
 								</a>
 							</div>
-							<div class="columns small-1 small-centered">
+							<div class="columns small-2 small-centered">
 								<a class="success button" ui-sref="app.editItem({item_id: item._id})">Edit</a>
+								<button class="alert button">Delete</button>
 							</div>
 						</div>
 				</div>
