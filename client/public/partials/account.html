@@ -18,6 +18,18 @@
                             </p>
                     </div>
             </div>
+            <form name="paymentForm">
+              <input type="text" ng-model="card.number" name="cardNumber" cc-number cc-eager-type />
+            </form>
+            <p ng-show="paymentForm.cardNumber.$invalid && paymentForm.cardNumber.$ccEagerType">
+              Looks like you're typing a {{paymentForm.cardNumber.$ccEagerType}} number!
+            </p>
+            <p ng-show="paymentForm.cardNumber.$valid">
+              Yes, that looks like a valid {{paymentForm.cardNumber.$ccType}} number!
+            </p>
+            <p ng-show="paymentForm.cardNumber.$error.required">
+              You must enter a credit card number!
+            </p>
         </div>
     </section>
 </div>

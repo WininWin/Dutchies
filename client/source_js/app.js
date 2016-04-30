@@ -1,4 +1,4 @@
-var app = angular.module('webApp', ['webAppControllers', 'webAppServices', 'ui.router']);
+var app = angular.module('webApp', ['webAppControllers', 'webAppServices', 'ui.router','credit-cards']);
 
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
@@ -30,6 +30,19 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     }
     
   })
+
+  .state('app.searchresult', {
+    url: 'searchresult',
+    views: {
+      'content@': {
+        templateUrl: 'partials/searchresult.html',
+        controller: 'ContentController'
+      }
+    }
+    
+  })
+
+
 
   .state('app.sell', {
     url: 'sell',

@@ -27,3 +27,31 @@ body{
 	font-style: normal; 
 	text-transform: uppercase;
 }
+
+.view-container {
+	padding: 5% 2% 5% 2%;
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+#create-item {
+	margin-top: 2%;
+}
+
+#product-container {
+	margin-top: 2%;
+}
+
+.product-listing {
+	font-family: Chewy;
+}
+
+.product-listing-title {
+	@extend .product-listing;
+	padding-bottom: 0.5%;
+	font-size: 24px;
+}
+
+.product-listing-info {
+	@extend .product-listing;
+	font-size: 12px;
+}

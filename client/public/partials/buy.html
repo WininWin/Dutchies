@@ -15,7 +15,7 @@
 							<div class="columns small-7">
 								<a ui-sref="app.itemDetails({item_id: item._id})">
 									<div class="product-listing-title">{{item.name}}</div>
-									<div class="product-listing-info">${{item.currentPrice}} | Watched By: {{item.usersWatching.length}} Users</div>
+									<div class="product-listing-info">Current Price: ${{item.currentPrice}} | Watched By: {{item.usersWatching.length}} Users</div>
 								</a>
 								<a ui-sref="app.userDetails({user_id: item.sellerUser})">
 									<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>

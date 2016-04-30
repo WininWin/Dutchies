@@ -130,7 +130,7 @@ def main(argv):
     for i in xrange(productCount):
 
         # Randomly generate product parameters
-        sold = (randint(0,10) > 4)
+        sold = (True if randint(0,10) > 4 else False)
         soldToUserIndex = randint(0,len(userIDs)-1) if sold else ''
         soldToUser = userIDs[soldToUserIndex] if sold else ''
         soldToUserName = userNames[soldToUserIndex] if sold else ''
@@ -148,12 +148,12 @@ def main(argv):
 
         # users watching
         # choose a number of users who will be watching
-        numUsersWatching = randint(0,userCount/4)
+        numUsersWatching = 0 if sold else randint(0,userCount/4)
         usersWatching = sample(userIDs,numUsersWatching)
 
         description = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
         
-        params = urllib.urlencode({'name': choice(products), 'description': description, 'category': choice(categories), 'reservePrice': price,'currentPrice': price + 100, 'sold': sold, 'sellerUser': sellerUser, 'sellerUserName': sellerUserName, 'sellerUserEmail': sellerUserEmail, 'dateSold': dateSold, 'soldToUser': soldToUser, 'soldToUserName': soldToUserName, 'soldToUserEmail': soldToUserEmail, 'usersWatching': usersWatching}, True)
+        params = urllib.urlencode({'name': choice(products), 'description': description, 'category': choice(categories), 'reservePrice': price,'currentPrice': price + 100,'startPrice': price + 100, 'sold': 'true' if sold else 'false', 'sellerUser': sellerUser, 'sellerUserName': sellerUserName, 'sellerUserEmail': sellerUserEmail, 'dateSold': dateSold, 'soldToUser': soldToUser, 'soldToUserName': soldToUserName, 'soldToUserEmail': soldToUserEmail, 'usersWatching': usersWatching}, True)
 
         # POST the product
         conn.request("POST", "/api/products", params, headers)

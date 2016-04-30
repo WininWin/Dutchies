@@ -13,24 +13,48 @@ webAppControllers.run(function($rootScope,$http,$state, CurrentUser) {
         	$rootScope.account = "Login";
         });
     };
+
+
 });
 
 
 
 webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope', function($scope,$state, $rootScope) {
   	
+	//After login, login button should chage to My Account
   	if($rootScope.loggedin){
   		$rootScope.account = "My Account";
   	}
   	else{
   		$rootScope.account = "Login";
   	}
+  
 
 
 }]);
 
-webAppControllers.controller('ContentController',['$scope', '$state', function($scope,$state) {
+webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', function($scope, $state, $http,$rootScope, CommonData, CurrentUser) {
+
+
+		
+		//Get all products data for home contents 
+		CommonData.getAllproducts().success(function(data) {
+			if(data.message=="OK") {
+				$scope.products = data.data;
+				// console.log($scope.products);
+				
+			}
+		});
+
+		$scope.search = function(query){
+			$state.go("app.searchresult");
+			$rootScope.result = query;
+
+		};
+	
  
+
+
 
 
 }]);
@@ -74,31 +98,40 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 
 }]);
 
-webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', 'CurrentUser', function($scope, $state,$http, CurrentUser) {
+webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$rootScope', 'CurrentUser', function($scope, $state,$http, $rootScope, CurrentUser) {
     CurrentUser.getUserBuying().success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
+			$rootScope.account = "My Account";
 		}
+    }).error(function(data){
+    	$state.go("app.login");
     });
 
 
 }]);
 
-webAppControllers.controller('SellController', ['$scope', '$http', '$window', 'CurrentUser', function($scope, $http, $window, CurrentUser) {
+webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$window', '$rootScope', 'CurrentUser', function($scope, $state, $http, $window, $rootScope, CurrentUser) {
 	CurrentUser.getUserSelling().success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
+			$rootScope.account = "My Account";
 		}
+    }).error(function(data){
+    	$state.go("app.login");
     });
   
 
 }]);
 
-webAppControllers.controller('WatchingController', ['$scope' ,'$http', '$rootScope', 'CurrentUser', function($scope,$http,$rootScope, CurrentUser) {
+webAppControllers.controller('WatchingController', ['$scope', '$state', '$http', '$rootScope', 'CurrentUser', function($scope, $state, $http,$rootScope, CurrentUser) {
     CurrentUser.getUserWatching().success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
+			$rootScope.account = "My Account";
 		}
+    }).error(function(data){
+    	$state.go("app.login");
     });
 
 }]);

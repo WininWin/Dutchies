@@ -1,9 +1,32 @@
+<<<<<<< HEAD
 <div class="list" ng-controller='SellController'>
 	<section class="row view-container">
 		<div class="column small-12">		
 			<section class="row">
 				<div class="column small-11 small-offset-1">
 					<h3>Your Products</h3>
+=======
+<div class="list" ng-controller='SellController'>		
+	<section class="row">
+		<div class="column small-8 text-center">
+			<h3>Your Products</h3>
+		</div>
+	</section>
+	<section class="row">
+		<div class="column small-8 small-centered">
+			
+				<div class="row" ng-repeat="item in products">
+
+					<div class="columns small-4 text-center">
+						<img class="thumbnail" src="http://placehold.it/100x100">
+					</div>
+					<div class="columns small-4">
+						{{item.name}}
+					</div>
+					<div class="columns small-4">
+						<button class="alert button">Delete</button>
+					</div>
+>>>>>>> 571525590d5a8a2b66199d0b01330077e23a4879
 				</div>
 			</section>
 			<section class="row" id="product-container">
