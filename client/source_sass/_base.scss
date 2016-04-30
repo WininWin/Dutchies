@@ -29,8 +29,18 @@ body{
 }
 
 .view-container {
+	margin-top: 2%;
 	padding: 5% 2% 5% 2%;
 	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.product-container {
+	padding-top: 2%;
+	padding-bottom: 1%;
+	background-color: white;
+	border-style: solid;
+	border-color: rgb(200, 200, 200);
+	border: 1px 1px 1px 1px;
 }
 
 #create-item {
@@ -39,6 +49,10 @@ body{
 
 #product-container {
 	margin-top: 2%;
+}
+
+.product-margin {
+	margin-top: 1%;
 }
 
 .product-listing {

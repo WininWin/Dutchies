@@ -1,39 +1,47 @@
 <div ng-controller='ContentController'>		
-
-
-	 <div class="row">
-                <div class="small-8 small-centered columns">
-                      <label>Find Your Product
-                    <input name = "search_input" type="text" ng-model = "query" ng-minlength="1">
-                     <button type="button" class = "button success"  ng-click="search(query)">search
-         				</button>
-                    </label>
-                </div>
-               
-             </div>
-
-
-
-             <div class="row" ng-repeat="item in products | filter:result">
-
-					<div class="columns small-4 text-center">
-						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" src="http://placehold.it/100x100">
-					</div>
-					<div ui-sref="app.itemDetails({item_id: item._id})" class="columns small-4">
-						{{item.name}}
-					</div>
-					<div class="columns small-4">
-						{{item.currentPrice}}
-					</div>
-					
+	<section class="row view-container">
+		<div class="column small-12"> 
+			<section class="row">
+				<div class="small-10 small-centered columns">
+					<label>Find Your Product</label>
+					<input name = "search_input" type="text" ng-model = "query" ng-minlength="1">
 				</div>
-
-        
-
-
-		
-
-
-
-
-	</div>
+			</section>
+			<section class="row">
+				<div class="column small-2 small-centered text-center">
+					<button type="button" class = "button success"  ng-click="search(query)">Search	</button>
+				</div>
+			</section>
+				<section class="row">
+					<div class="column small-11 small-offset-1">
+						<h3>Search Results</h3></br>
+					</div>
+				</section>
+				<section class="row">
+					<div class="column small-12 small-centered">
+							<div class="row product-container" ng-repeat="item in products | filter: query">
+								<div class="columns small-2 text-center small-offset">
+									<img class="thumbnail" src="http://placehold.it/100x100">
+								</div>
+								<div class="product-margin">
+									<div class="columns small-6">
+										<a ui-sref="app.itemDetails({item_id: item._id})">
+											<div class="product-listing-title">{{item.name}}</div>
+											<div class="product-listing-info">${{item.currentPrice}} | Watched By: {{item.usersWatching.length}} Users</div>
+										</a>
+										<a ui-sref="app.userDetails({user_id: item.sellerUser})">
+											<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
+										</a>
+									</div>
+									<div class="columns small-2 small-centered">
+										</br>
+										<button class="alert button">Watch</button>
+									</div>
+								</div>
+							</div>
+					</div>
+				</section>
+			</section>
+		</div>
+	</section>
+</div>
