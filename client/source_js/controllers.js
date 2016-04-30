@@ -123,23 +123,52 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 
 }]);
 
-webAppControllers.controller('SignupController', ['$scope' , '$location', 'CurrentUser', function($scope, $location, CurrentUser) {
+webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentUser', function($scope, $state, CurrentUser) {
 	$scope.createUser = function(user, invalidEmail, noEmail, noPassword) {
 		if (invalidEmail == null && noEmail == null && noPassword == null) {
 			CurrentUser.createUser(user).success(function(data) {
 				if(data.message=="OK") {
-					$location.path('/account');
-					console.log('created');
+					$state.go("app");
 				}
-			})
+			});
 		}
 	};
 }]);
 
-webAppControllers.controller('CreateItemController', ['$scope', function($scope) {
+webAppControllers.controller('CreateItemController', ['$scope', '$state', 'CurrentUser', function($scope, $state, CurrentUser) {
 	$scope.createItem = function (product) {
-		if (len(product.name) > 0 && product.starting > product.reserve && product.reserve > 0.00) {
-
-		}
+		// CurrentUser.createListing(product).success(function(data) {
+		// 	if (data.message == "OK") {
+		// 		$state.go("app.sell");
+		// 	}
+		// });
 	};
 }]);
+
+webAppControllers.controller('EditItemController', ['$scope', '$state', 'CurrentUser', '$stateParams', function($scope, $state, CurrentUser, $stateParams) {
+	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
+		if(data.message=="OK") {
+			$scope.product = data.data;
+		}
+	});
+	$scope.updateItem = function (product) {
+		// CurrentUser.editListing(product).success(function(data) {
+		// 	if (data.message == "OK") {
+		// 		$state.go("app.sell");
+		// 	}
+		// });
+	};
+
+}]);
+
+
+webAppControllers.controller('ItemDetailsController', ['$scope', '$state', 'CurrentUser', '$stateParams', function($scope, $state, CurrentUser, $stateParams) {
+	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
+		if(data.message=="OK") {
+			$scope.product = data.data;
+		}
+	});
+
+}]);
+
+

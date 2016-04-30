@@ -32,11 +32,20 @@ webAppServices.factory('CurrentUser', function($http) {
 		getAccountInfo : function() {
 			return $http.get('/auth/user');
 		},
+		getProductInfo : function(productId) {
+			return $http.get('/api/products/' + productId);
+		},
 		userLogin : function(loginDetails) {
 			return $http.post('/auth/login', loginDetails);
 		},
 		createUser : function(user) {
 			return $http.post('/auth/signup', user);
+		},
+		createListing : function(product) {
+			return $http.post('/auth/products/selling');
+		}, 
+		editListing : function(product) {
+			return $http.put('/api/products/' + product._id);
 		}
 	}
 });

@@ -1,4 +1,4 @@
-<div ng-controller="CreateItemController">
+<div class="row" ng-controller="EditItemController">
     <section class="row view-container">
         <div class="column small-12">
         	<form name="itemForm" novalidate>
@@ -11,16 +11,12 @@
                             <input type="text" class="form-control" name="pName" ng-model="product.name" required/>
                         </div>
                         <div class="form-group">
-                            <label>Starting Value ($):</label>
-                            <input type="text" class="form-control" name="password" ng-model="product.starting" required/>
-                        </div>
-                        <div class="form-group">
                         	<label>Reserve Price ($):</label>
-        					<input type="text" class="form-control" name="password" ng-model="product.reserve" required/>
+        					<input type="text" class="form-control" name="password" ng-model="product.reservePrice" required/>
                         </div>
                         <div class="form-group">
                         	<label>Shipping Fee ($):</label>
-        					<input type="text" class="form-control" name="password" ng-model="product.shipping" required/>
+        					<input type="text" class="form-control" name="password" ng-model="product.shippingFee" required/>
                         </div>
                     </div>
                 </section>
@@ -34,7 +30,7 @@
                 </section>
                	<section class="row">
                 	<div class="column small-12 text-center">
-                		<button class="button" ng-click="createItem(product)">Create Item Listing</button>
+                		<button class="button" ng-click="updateItem(product)">Update Item Listing</button>
                 	</div>
                 </section>
             </form>

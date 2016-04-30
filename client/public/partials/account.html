@@ -1,20 +1,23 @@
 <div ng-controller="AccountController" class="">
-
-    <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-        <a ng-click="logout()" class="button small">Logout</a>
-    </div>
-
-    <div class="row">
-        <!-- PROFILE INFORMATION -->
-            <div class="">
-                <h3><span class="fa fa-user"></span> Profile</h3>
-
-                    <p>
-                        <strong>id</strong>: {{user._id}}<br>
-                        <strong>email</strong>: {{user.email}}<br>
-                        <strong>password</strong>: {{user.password}}
-                    </p>
+    <section class="row view-container">
+        <div class="column small-12">
+            <div class="page-header text-center">
+                <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+                <a ng-click="logout()" class="button small">Logout</a>
             </div>
 
+            <div class="row">
+                <!-- PROFILE INFORMATION -->
+                    <div class="">
+                        <h3><span class="fa fa-user"></span> Profile</h3>
+
+                            <p>
+                                <strong>id</strong>: {{user._id}}<br>
+                                <strong>email</strong>: {{user.email}}<br>
+                                <strong>password</strong>: {{user.password}}
+                            </p>
+                    </div>
+            </div>
+        </div>
+    </section>
 </div>

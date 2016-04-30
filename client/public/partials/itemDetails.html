@@ -1,0 +1,41 @@
+<div  ng-controller="ItemDetailsController">
+    <section class="row view-container">
+        <div class="column small-12">
+        	<section class="row">
+                <div class="column small-12">
+                    <h3>{{ product.name }}<h3>
+                </div>
+            </section>
+            <section class="row">
+                <div class="column small-5">
+                </div>
+                <div class="column small-7">
+                    <section class="row">
+                        <div class="column small-6">
+                            <p>Current Price: ${{ product.currentPrice }}</p>
+                            <p>Shipping Fee: ${{ product.shippingFee }}</p>
+                            <p>Total Price: ${{ product.shippingFee + product.currentPrice }}</p>
+                            <p>Watching: {{ product.usersWatching.length }} Users Watching</p>
+                        </div>
+                        <div class="column small-6">
+                            <p>Sold By: {{product.sellerUserName }}</p>
+                            <p>Seller Email: {{ product.sellerUserEmail }}</p>
+                            <button class="button success">Watch</button>
+                            <button class="button alert">Unwatch</button>
+                        </div>
+                    </section>
+                    <section class="row">
+                        <div class="column small-12">
+                            <button class="button">Buy It Now!</button>
+                        </div>
+                    </section>
+                </div>
+            </section>
+            <section class="row">
+                <div class="column small-12">
+                    {{ product.description }}
+                </div>
+            </section>
+        </div>
+    </section>
+</div>

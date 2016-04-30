@@ -94,6 +94,36 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
         controller: 'CreateItemController'
       }
     }
+  })
+
+  .state('app.editItem', {
+    url: 'product/edit/:item_id', 
+    views: {
+      'content@': {
+        templateUrl: 'partials/editItem.html',
+        controller: 'EditItemController'
+      }
+    }
+  })
+
+  .state('app.itemDetails', {
+    url: 'product/details/:item_id', 
+    views: {
+      'content@': {
+        templateUrl: 'partials/itemDetails.html',
+        controller: 'ItemDetailsController'
+      }
+    }
+  })
+
+  .state('app.userDetails', {
+    url: 'users/details/:user_id', 
+    views: {
+      'content@': {
+        templateUrl: 'partials/userDetails.html',
+        controller: 'UserDetailsController'
+      }
+    }
   }); 
  
 }]);
