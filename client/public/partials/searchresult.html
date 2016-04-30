@@ -17,9 +17,9 @@
              <div class="row" ng-repeat="item in products | filter:result">
 
 					<div class="columns small-4 text-center">
-						<img class="thumbnail" src="http://placehold.it/100x100">
+						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" src="http://placehold.it/100x100">
 					</div>
-					<div class="columns small-4">
+					<div ui-sref="app.itemDetails({item_id: item._id})" class="columns small-4">
 						{{item.name}}
 					</div>
 					<div class="columns small-4">
