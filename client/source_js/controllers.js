@@ -169,7 +169,18 @@ webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentU
 }]);
 
 webAppControllers.controller('CreateItemController', ['$scope', '$state', 'CurrentUser', function($scope, $state, CurrentUser) {
+	$scope.imagedata = {};
+	var fileSelect = document.createElement('input').accpet="image/*";
+	fileSelect.type = 'file';
+	fileSelect.accpet = 'image/*';
+	$scope.click = function(){
+		fileSelect.click();
+
+
+	};
+
 	$scope.createItem = function (product) {
+
 		// CurrentUser.createListing(product).success(function(data) {
 		// 	if (data.message == "OK") {
 		// 		$state.go("app.sell");

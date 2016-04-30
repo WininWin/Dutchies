@@ -1,4 +1,4 @@
-module.exports = function(app, passport, User, Product) {
+module.exports = function(app, passport, User, Product, fs) {
 
 
 	/******************* Auth Routes *******************/
@@ -341,16 +341,49 @@ module.exports = function(app, passport, User, Product) {
 
 		/* POST */
 		productRoute.post(function(req, res) {
-			Product.create(req.body, function(error,result){
-				if(error) {
-					res.status(500);
-					res.json({"message":errorToString(error),"data":[]});
-				}
-				else {
-					res.status(201);
-					res.json({"message":"Product added","data":result})
-				}
-			});
+
+			if (req.body.img){
+				console.log ('User upload a image');
+				Product.create(req.body, function(error,result){
+					if(error) {
+						res.status(500);
+						res.json({"message":errorToString(error),"data":[]});
+					}
+					else {
+						res.status(201);
+						res.json({"message":"Product added","data":result})
+					}
+				});
+
+			}
+			else{
+				fs.readFile('./nopreview.jpg', function(dataErr,data){
+					if(data){
+						console.log("No user image, add default img")
+						var buf = new Buffer(data,'hex');
+						req.body.img = buf.toString('base64');
+						Product.create(req.body, function(error,result){
+							if(error) {
+								res.status(500);
+								res.json({"message":errorToString(error),"data":[]});
+							}
+							else {
+								res.status(201);
+								res.json({"message":"Product added","data":result})
+							}
+						});
+
+					}
+
+					else{
+						res.status(500);
+						res.json({"message" : "Server error, default image doesn't exist", "data":[]});
+
+					}
+				})
+
+			}
+			
 		});
 
 	/***** products/:id Route *****/
