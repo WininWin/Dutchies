@@ -1,4 +1,4 @@
-var webAppServices = angular.module('webAppServices', []);
+var webAppServices = angular.module('webAppServices', ['credit-cards']);
 
 webAppServices.factory('CommonData', function($http){
 
