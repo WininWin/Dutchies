@@ -4,9 +4,9 @@
         	<form name="itemForm" novalidate>
                 <section class="row">
                 	<div class="column small-5">
-                    <img data-ng-src="data:image/JPEG;base64,{{product.img}}">
-                    
-                    <button ng-click='click()'> UPLOAD </button>
+                    <img data-ng-src="{{product.img}}">
+                   
+                    <input type="file" accept="image/*" fileread="product.img" />
         			</div>
             		<div class="column small-7">
                         <div class="form-group">

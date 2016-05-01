@@ -1,6 +1,25 @@
 var webAppControllers = angular.module('webAppControllers', []);
 
 
+webAppControllers.directive("fileread", [function () {
+    return {
+        scope: {
+            fileread: "="
+        },
+        link: function (scope, element, attributes) {
+            element.bind("change", function (changeEvent) {
+                var reader = new FileReader();
+                reader.onload = function (loadEvent) {
+                    scope.$apply(function () {
+                        scope.fileread = loadEvent.target.result;
+                    });
+                }
+                reader.readAsDataURL(changeEvent.target.files[0]);
+            });
+        }
+    }
+}]);
+
 //global functions
 webAppControllers.run(function($rootScope,$http,$state, CurrentUser) {
 	$rootScope.loggedin = 0;
@@ -169,18 +188,10 @@ webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentU
 }]);
 
 webAppControllers.controller('CreateItemController', ['$scope', '$state', 'CurrentUser', function($scope, $state, CurrentUser) {
-	$scope.imagedata = {};
-	var fileSelect = document.createElement('input').accpet="image/*";
-	fileSelect.type = 'file';
-	fileSelect.accpet = 'image/*';
-	$scope.click = function(){
-		fileSelect.click();
-
-
-	};
-
+	
+	$scope.product;
 	$scope.createItem = function (product) {
-
+		console.log($scope.product.img);
 		// CurrentUser.createListing(product).success(function(data) {
 		// 	if (data.message == "OK") {
 		// 		$state.go("app.sell");
