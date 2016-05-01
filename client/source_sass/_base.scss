@@ -4,19 +4,10 @@ body{
 }
 
 .active-state {
-	background-color:#A1F7A1;
+	border-bottom: solid 3px #00e673;
 }
 
-.active-state:hover {
-	background-color:#A1F7A1;
-}
-
-.active-state:focus {
-	background-color:#A1F7A1;
-}
-
-
-#headerText{
+.headerText{
 	font-family: 'Open Sans Condensed', sans-serif;
 	font-size: 20px; 
 	line-height: 50px; 
@@ -26,6 +17,10 @@ body{
 	font-weight: bold; 
 	font-style: normal; 
 	text-transform: uppercase;
+}
+
+.headerText:hover {
+	border-bottom: dotted 2px #00e673;
 }
 
 .view-container {
