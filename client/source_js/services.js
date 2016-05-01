@@ -29,6 +29,9 @@ webAppServices.factory('CurrentUser', function($http) {
 		getAccountInfo : function() {
 			return $http.get('/auth/user');
 		},
+		getUserInfo : function(userId) {
+			return $http.get('/api/users/' + userId);
+		},
 		getProductInfo : function(productId) {
 			return $http.get('/api/products/' + productId);
 		},

@@ -17,7 +17,7 @@ body{
 
 
 #headerText{
-	font-family: Chewy; 
+	font-family: 'Open Sans Condensed', sans-serif;
 	font-size: 20px; 
 	line-height: 50px; 
 	color: rgb(212, 50, 32); 
@@ -32,6 +32,7 @@ body{
 	margin-top: 2%;
 	padding: 5% 2% 5% 2%;
 	background-color: rgba(255, 255, 255, 0.8);
+	font-family: 'Josefin Sans', sans-serif;
 }
 
 .product-container {
@@ -55,17 +56,11 @@ body{
 	margin-top: 1%;
 }
 
-.product-listing {
-	font-family: Chewy;
-}
-
 .product-listing-title {
-	@extend .product-listing;
 	padding-bottom: 0.5%;
 	font-size: 24px;
 }
 
 .product-listing-info {
-	@extend .product-listing;
 	font-size: 12px;
 }

@@ -2,9 +2,15 @@
 	<section class="row view-container">
 		<div class="column small-12">		
 			<section class="row">
-				<div class="column small-11 small-offset-1">
-					<h3>Your Products</h3></br>
+				<div class="column small-12 text-center">
+					<h2>Your Products</h2>
 				</div>
+			</section>
+			<section class="row" id="create-item">
+				<div class="column small-12 small-centered text-center">
+					<a class="button" ui-sref-active-eq="active-state" ui-sref="app.createItem">Sell A New Item</a></br>
+				</div>
+				</br>
 			</section>
 			<section class="row">
 				<div class="column small-12 small-centered">
@@ -16,7 +22,7 @@
 								<div class="columns small-6">
 									<a ui-sref="app.itemDetails({item_id: item._id})">
 										<div class="product-listing-title">{{item.name}}</div>
-										<div class="product-listing-info">${{item.currentPrice}} | Watched By: {{item.usersWatching.length}} Users</div>
+										<div class="product-listing-info">Current Price: ${{item.currentPrice}} | Watched By: {{item.usersWatching.length}} Users</div>
 									</a>
 									<a ui-sref="app.userDetails({user_id: item.sellerUser})">
 										<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
@@ -29,11 +35,6 @@
 								</div>
 							</div>
 						</section>
-				</div>
-			</section>
-			<section class="row" id="create-item">
-				<div class="column small-12 small-centered text-center">
-					<a class="button" ui-sref-active-eq="active-state" ui-sref="app.createItem">Sell A New Item</a></br>
 				</div>
 			</section>
 		</div>

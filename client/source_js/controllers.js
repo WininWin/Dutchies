@@ -215,4 +215,25 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', 'Curr
 
 }]);
 
+webAppControllers.controller('UserDetailsController', ['$scope', '$state', 'CurrentUser', '$stateParams', function($scope, $state, CurrentUser, $stateParams) {
+	
+	CurrentUser.getUserInfo($stateParams.user_id).success(function(data) {
+		if(data.message=="OK") {
+			$scope.user = data.data;
+			$scope.userProducts = []
+			for (var i = 0; i < $scope.user.productsSelling.length; i++) {
+				CurrentUser.getProductInfo($scope.user.productsSelling[i]).success(function(data2) {
+					console.log(data2.data);
+					if(data.message == "OK") {
+						$scope.userProducts.push(data2.data);
+					}
+				});
+			}
+		}
+	});
+	
+	
+}]);
+
+
 
