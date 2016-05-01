@@ -361,7 +361,8 @@ module.exports = function(app, passport, User, Product, fs) {
 					if(data){
 						console.log("No user image, add default img")
 						var buf = new Buffer(data,'hex');
-						req.body.img = buf.toString('base64');
+						req.body.img = "data:image/JPEG;base64," + buf.toString('base64');
+						
 						Product.create(req.body, function(error,result){
 							if(error) {
 								res.status(500);
