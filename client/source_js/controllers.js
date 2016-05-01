@@ -1,4 +1,4 @@
-var webAppControllers = angular.module('webAppControllers', []);
+var webAppControllers = angular.module('webAppControllers', ['ngMaterial']);
 
 
 webAppControllers.directive("fileread", [function () {
