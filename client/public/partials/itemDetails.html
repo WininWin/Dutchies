@@ -8,6 +8,7 @@
             </section>
             <section class="row">
                 <div class="column small-5">
+                    {{product.img}}
                 </div>
                 <div class="column small-7">
                     <section class="row">
@@ -18,7 +19,7 @@
                             <p>Watching: {{ product.usersWatching.length }} Users Watching</p>
                         </div>
                         <div class="column small-6">
-                            <p>Sold By: {{product.sellerUserName }}</p>
+                            <p>Sold By: <a ui-sref="app.userDetails({user_id: item.sellerUser})">{{ product.sellerUserName }}</a></p>
                             <p>Seller Email: {{ product.sellerUserEmail }}</p>
                             <button class="button success">Watch</button>
                             <button class="button alert">Unwatch</button>
