@@ -3,6 +3,10 @@ body{
 	background-image: url("../data/pattern.png");
 }
 
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Josefin Sans', sans-serif;
+}
+
 .active-state {
 	border-bottom: solid 3px #00e673;
 }

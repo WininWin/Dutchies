@@ -234,7 +234,6 @@ webAppControllers.controller('UserDetailsController', ['$scope', '$state', 'Curr
 			$scope.userProducts = []
 			for (var i = 0; i < $scope.user.productsSelling.length; i++) {
 				CurrentUser.getProductInfo($scope.user.productsSelling[i]).success(function(data2) {
-					console.log(data2.data);
 					if(data.message == "OK") {
 						$scope.userProducts.push(data2.data);
 					}
