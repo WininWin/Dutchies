@@ -21,8 +21,8 @@
                         <div class="column small-6">
                             <p>Sold By: <a ui-sref="app.userDetails({user_id: item.sellerUser})">{{ product.sellerUserName }}</a></p>
                             <p>Seller Email: {{ product.sellerUserEmail }}</p>
-                            <button class="button success">Watch</button>
-                            <button class="button alert">Unwatch</button>
+                            <button ng-click = "click_watch(userdata)" id = "watch" class="button success">Watch</button>
+                            <button ng-click = "click_unwatch(userdata)" id = "unwatch" class="button alert">Unwatch</button>
                         </div>
                     </section>
                     <section class="row">

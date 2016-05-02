@@ -46,6 +46,12 @@ webAppServices.factory('CurrentUser', function($http) {
 		}, 
 		editListing : function(product) {
 			return $http.put('/api/products/' + product._id);
+		},
+		editUserinfo : function(userid, data) {
+			return $http.put('api/users/' + userid, data);
+		},
+		editProductinfo : function(productid, data){
+			return $http.put('api/products/' + productid, data);
 		}
 	}
 });

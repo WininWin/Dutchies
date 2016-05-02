@@ -40,7 +40,7 @@ webAppControllers.run(function($rootScope,$http,$state, CurrentUser) {
 
 webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope', function($scope,$state, $rootScope) {
   	
-	//After login, login button should chage to My Account
+	//After login, login button should changed to My Account
   	if($rootScope.loggedin){
   		$rootScope.account = "My Account";
   	}
@@ -217,12 +217,100 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 }]);
 
 
-webAppControllers.controller('ItemDetailsController', ['$scope', '$state', 'CurrentUser', '$stateParams', function($scope, $state, CurrentUser, $stateParams) {
+webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$rootScope', 'CurrentUser', '$stateParams', function($scope, $state, $rootScope, CurrentUser, $stateParams) {
+
+	console.log($rootScope.userdata);
+	if($rootScope.userdata != undefined){
+		CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
+		//	console.log(data);
+			$scope.userdata = data.data;
+			//If user is already watching the product, the user does need watch button.
+				if($scope.userdata!=undefined){
+					if(($scope.userdata.productsWatching).indexOf($stateParams.item_id) != -1){
+						
+						$('#watch').hide();
+						$('#unwatch').show();
+					}
+				
+					else{
+					
+					$('#unwatch').hide();
+					$('#watch').show();
+					}
+				}
+
+
+		});
+	}
+	
+		
+
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
+		
+
 		if(data.message=="OK") {
 			$scope.product = data.data;
 		}
 	});
+
+	
+
+	
+
+	$scope.click_watch = function(userdata){
+
+		
+		//push to the user's watching list
+		(userdata.productsWatching).push($stateParams.item_id);
+
+		CurrentUser.editUserinfo(userdata._id, userdata).success(function(data) {
+			$('#watch').hide();
+			$('#unwatch').show();
+		});
+
+		//push to the product's user list 
+		($scope.product.usersWatching).push(userdata._id);
+
+		CurrentUser.editProductinfo($scope.product._id, $scope.product).success(function(data) {
+			console.log("Watched");
+		});
+
+
+	};
+
+	$scope.click_unwatch = function(userdata){
+
+		//find item index in user's watching list
+		var item_index = (userdata.productsWatching).indexOf($stateParams.item_id);
+
+		//find user index in product's user list
+		var user_index = ($scope.product.usersWatching).indexOf(userdata._id);
+
+		//update the info
+		if (item_index > -1) {
+			    (userdata.productsWatching).splice(item_index, 1);
+		}
+		if(user_index > -1){
+			($scope.product.usersWatching).splice(user_index, 1);
+		}
+
+		CurrentUser.editUserinfo(userdata._id, userdata).success(function(data) {
+			$('#watch').show();
+			$('#unwatch').hide();
+		});
+
+		CurrentUser.editProductinfo($scope.product._id, $scope.product).success(function(data) {
+			console.log("UnWatched");
+		});
+
+
+
+	};
+
+
+
+
+
 
 }]);
 
