@@ -17,6 +17,9 @@ webAppServices.factory('CurrentUser', function($http) {
 		getSampleUser : function() {
 			return $http.get('/api/users?select={"email":1,"_id":0}&limit=1&skip=' + Math.floor((Math.random() * 10)));
 		},
+		getAllUser : function() {
+			return $http.get('/api/users?select={"email":1,"_id":0}');
+		},
 		getUserBuying : function() {
 			return $http.get('/auth/products/buying');
 		},

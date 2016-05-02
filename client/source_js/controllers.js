@@ -165,6 +165,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$scope.user = data.data;
 			$rootScope.userdata = data.data;
 			$rootScope.account = "My Account";
+			console.log(data.data);
 		}
 
     })
@@ -176,6 +177,29 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 }]);
 
 webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentUser', function($scope, $state, CurrentUser) {
+	$scope.user;
+	$scope.useremaillist;
+	$scope.duplicate = false;
+
+	CurrentUser.getAllUser().success(function(data){
+		$scope.useremaillist = data.data;
+
+	})
+
+	$scope.emailcheck = function(){
+		$scope.duplicate = false;
+		if($scope.user.email && $scope.useremaillist){
+			for (i=0; i<$scope.useremaillist.length; i++){
+				if ($scope.user.email == $scope.useremaillist[i].email)
+					$scope.duplicate = true;
+			}
+		}
+		else{
+			$scope.duplicate = false;
+		}
+	}
+
+
 	$scope.createUser = function(user, invalidEmail, noEmail, noPassword) {
 		if (invalidEmail == null && noEmail == null && noPassword == null) {
 			CurrentUser.createUser(user).success(function(data) {
@@ -319,6 +343,7 @@ webAppControllers.controller('UserDetailsController', ['$scope', '$state', 'Curr
 	CurrentUser.getUserInfo($stateParams.user_id).success(function(data) {
 		if(data.message=="OK") {
 			$scope.user = data.data;
+			console.log(data.data);
 			$scope.userProducts = []
 			for (var i = 0; i < $scope.user.productsSelling.length; i++) {
 				CurrentUser.getProductInfo($scope.user.productsSelling[i]).success(function(data2) {
