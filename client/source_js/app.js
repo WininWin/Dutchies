@@ -45,7 +45,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
 
   .state('app.sell', {
-    url: 'sell',
+    url: 'selling',
     views: {
       'content@': {
         templateUrl: 'partials/sell.html',
@@ -56,7 +56,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   })
   
   .state('app.buy', {
-    url: 'buy',
+    url: 'purchased',
     views: {
       'content@': {
         templateUrl: 'partials/buy.html',
