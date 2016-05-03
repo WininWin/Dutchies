@@ -6,7 +6,7 @@ var Product = require('./models/product');
 
 this.priceDaemon = function() {
 	// increment cycles cine last updated for all products
-	var conditions = { sold: false, $where: "this.currentPrice > this.reservePrice" }
+	var conditions = { sold: false, $where: "this.currentPrice >= this.reservePrice" }
 	  , update = { $inc: { cyclesSinceLastPriceUpdate: 1 }}
 	  , options = { multi: true };
 	Product.update(conditions,update,options,function(){});
@@ -27,13 +27,16 @@ this.priceDaemon = function() {
 					// 	decrease the price by r/10% of the difference between the start price and the reserve price
 					var r = Math.random();
 					var w = result[i].usersWatching.length;
-					if(Math.pow(1.05,(-1)*w)>r){
+					if(Math.pow(1.05,(-1)*w)>(r*3/4)){
 						updatedCount += 1;
 						var newPrice = (parseInt(result[i].currentPrice)) + (((result[i].startPrice-result[i].reservePrice)*r*.001).toFixed(2))*-1.0;
 						if (newPrice >= result[i].reservePrice) 
 							Product.findByIdAndUpdate(result[i]._id,{ currentPrice: newPrice, cyclesSinceLastPriceUpdate:0},function(error){});
+						else 
+							Product.findByIdAndUpdate(result[i]._id,{ currentPrice: result[i].startPrice, cyclesSinceLastPriceUpdate:0},function(error){});
 					}
 				}
 			}
 		});
+
 }
