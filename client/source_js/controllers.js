@@ -163,7 +163,21 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 
 
 webAppControllers.controller('AccountController', ['$scope', '$http' , '$window' , '$rootScope', '$state', 'CurrentUser', function($scope, $http, $window, $rootScope, $state, CurrentUser) {
+	
+	$scope.phoneShow = false;
+	$scope.addressShow = false;
+	$scope.cardShow= false;
 
+	$scope.change = function(field){
+		if (field == 1)
+			$scope.phoneShow = true;
+		if (field == 2)
+			$scope.addressShow = true;
+		if (field == 3)
+			$scope.cardShow = true;
+	}
+
+	$scope.creditcardfourdig;
 	if($rootScope.userdata!=undefined)
 		$scope.user = $rootScope.userdata;
     CurrentUser.getAccountInfo().success(function(data) {
@@ -171,7 +185,11 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$scope.user = data.data;
 			$rootScope.userdata = data.data;
 			$rootScope.account = "My Account";
-		
+		console.log($scope.user.mobilePhone)
+			//$scope.TempPhone = $scope.user.mobilePhone;
+			var cardnumstring = data.data.card.number.toString();
+			if (data.data.card)
+				$scope.creditcardfourdig = '****-'+cardnumstring.substr(cardnumstring.length-4);
 		}
 
     })
