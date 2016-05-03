@@ -13,18 +13,18 @@
 							<img class="thumbnail" src="http://placehold.it/100x100">
 						</div>
 						<div class="product-margin">
-							<div class="columns small-7">
-								<a ui-sref="app.itemDetails({item_id: item._id})">
+							<div class="columns small-8">
+								<a class="md-accent" ui-sref="app.itemDetails({item_id: item._id})">
 									<div class="product-listing-title">{{item.name}}</div>
 									<div class="product-listing-info">Date Sold: {{item.dateSold}}</div>
 								</a>
-								<a ui-sref="app.userDetails({user_id: item.sellerUser})">
+								<a class="md-accent md-hue-1" ui-sref="app.userDetails({user_id: item.sellerUser})">
 									<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
 								</a>
 							</div>
-							<div class="columns small-1 small-centered">
+							<div class="columns small-2 small-centered">
 								</br>
-								<button class="success button">Pay</button>
+								<md-button class = "md-raised md-warn">Pay</button>
 							</div>
 						</div>
 					</div>

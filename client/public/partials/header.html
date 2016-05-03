@@ -12,12 +12,10 @@
 <hr> -->
 
 <div ng-controller='HeaderController'>
-	<div class="top-bar">
+<!--<div class="top-bar">
 		<div class="top-bar-left">
 			<ul class="menu">
 				<li class="menu-text headerText" ui-sref-active-eq="active-state" ui-sref="app">Dutchies</li>
-				<!-- <li><a ui-sref-active-eq="active-state" ui-sref="app.login">Login</a></li> -->
-				<!-- <li><a href="#">Two</a></li> -->
 			</ul>
 		</div>
 		<div class="top-bar-right">
@@ -27,9 +25,19 @@
 				<li class="menu-text headerText" ui-sref-active-eq="active-state" ui-sref="app.watching">Watching</li>
 				<li class="menu-text headerText" ui-sref-active-eq="active-state" ui-sref="app.account">{{account}}</li>
 			</ul>
-	</div>
-	</div>
+		</div>	
+	</div>-->
+	<md-toolbar md-scroll-shrink ng-if="true">
+		<div class="md-toolbar-tools">
+			<md-button class="nav-button" ui-sref="app">Dutchies</md-button>
+			<span flex=""></span>
+			<md-button class="nav-button" ui-sref="app.buy">Purchased</md-button>
+			<md-button class="nav-button" ui-sref="app.sell">Your Auctions</md-button>
+			<md-button class="nav-button" ui-sref="app.watching">Watching</md-button>
+			<md-button class="nav-button" ui-sref="app.account">My Account</md-button>
+		</div>
+	</md-toolbar>
 
 </div>
 
-<hr>
+<!--<hr>-->

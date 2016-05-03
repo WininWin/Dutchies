@@ -21,13 +21,13 @@
                         <div class="column small-6">
                             <p>Sold By: <a ui-sref="app.userDetails({user_id: item.sellerUser})">{{ product.sellerUserName }}</a></p>
                             <p>Seller Email: {{ product.sellerUserEmail }}</p>
-                            <button ng-click = "click_watch(userdata)" id = "watch" class="button success">Watch</button>
-                            <button ng-click = "click_unwatch(userdata)" id = "unwatch" class="button alert">Unwatch</button>
+                            <md-button ng-click = "click_watch(userdata)" id = "watch" class="md-raised md-warn">Watch</md-button>
+                            <md-button ng-click = "click_unwatch(userdata)" id = "unwatch" class="md-raised md-primary">Unwatch</md-button>
                         </div>
                     </section>
                     <section class="row">
                         <div class="column small-12">
-                            <button id = "buy" class="button">Buy It Now!</button>
+                            <md-button id = "buy" class="md-raised md-warn">Buy It Now!</md-button>
                         </div>
                     </section>
                 </div>

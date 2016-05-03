@@ -8,7 +8,7 @@
 			</section>
 			<section class="row" id="create-item">
 				<div class="column small-12 small-centered text-center">
-					<a class="button success" ui-sref-active-eq="active-state" ui-sref="app.createItem">Sell A New Item</a></br>
+					<md-button class="md-raised md-accent md-hue-1" ui-sref-active-eq="active-state" ui-sref="app.createItem">Sell A New Item</md-button></br>
 				</div>
 				</br>
 			</section>
@@ -19,19 +19,18 @@
 								<img class="thumbnail" src="http://placehold.it/100x100">
 							</div>
 							<div class="product-margin">
-								<div class="columns small-6">
-									<a ui-sref="app.itemDetails({item_id: item._id})">
+								<div class="columns small-8">
+									<a class="md-accent" ui-sref="app.itemDetails({item_id: item._id})">
 										<div class="product-listing-title">{{item.name}}</div>
 										<div class="product-listing-info">Current Price: ${{item.currentPrice}} | Watched By: {{item.usersWatching.length}} Users</div>
 									</a>
-									<a ui-sref="app.userDetails({user_id: item.sellerUser})">
+									<a class="md-accent md-hue-1" ui-sref="app.userDetails({user_id: item.sellerUser})">
 										<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
 									</a>
 								</div>
 								<div class="columns small-2 small-centered">
-									</br>
-									<a class="success button" ui-sref="app.editItem({item_id: item._id})">Edit</a>
-									<button class="alert button">Delete</button>
+									<md-button class="md-raised md-warn" ui-sref="app.editItem({item_id: item._id})">Edit</md-button></br>
+									<md-button class="md-raised md-primary">Delete</md-button>
 								</div>
 							</div>
 						</section>

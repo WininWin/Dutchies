@@ -27,13 +27,13 @@
                         <input type="password" class="form-control" name="uPassword" ng-model="user.password" required>
                     </div>
 
-                    <button class = "success button" type="submit" ng-click="createUser(user, userForm.uEmail.$error.email, userForm.uEmail.$error.required, userForm.uPassword.$error.required)">Signup</button>
+                    <md-button class = "md-raised md-accent md-hue-1" type="submit" ng-click="createUser(user, userForm.uEmail.$error.email, userForm.uEmail.$error.required, userForm.uPassword.$error.required)">Signup</md-button>
                 </form>
 
                 <hr>
 
-                <p>Already have an account? <a ui-sref="app.login">Login</a></p>
-                <p>Or go <a ui-sref="app">home</a>.</p>
+                <p>Already have an account? <a class="md-accent" ui-sref="app.login">Login</a></p>
+                <p>Or go <a class="md-accent" ui-sref="app">home</a>.</p>
 
             </div>
         </div>

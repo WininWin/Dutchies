@@ -65,7 +65,7 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 		});
 
 		$scope.search = function(query){
-		
+			$scope.query = query;
 			if(typeof query != 'undefined' && query != " "){
 				$state.go("app.searchresult");
 				$rootScope.result = query;
@@ -185,7 +185,6 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$scope.user = data.data;
 			$rootScope.userdata = data.data;
 			$rootScope.account = "My Account";
-		console.log($scope.user.mobilePhone)
 			//$scope.TempPhone = $scope.user.mobilePhone;
 			var cardnumstring = data.data.card.number.toString();
 			if (data.data.card)
@@ -289,7 +288,6 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 	if($rootScope.userdata != undefined){
 		CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
-		//	console.log(data);
 			$scope.userdata = data.data;
 			//If user is already watching the product, the user does need watch button.
 				if($scope.userdata!=undefined){
@@ -377,7 +375,6 @@ webAppControllers.controller('UserDetailsController', ['$scope', '$state', 'Curr
 	CurrentUser.getUserInfo($stateParams.user_id).success(function(data) {
 		if(data.message=="OK") {
 			$scope.user = data.data;
-			console.log(data.data);
 			$scope.userProducts = []
 			for (var i = 0; i < $scope.user.productsSelling.length; i++) {
 				CurrentUser.getProductInfo($scope.user.productsSelling[i]).success(function(data2) {

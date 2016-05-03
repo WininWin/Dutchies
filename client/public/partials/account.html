@@ -3,7 +3,7 @@
         <div class="column small-12">
             <div class="page-header text-center">
                 <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-                <a ng-click="logout()" class="button success">Logout</a>
+                <md-button ng-click="logout()" class="md-raised md-accent md-hue-1">Logout</md-button>
             </div>
 
             <section class="row">
@@ -15,20 +15,20 @@
                                 <strong>Email</strong>: {{user.email}}<br>
                                 <div>
                                     <div ng-hide="phoneShow">
-                                        <strong>Phone</strong>: {{user.mobilePhone}}   <button ng-click="change(1)"> EDIT </button></br>
+                                        <strong>Phone</strong>: {{user.mobilePhone}} <md-button ng-click="change(1)"> EDIT </md-button></br>
                                     </div>
 
                                     <div ng-show="phoneShow">
                                         New Phone Number
-                                        <input type="number" ng-model = "TempPhone"> <button> Update </button></br>
+                                        <input type="number" ng-model = "TempPhone"> <md-button> Update </md-button></br>
                                     </div>
 
                                 </div>
 
-                                    <strong>Credit Card</strong>: {{creditcardfourdig}} <button> EDIT </button> </br>
+                                    <strong>Credit Card</strong>: {{creditcardfourdig}} <md-button> EDIT </md-button> </br>
                                 
 
-                                <strong>Address</strong> <button> EDIT </button> </br>
+                                <strong>Address</strong> <md-button> EDIT </md-button> </br>
                                 {{user.address.streetAddress}}  {{user.address.city}}</br>
                                 {{user.address.state}}  {{user.address.zipcode}}
 
