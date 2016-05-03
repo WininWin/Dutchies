@@ -54,44 +54,60 @@ webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope
 
 webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', function($scope, $state, $http,$rootScope, CommonData, CurrentUser) {
 
-		$scope.recommended = [];
 
-		$scope.progress = true;
+		$scope.progress = [];
+		for(i = 0; i < 3; i++){
+			$scope.progress[i] = true;
+		}
 		
 		//Get all products data for home contents 
-		CommonData.getAllproducts().success(function(data) {
+		CommonData.mostWatchedProducts().success(function(data) {
 			if(data.message=="OK") {
-				$scope.products = data.data;
-				$scope.progress = false;
-				for(var i = 0; i < 7; i++) {
-					var picker = Math.floor((Math.random() * $scope.products.length) + 1);
-					$scope.recommended.push($scope.products[picker]);
-				}			
+				$scope.mostWatchedProducts = data.data;
+				$scope.progress[1] = false;
 			}
+		});
+
+		CommonData.mostRecentProducts().success(function(data) {
+	
+				$scope.mostRecentProducts = data.data;
+				$scope.progress[0] = false;
 			
 		});
 
-		
+		CommonData.countProducts().success(function(data) {
+			if(data.message=="OK") {
+				CommonData.randomProducts(6,data.data).success(function(data){
+					$scope.randomProducts = data.data;
+					$scope.progress[2] = false;
+				});
+			}
+		});
 
 		$scope.search = function(query){
-			$scope.query = query;
+			
+			$scope.search_progress = true; 
+			$scope.result = false;
 			if(typeof query != 'undefined' && query != " "){
 				$state.go("app.searchresult");
 				$rootScope.result = query;
+				CommonData.searchProducts($rootScope.result).success(function(data){
+					//console.log(data.data);	
+					$scope.search_progress = false; 
+					$rootScope.search_products = data.data;
+					$scope.result = true;
+					
+
+				});
+
 
 			}
 			else{
 				$("#warning").text("Put at least 1 word");
+				$scope.search_progress = false; 
 			}
 			
 		};
-
-		 $scope.random = function() {
-        return 0.5 - Math.random();
-    		}
-	
- 
-
 
 
 
@@ -180,19 +196,14 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	$scope.phoneShow = false;
 	$scope.addressShow = false;
 	$scope.cardShow= false;
-	$scope.states =states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
-          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
-          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
-          "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
-          "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
-          
+
 	$scope.change = function(field){
 		if (field == 1)
-			$scope.phoneShow = !$scope.phoneShow;
+			$scope.phoneShow = true;
 		if (field == 2)
-			$scope.addressShow = !$scope.addressShow;
+			$scope.addressShow = true;
 		if (field == 3)
-			$scope.cardShow = !$scope.cardShow;
+			$scope.cardShow = true;
 	}
 
 	$scope.creditcardfourdig;
@@ -203,6 +214,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$scope.user = data.data;
 			$rootScope.userdata = data.data;
 			$rootScope.account = "My Account";
+		console.log($scope.user.mobilePhone)
 			//$scope.TempPhone = $scope.user.mobilePhone;
 			var cardnumstring = data.data.card.number.toString();
 			if (data.data.card)
@@ -306,6 +318,7 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 	if($rootScope.userdata != undefined){
 		CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
+		//	console.log(data);
 			$scope.userdata = data.data;
 			//If user is already watching the product, the user does need watch button.
 				if($scope.userdata!=undefined){
@@ -393,6 +406,7 @@ webAppControllers.controller('UserDetailsController', ['$scope', '$state', 'Curr
 	CurrentUser.getUserInfo($stateParams.user_id).success(function(data) {
 		if(data.message=="OK") {
 			$scope.user = data.data;
+			console.log(data.data);
 			$scope.userProducts = []
 			for (var i = 0; i < $scope.user.productsSelling.length; i++) {
 				CurrentUser.getProductInfo($scope.user.productsSelling[i]).success(function(data2) {
