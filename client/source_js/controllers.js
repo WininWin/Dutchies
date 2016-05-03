@@ -84,18 +84,28 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 			}
 		});
 
-		
-
 
 		$scope.search = function(query){
-		
+			
+			$scope.search_progress = true; 
+			$scope.result = false;
 			if(typeof query != 'undefined' && query != " "){
 				$state.go("app.searchresult");
 				$rootScope.result = query;
+				CommonData.searchProducts($rootScope.result).success(function(data){
+					//console.log(data.data);	
+					$scope.search_progress = false; 
+					$rootScope.search_products = data.data;
+					$scope.result = true;
+					
+
+				});
+
 
 			}
 			else{
 				$("#warning").text("Put at least 1 word");
+				$scope.search_progress = false; 
 			}
 			
 		};

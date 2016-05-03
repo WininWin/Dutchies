@@ -19,6 +19,9 @@ webAppServices.factory('CommonData', function($http){
 			count = total
 			random = Math.floor(Math.random() * (count - num + 1));
 			return $http.get('/api/products?where={sold:false}&sort={dateCreated:1}&limit=' + num + '&skip=' + random);
+		},
+		searchProducts : function(query) {
+			return $http.get('/api/products?where={name:{$in:[/'+query+'/i]}}');
 		}
     }
 });

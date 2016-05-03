@@ -16,10 +16,13 @@
 					<div class="column small-12 text-center">
 						</br><h2>Search Results</h2></br>
 					</div>
+						<div class="row column text-center">
+							<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="search_progress"></i>
+						</div>
 				</section>
 				<section class="row">
 					<div class="column small-12 small-centered">
-							<div class="row product-container" ng-repeat="item in products | filter: result">
+							<div class="row product-container" ng-repeat="item in search_products" ng-show="result">
 								<div class="columns small-2 text-center small-offset thumbnail-wrapper">
 									<img class="thumbnail" data-ng-src={{item.img}}>
 								</div>
