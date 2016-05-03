@@ -84,7 +84,7 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 			}
 		});
 
-
+		
 		$scope.search = function(query){
 			
 			$scope.search_progress = true; 

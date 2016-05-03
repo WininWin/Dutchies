@@ -21,7 +21,7 @@ webAppServices.factory('CommonData', function($http){
 			return $http.get('/api/products?where={sold:false}&sort={dateCreated:1}&limit=' + num + '&skip=' + random);
 		},
 		searchProducts : function(query) {
-			return $http.get('/api/products?where={name:{$in:[/'+query+'/i]}}');
+			return $http.get('/api/products?where={name:{$in:[/'+query+'/i]},sold:false}');
 		}
     }
 });
