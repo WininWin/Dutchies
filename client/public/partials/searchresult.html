@@ -20,8 +20,8 @@
 				<section class="row">
 					<div class="column small-12 small-centered">
 							<div class="row product-container" ng-repeat="item in products | filter: query">
-								<div class="columns small-2 text-center small-offset">
-									<img class="thumbnail" src="http://placehold.it/100x100">
+								<div class="columns small-2 text-center small-offset thumbnail-wrapper">
+									<img class="thumbnail" data-ng-src={{item.img}}>
 								</div>
 								<div class="product-margin">
 									<div class="columns small-6">
