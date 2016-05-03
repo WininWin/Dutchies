@@ -5,6 +5,20 @@ webAppServices.factory('CommonData', function($http){
     return{
        getAllproducts : function() {
 			return $http.get("/api/products");
+		},
+		mostWatchedProducts : function() {
+			return $http.get('/api/products?where={sold:false}&sort={numUsersWatching:-1}&limit=6')
+		},
+		mostRecentProducts : function() {
+			return $http.get('/api/products?where={sold:false}&sort={dateCreated:-1}&limit=4')
+		},
+		countProducts : function() {
+			return $http.get('/api/products?where={sold:false}&count=1')
+		},
+		randomProducts : function(num,total) {
+			count = total
+			random = Math.floor(Math.random() * (count - num + 1));
+			return $http.get('/api/products?where={sold:false}&sort={dateCreated:1}&limit=' + num + '&skip=' + random);
 		}
     }
 });
@@ -56,6 +70,7 @@ webAppServices.factory('CurrentUser', function($http) {
 		editProductinfo : function(productid, data){
 			return $http.put('api/products/' + productid, data);
 		}
+
 	}
 });
 

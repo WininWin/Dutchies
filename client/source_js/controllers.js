@@ -54,19 +54,33 @@ webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope
 
 webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', function($scope, $state, $http,$rootScope, CommonData, CurrentUser) {
 
-	
-		//Get all products data for home contents 
-		CommonData.getAllproducts().success(function(data) {
-			if(data.message=="OK") {
-				$scope.products = data.data;
-				
-				console.log(data.data);
-				
-			}
-			for(var i = 0; i < 7; i++){
-				var picker = Math.floor((Math.random() * $scope.products.length) + 1);
-				$scope.recommended.push($scope.products[picker]);
 
+		$scope.progress = [];
+		for(i = 0; i < 3; i++){
+			$scope.progress[i] = true;
+		}
+		
+		//Get all products data for home contents 
+		CommonData.mostWatchedProducts().success(function(data) {
+			if(data.message=="OK") {
+				$scope.mostWatchedProducts = data.data;
+				$scope.progress[1] = false;
+			}
+		});
+
+		CommonData.mostRecentProducts().success(function(data) {
+	
+				$scope.mostRecentProducts = data.data;
+				$scope.progress[0] = false;
+			
+		});
+
+		CommonData.countProducts().success(function(data) {
+			if(data.message=="OK") {
+				CommonData.randomProducts(6,data.data).success(function(data){
+					$scope.randomProducts = data.data;
+					$scope.progress[2] = false;
+				});
 			}
 		});
 
@@ -85,13 +99,6 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 			}
 			
 		};
-
-		 $scope.random = function() {
-        return 0.5 - Math.random();
-    		}
-	
- 
-
 
 
 

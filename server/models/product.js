@@ -15,6 +15,7 @@ var ProductSchema = new mongoose.Schema({
   dateCreated: {type: Date, default: Date.now },
   dateSold:{type:Date},
   usersWatching: { type: [String], default: []},
+  numUsersWatching: { type: String, default: 0 },
   sellerUser: { type: String, default: '' },
   sellerUserName: { type: String, default: ''},
   sellerUserEmail: { type: String, default: ''},
