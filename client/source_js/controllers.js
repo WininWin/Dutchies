@@ -55,12 +55,14 @@ webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope
 webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', function($scope, $state, $http,$rootScope, CommonData, CurrentUser) {
 
 
+		$scope.progress = true;
 		
 		//Get all products data for home contents 
 		CommonData.getAllproducts().success(function(data) {
 			if(data.message=="OK") {
 				$scope.products = data.data;
-				
+				$scope.progress = false;
+				console.log(data.data);
 			}
 		});
 
