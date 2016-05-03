@@ -54,6 +54,7 @@ webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope
 
 webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', function($scope, $state, $http,$rootScope, CommonData, CurrentUser) {
 
+		$scope.recommended = [];
 
 		$scope.progress = true;
 		
@@ -62,7 +63,10 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 			if(data.message=="OK") {
 				$scope.products = data.data;
 				$scope.progress = false;
-				console.log(data.data);
+			}
+			for(var i = 0; i < 7; i++){
+				var picker = Math.floor((Math.random() * $scope.products.length) + 1);
+				$scope.recommended.push($scope.products[picker]);
 			}
 		});
 

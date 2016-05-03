@@ -44,7 +44,7 @@
 				<hr>
 			</div>
 			<div class="row small-up-2 medium-up3 large-up-6">
-				<div ng-repeat = "item in products | limitTo:6 | orderBy:random" class="column">
+				<div ng-repeat = "item in recommended | limitTo:6 | orderBy:random" class="column">
 					<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" src="http://placehold.it/120x120">
 					<p ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
 					<p>${{item.currentPrice}}</p>
