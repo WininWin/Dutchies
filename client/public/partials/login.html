@@ -21,13 +21,13 @@
                         <div ng-show="loginError">
                             <div class="alert callout">You entered an invalid username and/or password. Try again.</div>
                         </div>
-                        <button class = "button success"ng-click="login()">Login</button>
+                        <md-button class = "md-raised md-accent md-hue-1"ng-click="login()">Login</md-button>
                     </form>
 
                     <hr>
 
-                    <p>Need an account? <a ui-sref="app.signup">Signup</a></p>
-                    <p>Or go <a ui-sref="app">home</a>.</p>
+                    <p>Need an account? <a class="md-accent" ui-sref="app.signup">Signup</a></p>
+                    <p>Or go <a class="md-accent" ui-sref="app">home</a>.</p>
                 </div>
             </section>
         </div>

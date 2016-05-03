@@ -1,7 +1,24 @@
 var app = angular.module('webApp', ['webAppControllers', 'webAppServices', 'ui.router','credit-cards','ngMaterial']);
 
 
-app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider', function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+
+  $mdThemingProvider.theme('default')
+    .primaryPalette('red', {
+      'default': '900',
+      'hue-1': '600'
+    })
+    .accentPalette('blue-grey', {
+      'default': '800',
+      'hue-1': '400'
+    })
+    .warnPalette('green', {
+      'default': '600'
+    })
+    .backgroundPalette('grey', {
+      'default': '100'
+    });
+
   $urlRouterProvider.otherwise('/');
  
   $stateProvider

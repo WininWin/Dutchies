@@ -54,22 +54,38 @@ webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope
 
 webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', function($scope, $state, $http,$rootScope, CommonData, CurrentUser) {
 
+		$scope.recommended = [];
 
+		$scope.progress = true;
 		
 		//Get all products data for home contents 
 		CommonData.getAllproducts().success(function(data) {
 			if(data.message=="OK") {
 				$scope.products = data.data;
-				// console.log($scope.products);
-				
+				$scope.progress = false;
+			}
+			for(var i = 0; i < 7; i++){
+				var picker = Math.floor((Math.random() * $scope.products.length) + 1);
+				$scope.recommended.push($scope.products[picker]);
 			}
 		});
 
 		$scope.search = function(query){
-			$state.go("app.searchresult");
-			$rootScope.result = query;
+			$scope.query = query;
+			if(typeof query != 'undefined' && query != " "){
+				$state.go("app.searchresult");
+				$rootScope.result = query;
 
+			}
+			else{
+				$("#warning").text("Put at least 1 word");
+			}
+			
 		};
+
+		 $scope.random = function() {
+        return 0.5 - Math.random();
+    		}
 	
  
 
@@ -157,7 +173,26 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 
 
 webAppControllers.controller('AccountController', ['$scope', '$http' , '$window' , '$rootScope', '$state', 'CurrentUser', function($scope, $http, $window, $rootScope, $state, CurrentUser) {
+	
+	$scope.phoneShow = false;
+	$scope.addressShow = false;
+	$scope.cardShow= false;
+	$scope.states =states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
+          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
+          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
+          "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
+          "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
+          
+	$scope.change = function(field){
+		if (field == 1)
+			$scope.phoneShow = !$scope.phoneShow;
+		if (field == 2)
+			$scope.addressShow = !$scope.addressShow;
+		if (field == 3)
+			$scope.cardShow = !$scope.cardShow;
+	}
 
+	$scope.creditcardfourdig;
 	if($rootScope.userdata!=undefined)
 		$scope.user = $rootScope.userdata;
     CurrentUser.getAccountInfo().success(function(data) {
@@ -165,7 +200,10 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$scope.user = data.data;
 			$rootScope.userdata = data.data;
 			$rootScope.account = "My Account";
-			console.log(data.data);
+			//$scope.TempPhone = $scope.user.mobilePhone;
+			var cardnumstring = data.data.card.number.toString();
+			if (data.data.card)
+				$scope.creditcardfourdig = '****-'+cardnumstring.substr(cardnumstring.length-4);
 		}
 
     })
@@ -243,30 +281,9 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 
 webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$rootScope', 'CurrentUser', '$stateParams', function($scope, $state, $rootScope, CurrentUser, $stateParams) {
 
-	console.log($rootScope.userdata);
-	if($rootScope.userdata != undefined){
-		CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
-		//	console.log(data);
-			$scope.userdata = data.data;
-			//If user is already watching the product, the user does need watch button.
-				if($scope.userdata!=undefined){
-					if(($scope.userdata.productsWatching).indexOf($stateParams.item_id) != -1){
-						
-						$('#watch').hide();
-						$('#unwatch').show();
-					}
-				
-					else{
-					
-					$('#unwatch').hide();
-					$('#watch').show();
-					}
-				}
-
-
-		});
-	}
-	
+	$('#watch').hide();
+	$('#unwatch').hide();
+	var seller = 0;
 		
 
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
@@ -274,9 +291,39 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 		if(data.message=="OK") {
 			$scope.product = data.data;
+
+			if($scope.product.sellerUser == $rootScope.userdata._id){
+				$('#watch').hide();
+				$('#unwatch').hide();
+				$('#buy').hide();
+				seller = 1;
+			}
 		}
 	});
 
+	if($rootScope.userdata != undefined){
+		CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
+			$scope.userdata = data.data;
+			//If user is already watching the product, the user does need watch button.
+				if($scope.userdata!=undefined){
+					if(($scope.userdata.productsWatching).indexOf($stateParams.item_id) != -1){
+						
+						$('#watch').hide();
+						$('#unwatch').show();
+					}				
+					else{
+					
+						$('#unwatch').hide();
+						if(!seller){
+							$('#watch').show();
+						}
+						
+					}
+				}
+
+
+		});
+	}
 	
 
 	
@@ -343,7 +390,6 @@ webAppControllers.controller('UserDetailsController', ['$scope', '$state', 'Curr
 	CurrentUser.getUserInfo($stateParams.user_id).success(function(data) {
 		if(data.message=="OK") {
 			$scope.user = data.data;
-			console.log(data.data);
 			$scope.userProducts = []
 			for (var i = 0; i < $scope.user.productsSelling.length; i++) {
 				CurrentUser.getProductInfo($scope.user.productsSelling[i]).success(function(data2) {

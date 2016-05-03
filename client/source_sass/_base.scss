@@ -1,37 +1,16 @@
 // Add any custom Sass & CSS here
 body{
-	background-color: #450e14;
-}
-
-h1, h2, h3, h4, h5, h6 {
-	font-family: 'Josefin Sans', sans-serif;
-}
-
-.active-state {
-	border-bottom: solid 3px #00e673;
-}
-
-.headerText{
-	font-family: 'Open Sans Condensed', sans-serif;
-	font-size: 20px; 
-	line-height: 50px; 
-	color: rgb(212, 50, 32); 
-	text-shadow: none; 
-	letter-spacing: 4px; 
-	font-weight: bold; 
-	font-style: normal; 
-	text-transform: uppercase;
-}
-
-.headerText:hover {
-	border-bottom: dotted 2px #00e673;
+	background-color: rgba(245, 245, 245, 1.0);
+	background-repeat: repeat;
 }
 
 .view-container {
+	border-radius: 8px;
+	border: solid 1px #E0E0E0;
 	margin-top: 2%;
 	padding: 5% 2% 5% 2%;
-	background-color: rgba(245, 245, 245, 1.0);
-	font-family: 'Josefin Sans', sans-serif;
+	background-color: white;
+	
 }
 
 .product-container {
@@ -39,8 +18,11 @@ h1, h2, h3, h4, h5, h6 {
 	padding-bottom: 1%;
 	background-color: white;
 	border-style: solid;
-	border-color: rgb(200, 200, 200);
-	border: 1px 1px 1px 1px;
+	border: solid 1px #BDBDBD;
+}
+
+.product-container:hover {
+	background-color: #FFEBEE;
 }
 
 #create-item {
@@ -73,3 +55,4 @@ h1, h2, h3, h4, h5, h6 {
 	max-height: 100%;
 	max-width: 100%;
 }
+

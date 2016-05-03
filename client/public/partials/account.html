@@ -3,7 +3,7 @@
         <div class="column small-12">
             <div class="page-header text-center">
                 <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-                <a ng-click="logout()" class="button success">Logout</a>
+                <md-button ng-click="logout()" class="md-raised md-accent md-hue-1">Logout</md-button>
             </div>
 
             <section class="row">
@@ -11,23 +11,88 @@
                     <div class="column small-12">
                         <h3><span class="fa fa-user"></span> Profile</h3>
                             <p>
-                                <strong>id</strong>: {{user._id}}<br>
-                                <strong>email</strong>: {{user.email}}<br>
+                                <strong>Name</strong>: {{user.name}}</br>
+                                <strong>Email</strong>: {{user.email}}<br>
+                                <div>
+                                    <div ng-hide="phoneShow">
+                                        <strong>Phone</strong>: {{user.mobilePhone}}   
+                                        <md-button ng-click="change(1)" type="submit"> EDIT </md-button>
+                                        </br>
+                                    </div>
+
+                                    <div ng-show="phoneShow">
+                                        New Phone Number
+                                        <input type="number" ng-model = "TempPhone"> 
+                                        <button type="submit" > Update </button>  
+                                        <button type="submit" ng-click="change(1)"> Cancel </button>
+                                        </br>
+                                    </div>
+                                </div>
+
+
+                                <div>
+                                    <div ng-hide="addressShow">
+                                         <strong>Address</strong> 
+                                         <md-button ng-click="change(2)" type="submit"> EDIT </md-button> </br>
+                                        {{user.address.streetAddress}}  {{user.address.city}}</br>
+                                        {{user.address.state}}  {{user.address.zipcode}}</br>                   
+                                    </div>
+
+                                    <div ng-show="addressShow">
+                                    
+                                        <form name="newAddressform">
+                                            <label>Address*</label>
+                                            <input type="text"  class="form-control"  ng-model="newaddress.streetAddress" required>
+
+                                            <label>City*</label>
+                                            <input type="text" class="form-control" ng-model="newaddress.city" required>
+
+                                            <label>State* </label>
+                                            <select ng-model="newaddress.state" ng-options="state for state in states" required> 
+                                            </select>
+
+                                            <label> Zip code*</label>
+                                            <input type='number' class="form-control" ng-model="newaddress.zipcode" required>
+                                            
+                                            <button  type="submit" >Update</button>
+                                            <button ng-click="change(2)" type="submit"> Cancel </button>
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div ng-hide="cardShow">
+                                        <strong>Credit Card</strong>: {{creditcardfourdig}} 
+                                        <md-button  type="submit" ng-click="change(3)"> EDIT </md-button> </br>
+                                    </div>
+
+                                    <div ng-show="cardShow">
+                                        <form name="paymentForm">
+                                             <input type="text" ng-model="card.number" name="cardNumber" cc-number cc-eager-type required>
+                                            {{paymentForm.cardNumber.$ccType}}
+                                            
+                                            <input type="text" ng-model="card.cvc" cc-cvc ng-required="true" />
+
+                                             <input ng-model="card.exp_month" cc-exp-month ng-required="true" />
+                                            <input ng-model="card.exp_year" cc-exp-year ng-required="true" />
+
+                                            <button  type="submit" >Update</button>
+                                            <button ng-click="change(3)" type="submit"> Cancel </button>
+                                            
+                                        </form>
+                                       
+                                    </div>
+                                </div>
+                                
+
+
+
                             </p>
                     </div>
             </section>
-            <form name="paymentForm">
-              <input type="text" ng-model="card.number" name="cardNumber" cc-number cc-eager-type />
-            </form>
-            <p ng-show="paymentForm.cardNumber.$invalid && paymentForm.cardNumber.$ccEagerType">
-              Looks like you're typing a {{paymentForm.cardNumber.$ccEagerType}} number!
-            </p>
-            <p ng-show="paymentForm.cardNumber.$valid">
-              Yes, that looks like a valid {{paymentForm.cardNumber.$ccType}} number!
-            </p>
-            <p ng-show="paymentForm.cardNumber.$error.required">
-              You must enter a credit card number!
-            </p>
+           
+           
         </div>
     </section>
 </div>
