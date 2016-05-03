@@ -11,8 +11,29 @@
                     <div class="column small-12">
                         <h3><span class="fa fa-user"></span> Profile</h3>
                             <p>
-                                <strong>id</strong>: {{user._id}}<br>
-                                <strong>email</strong>: {{user.email}}<br>
+                                <strong>Name</strong>: {{user.name}}</br>
+                                <strong>Email</strong>: {{user.email}}<br>
+                                <div>
+                                    <div ng-hide="phoneShow">
+                                        <strong>Phone</strong>: {{user.mobilePhone}}   <button ng-click="change(1)"> EDIT </button></br>
+                                    </div>
+
+                                    <div ng-show="phoneShow">
+                                        New Phone Number
+                                        <input type="number" ng-model = "TempPhone"> <button> Update </button></br>
+                                    </div>
+
+                                </div>
+
+                                    <strong>Credit Card</strong>: {{creditcardfourdig}} <button> EDIT </button> </br>
+                                
+
+                                <strong>Address</strong> <button> EDIT </button> </br>
+                                {{user.address.streetAddress}}  {{user.address.city}}</br>
+                                {{user.address.state}}  {{user.address.zipcode}}
+
+
+
                             </p>
                     </div>
             </section>
