@@ -60,15 +60,21 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 		CommonData.getAllproducts().success(function(data) {
 			if(data.message=="OK") {
 				$scope.products = data.data;
-				// console.log($scope.products);
 				
 			}
 		});
 
 		$scope.search = function(query){
-			$state.go("app.searchresult");
-			$rootScope.result = query;
+		
+			if(typeof query != 'undefined' && query != " "){
+				$state.go("app.searchresult");
+				$rootScope.result = query;
 
+			}
+			else{
+				$("#warning").text("Put at least 1 word");
+			}
+			
 		};
 	
  
@@ -165,7 +171,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$scope.user = data.data;
 			$rootScope.userdata = data.data;
 			$rootScope.account = "My Account";
-			console.log(data.data);
+		
 		}
 
     })
@@ -243,7 +249,26 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 
 webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$rootScope', 'CurrentUser', '$stateParams', function($scope, $state, $rootScope, CurrentUser, $stateParams) {
 
-	console.log($rootScope.userdata);
+	$('#watch').hide();
+	$('#unwatch').hide();
+	var seller = 0;
+		
+
+	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
+		
+
+		if(data.message=="OK") {
+			$scope.product = data.data;
+
+			if($scope.product.sellerUser == $rootScope.userdata._id){
+				$('#watch').hide();
+				$('#unwatch').hide();
+				$('#buy').hide();
+				seller = 1;
+			}
+		}
+	});
+
 	if($rootScope.userdata != undefined){
 		CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
 		//	console.log(data);
@@ -254,29 +279,20 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 						
 						$('#watch').hide();
 						$('#unwatch').show();
-					}
-				
+					}				
 					else{
 					
-					$('#unwatch').hide();
-					$('#watch').show();
+						$('#unwatch').hide();
+						if(!seller){
+							$('#watch').show();
+						}
+						
 					}
 				}
 
 
 		});
 	}
-	
-		
-
-	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
-		
-
-		if(data.message=="OK") {
-			$scope.product = data.data;
-		}
-	});
-
 	
 
 	
