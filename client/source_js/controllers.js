@@ -63,12 +63,15 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 			if(data.message=="OK") {
 				$scope.products = data.data;
 				$scope.progress = false;
+				for(var i = 0; i < 7; i++) {
+					var picker = Math.floor((Math.random() * $scope.products.length) + 1);
+					$scope.recommended.push($scope.products[picker]);
+				}			
 			}
-			for(var i = 0; i < 7; i++){
-				var picker = Math.floor((Math.random() * $scope.products.length) + 1);
-				$scope.recommended.push($scope.products[picker]);
-			}
+			
 		});
+
+		
 
 		$scope.search = function(query){
 			$scope.query = query;
