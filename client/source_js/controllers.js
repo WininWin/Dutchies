@@ -459,7 +459,7 @@ webAppControllers.controller('CreateItemController', ['$scope', '$state', 'Curre
 	
 	$scope.product;
 	$scope.createItem = function (product) {
-		console.log($scope.product.img);
+		
 		// CurrentUser.createListing(product).success(function(data) {
 		// 	if (data.message == "OK") {
 		// 		$state.go("app.sell");
