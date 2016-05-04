@@ -15,7 +15,7 @@
                                 <strong>Email</strong>: {{user.email}}<br>
                                 <div>
                                     <div ng-hide="phoneShow">
-                                        <strong>Phone</strong>: <md-button ng-click="change(1)"> EDIT </md-button> </br>
+                                        <strong>Phone</strong>: <md-button class = "md-raised md-warn" ng-click="change(1)"> EDIT </md-button> </br>
                                         {{user.mobilePhone}}   
                                         
                                         </br>
@@ -24,8 +24,9 @@
                                     <div ng-show="phoneShow">
                                         <strong>New Phone Number</strong>
                                         <input type="text" ng-model = "TempPhone" onkeypress='validate(event)' maxlength="10"> 
-                                        <button ng-click="updatePhone()"> Update </button>  
-                                        <button ng-click="change(1)"> Cancel </button>
+                                        <md-button class = "md-raised md-warn" ng-click="updatePhone()"> Update </md-button> 
+
+                                        <md-button class="md-raised md-primary" ng-click="change(1)"> Cancel </md-button> 
 
                                         {{ErrorMsg}}
                                         </br>
@@ -36,7 +37,7 @@
                                 <div>
                                     <div ng-hide="addressShow">
                                          <strong>Address</strong> 
-                                         <md-button ng-click="change(2)"> EDIT </md-button> </br>
+                                         <md-button  class = "md-raised md-warn" ng-click="change(2)"> EDIT </md-button> </br>
                                         {{user.address.streetAddress}},  {{user.address.city}}</br>
                                         {{user.address.state}},  {{user.address.zipcode}}</br>                   
                                     </div>
@@ -57,8 +58,8 @@
                                             <label> Zip code*</label>
                                             <input type='text' class="form-control" ng-model="newaddress.zipcode" onkeypress='validate(event)' maxlength="5" required>
                                             
-                                            <button  type="submit" ng-click='updateAddress()'>Update</button>
-                                            <button ng-click="change(2)" > Cancel </button>
+                                            <md-button class = "md-raised md-warn"  ng-click='updateAddress()'>Update</md-button> 
+                                            <md-button class="md-raised md-primary" ng-click="change(2)"> Cancel </md-button> 
                                         </form>
 
                                     </div>
@@ -66,7 +67,7 @@
 
                                 <div>
                                     <div ng-hide="cardShow">
-                                        <strong>Credit Card</strong>:  <md-button  ng-click="change(3)"> EDIT </md-button> </br>
+                                        <strong>Credit Card</strong>:  <md-button class = "md-raised md-warn" ng-click="change(3)"> EDIT </md-button> </br>
                                          {{creditcardfourdig}} 
                                        
                                     </div>
@@ -86,8 +87,8 @@
                                             <input ng-model="card.exp_year" cc-exp-year ng-required="true" />
                                             
                                             </br>
-                                            <button  type="submit" ng-click="updateCard()" >Update</button>
-                                            <button ng-click="change(3)"> Cancel </button>
+                                            <md-button  class = "md-raised md-warn" ng-click="updateCard()" >Update</md-button> 
+                                            <md-button class="md-raised md-primary" ng-click="change(3)"> Cancel </md-button> 
                                             
                                         </form>
                                        

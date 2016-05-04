@@ -360,6 +360,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 
 	$scope.updateAddress = function(){
 		if($scope.newaddress.zipcode.match(/\d/g).length===5){
+			$scope.newaddress.zipcode = parseInt($scope.newaddress.zipcode);
 			//update the address
 			$scope.ErrorMsg = "";
 			$scope.addressShow = false;
@@ -402,6 +403,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 		if(data.message=="OK") {
 			$scope.user = data.data;
 			$scope.newaddress = $scope.user.address;
+			$scope.newaddress.zipcode = $scope.newaddress.zipcode.toString();
 			$rootScope.userdata = data.data;
 			$rootScope.account = "My Account";
 			$scope.TempPhone =  data.data.mobilePhone;
