@@ -15,16 +15,19 @@
                                 <strong>Email</strong>: {{user.email}}<br>
                                 <div>
                                     <div ng-hide="phoneShow">
-                                        <strong>Phone</strong>: {{user.mobilePhone}}   
-                                        <md-button ng-click="change(1)" type="submit"> EDIT </md-button>
+                                        <strong>Phone</strong>: <md-button ng-click="change(1)"> EDIT </md-button> </br>
+                                        {{user.mobilePhone}}   
+                                        
                                         </br>
                                     </div>
 
                                     <div ng-show="phoneShow">
-                                        New Phone Number
-                                        <input type="number" ng-model = "TempPhone"> 
-                                        <button type="submit" > Update </button>  
-                                        <button type="submit" ng-click="change(1)"> Cancel </button>
+                                        <strong>New Phone Number</strong>
+                                        <input type="text" ng-model = "TempPhone" onkeypress='validate(event)' maxlength="10"> 
+                                        <button ng-click="updatePhone()"> Update </button>  
+                                        <button ng-click="change(1)"> Cancel </button>
+
+                                        {{ErrorMsg}}
                                         </br>
                                     </div>
                                 </div>
@@ -33,14 +36,14 @@
                                 <div>
                                     <div ng-hide="addressShow">
                                          <strong>Address</strong> 
-                                         <md-button ng-click="change(2)" type="submit"> EDIT </md-button> </br>
-                                        {{user.address.streetAddress}}  {{user.address.city}}</br>
-                                        {{user.address.state}}  {{user.address.zipcode}}</br>                   
+                                         <md-button ng-click="change(2)"> EDIT </md-button> </br>
+                                        {{user.address.streetAddress}},  {{user.address.city}}</br>
+                                        {{user.address.state}},  {{user.address.zipcode}}</br>                   
                                     </div>
 
                                     <div ng-show="addressShow">
-                                    
-                                        <form name="newAddressform">
+                                        <strong>New Address</strong>
+                                        <form>
                                             <label>Address*</label>
                                             <input type="text"  class="form-control"  ng-model="newaddress.streetAddress" required>
 
@@ -52,10 +55,10 @@
                                             </select>
 
                                             <label> Zip code*</label>
-                                            <input type='number' class="form-control" ng-model="newaddress.zipcode" required>
+                                            <input type='text' class="form-control" ng-model="newaddress.zipcode" onkeypress='validate(event)' maxlength="5" required>
                                             
-                                            <button  type="submit" >Update</button>
-                                            <button ng-click="change(2)" type="submit"> Cancel </button>
+                                            <button  type="submit" ng-click='updateAddress()'>Update</button>
+                                            <button ng-click="change(2)" > Cancel </button>
                                         </form>
 
                                     </div>
@@ -63,22 +66,28 @@
 
                                 <div>
                                     <div ng-hide="cardShow">
-                                        <strong>Credit Card</strong>: {{creditcardfourdig}} 
-                                        <md-button  type="submit" ng-click="change(3)"> EDIT </md-button> </br>
+                                        <strong>Credit Card</strong>:  <md-button  ng-click="change(3)"> EDIT </md-button> </br>
+                                         {{creditcardfourdig}} 
+                                       
                                     </div>
 
                                     <div ng-show="cardShow">
+                                        <strong>New Credit Card</strong>
                                         <form name="paymentForm">
-                                             <input type="text" ng-model="card.number" name="cardNumber" cc-number cc-eager-type required>
+                                            Card Number*
+                                            <input type="text" ng-model="card.number" name="cardNumber" cc-number cc-eager-type required>
                                             {{paymentForm.cardNumber.$ccType}}
                                             
+                                            CVC*
                                             <input type="text" ng-model="card.cvc" cc-cvc ng-required="true" />
-
-                                             <input ng-model="card.exp_month" cc-exp-month ng-required="true" />
+                                            
+                                            Expiration Date* </br>
+                                            <input ng-model="card.exp_month" cc-exp-month ng-required="true" />
                                             <input ng-model="card.exp_year" cc-exp-year ng-required="true" />
-
-                                            <button  type="submit" >Update</button>
-                                            <button ng-click="change(3)" type="submit"> Cancel </button>
+                                            
+                                            </br>
+                                            <button  type="submit" ng-click="updateCard()" >Update</button>
+                                            <button ng-click="change(3)"> Cancel </button>
                                             
                                         </form>
                                        

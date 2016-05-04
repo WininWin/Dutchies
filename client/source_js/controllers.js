@@ -207,14 +207,59 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	$scope.phoneShow = false;
 	$scope.addressShow = false;
 	$scope.cardShow= false;
+	$scope.ErrorMsg = "";
+
+
+
+	$scope.updatePhone = function(){
+		if ($scope.TempPhone.match(/\d/g).length===10){
+			//update the phone
+			$scope.ErrorMsg = ""
+			$scope.phoneShow = false;
+			//refresh the page
+			console.log("pass");
+		}
+		else
+			$scope.ErrorMsg = "Please enter 10 digits for your phone number!";
+
+
+	}
+
+	$scope.updateAddress = function(){
+		if($scope.newaddress.zipcode.match(/\d/g).length===5){
+			//update the address
+			$scope.ErrorMsg = "";
+			$scope.addressShow = false;
+			//refresh page
+		}
+
+		else
+			$scope.ErrorMsg = " Please enter 5 digits for your zipcode!";
+
+	}
+
+	$scope.updateCard = function(){
+		//update card
+		$scope.ErrorMsg = "";
+		$scope.cardShow = false;
+		//refresh page
+	}
+
+
+
+	$scope.states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
+          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
+          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
+          "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
+          "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 
 	$scope.change = function(field){
 		if (field == 1)
-			$scope.phoneShow = true;
+			$scope.phoneShow = !$scope.phoneShow;
 		if (field == 2)
-			$scope.addressShow = true;
+			$scope.addressShow = !$scope.addressShow;
 		if (field == 3)
-			$scope.cardShow = true;
+			$scope.cardShow = !$scope.cardShow;
 	}
 
 	$scope.creditcardfourdig;
@@ -223,10 +268,12 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
     CurrentUser.getAccountInfo().success(function(data) {
 		if(data.message=="OK") {
 			$scope.user = data.data;
+			$scope.newaddress = $scope.user.address;
 			$rootScope.userdata = data.data;
 			$rootScope.account = "My Account";
-		console.log($scope.user.mobilePhone)
-			//$scope.TempPhone = $scope.user.mobilePhone;
+			$scope.TempPhone =  data.data.mobilePhone;
+
+	
 			var cardnumstring = data.data.card.number.toString();
 			if (data.data.card)
 				$scope.creditcardfourdig = '****-'+cardnumstring.substr(cardnumstring.length-4);
