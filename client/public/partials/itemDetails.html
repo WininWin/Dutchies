@@ -16,10 +16,11 @@
                      </div>
                     <section ng-show="itemdetail" class="row">
                        
+                                       
                         <div class="column small-6">
                             <p>Current Price: ${{ product.currentPrice }}</p>
-                            <p>Shipping Fee: ${{ product.shippingFee }}</p>
-                            <p>Total Price: ${{ product.shippingFee + product.currentPrice }}</p>
+                            <p>Shipping Fee: ${{ product.shipping }}</p>
+                            <p>Total Price: ${{ product.shipping + product.currentPrice }}</p>
                             <p>Watching: {{ product.usersWatching.length }} Users Watching</p>
                         </div>
                         <div class="column small-6">

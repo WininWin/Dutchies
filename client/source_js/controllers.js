@@ -48,6 +48,9 @@ webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope
 
 webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', function($scope, $state, $http,$rootScope, CommonData, CurrentUser) {
 		$scope.page = 0;
+		$scope.sortselector = 'dateCreated';
+		$scope.sortorder = 1;
+
 
 
 		$scope.PrevList = function(){
@@ -56,7 +59,7 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 
 		    $scope.page = $scope.page-1;
 		  
-		    CommonData.searchProducts($rootScope.result, $scope.page).success(function(data){
+		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
 			      $scope.search_progress = false; 
 				  $rootScope.search_products = data.data;
 				  $scope.result = true;
@@ -66,7 +69,7 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 		$scope.NextList = function(){
 		    $scope.page=$scope.page+1;
 		  
-		    CommonData.searchProducts($rootScope.result, $scope.page).success(function(data){
+		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
 		 
 		      if (data.data.length==0){
 		        $scope.page=$scope.page-1;
@@ -118,12 +121,12 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 				$state.go("app.searchresult");
 				$scope.page = 0;
 				$rootScope.result = query;
-				CommonData.searchProducts($rootScope.result).success(function(data){
+				CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder).success(function(data){
 					//console.log(data.data);	
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
 					$scope.result = true;
-					
+
 
 				});
 
@@ -135,6 +138,20 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 			}
 			
 		};
+
+		$scope.refresh = function(){
+			$scope.page = 0;
+			CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder).success(function(data){
+					//console.log(data.data);	
+					$scope.search_progress = false; 
+					$rootScope.search_products = data.data;
+					$scope.result = true;
+
+
+			});
+
+
+		}
 
 
 
