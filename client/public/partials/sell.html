@@ -13,7 +13,10 @@
 				</br>
 			</section>
 			<section class="row">
-				<div class="column small-12 small-centered">
+				<div class="row column text-center">
+					<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="list_progress"></i>
+				</div>
+				<div class="column small-12 small-centered" ng-show="selling_list">
 						<section class="row product-container" ng-repeat="item in products">
 							<div class="columns small-2 text-center small-offset thumbnail-wrapper">
 								<img class="thumbnail" data-ng-src={{item.img}}>

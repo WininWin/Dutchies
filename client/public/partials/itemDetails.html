@@ -11,7 +11,11 @@
                     <img data-ng-src="{{product.img}}"/>
                 </div>
                 <div class="column small-7">
-                    <section class="row">
+                     <div class="row column text-center">
+                        <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="detail_progress"></i>
+                     </div>
+                    <section ng-show="itemdetail" class="row">
+                       
                         <div class="column small-6">
                             <p>Current Price: ${{ product.currentPrice }}</p>
                             <p>Shipping Fee: ${{ product.shippingFee }}</p>
@@ -21,13 +25,13 @@
                         <div class="column small-6">
                             <p>Sold By: <a ui-sref="app.userDetails({user_id: item.sellerUser})">{{ product.sellerUserName }}</a></p>
                             <p>Seller Email: {{ product.sellerUserEmail }}</p>
-                            <md-button ng-click = "click_watch(userdata)" id = "watch" class="md-raised md-warn">Watch</md-button>
-                            <md-button ng-click = "click_unwatch(userdata)" id = "unwatch" class="md-raised md-primary">Unwatch</md-button>
+                            <md-button ng-click = "click_watch(userdata)" ng-show = "watch" class="md-raised md-warn">Watch</md-button>
+                            <md-button ng-click = "click_unwatch(userdata, product)" ng-show = "unwatch" class="md-raised md-primary">Unwatch</md-button>
                         </div>
                     </section>
                     <section class="row">
                         <div class="column small-12">
-                            <md-button id = "buy" class="md-raised md-warn">Buy It Now!</md-button>
+                            <md-button ng-show = "buy" class="md-raised md-warn">Buy It Now!</md-button>
                         </div>
                     </section>
                 </div>

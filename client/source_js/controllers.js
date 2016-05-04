@@ -41,12 +41,6 @@ webAppControllers.run(function($rootScope,$http,$state, CurrentUser) {
 webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope', function($scope,$state, $rootScope) {
   	
 	//After login, login button should changed to My Account
-  	if($rootScope.loggedin){
-  		$rootScope.account = "My Account";
-  	}
-  	else{
-  		$rootScope.account = "Login";
-  	}
   
 
 
@@ -154,10 +148,15 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 }]);
 
 webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$rootScope', 'CurrentUser', function($scope, $state,$http, $rootScope, CurrentUser) {
+   	$scope.purchase_list = false;
+   	$scope.list_progress = true;
+
     CurrentUser.getUserBuying().success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
-			$rootScope.account = "My Account";
+
+				$scope.purchase_list = true;
+   				$scope.list_progress = false;
 		}
     }).error(function(data){
     	$state.go("app.login");
@@ -167,10 +166,16 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
 }]);
 
 webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$window', '$rootScope', 'CurrentUser', function($scope, $state, $http, $window, $rootScope, CurrentUser) {
+	$scope.selling_list = false;
+   	$scope.list_progress = true;
+
 	CurrentUser.getUserSelling().success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
-			$rootScope.account = "My Account";
+
+			$scope.selling_list = true;
+   			$scope.list_progress = false;
+
 		}
     }).error(function(data){
     	$state.go("app.login");
@@ -180,10 +185,15 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 }]);
 
 webAppControllers.controller('WatchingController', ['$scope', '$state', '$http', '$rootScope', 'CurrentUser', function($scope, $state, $http,$rootScope, CurrentUser) {
+    $scope.watching_list = false;
+   	$scope.list_progress = true;
+
     CurrentUser.getUserWatching().success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
-			$rootScope.account = "My Account";
+
+			 $scope.watching_list = true;
+   			$scope.list_progress = false;
 		}
     }).error(function(data){
     	$state.go("app.login");
@@ -297,9 +307,15 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 
 webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$rootScope', 'CurrentUser', '$stateParams', function($scope, $state, $rootScope, CurrentUser, $stateParams) {
 
-	$('#watch').hide();
-	$('#unwatch').hide();
+	// $('#watch').hide();
+	// $('#unwatch').hide();
 	var seller = 0;
+
+	$scope.watch = false;
+	$scope.unwatch = false;
+	$scope.itemdetail = false; 
+	$scope.buy = false;
+	$scope.detail_progress =true; 
 		
 
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
@@ -307,32 +323,28 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 		if(data.message=="OK") {
 			$scope.product = data.data;
+		
 
-			if($scope.product.sellerUser == $rootScope.userdata._id){
-				$('#watch').hide();
-				$('#unwatch').hide();
-				$('#buy').hide();
-				seller = 1;
-			}
-		}
-	});
+			if(typeof $rootScope.userdata != 'undefined' && ($scope.product).sold==false){
+				if($scope.product.sellerUser == $rootScope.userdata._id){
+			
+						seller = 1;
+				}
+			
 
-	if($rootScope.userdata != undefined){
-		CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
-		//	console.log(data);
-			$scope.userdata = data.data;
-			//If user is already watching the product, the user does need watch button.
-				if($scope.userdata!=undefined){
+				CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
+	
+				$scope.userdata = data.data;
+				//If user is already watching the product, the user does need watch button.
+				if(typeof $scope.userdata!='undefined'){
 					if(($scope.userdata.productsWatching).indexOf($stateParams.item_id) != -1){
 						
-						$('#watch').hide();
-						$('#unwatch').show();
+						$scope.unwatch = true;
 					}				
 					else{
 					
-						$('#unwatch').hide();
 						if(!seller){
-							$('#watch').show();
+							$scope.watch = true; 
 						}
 						
 					}
@@ -340,7 +352,15 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 
 		});
-	}
+			}	
+
+		}
+
+		$scope.detail_progress = false;
+		$scope.itemdetail = true; 
+	});
+
+	
 	
 
 	
@@ -352,8 +372,8 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		(userdata.productsWatching).push($stateParams.item_id);
 
 		CurrentUser.editUserinfo(userdata._id, userdata).success(function(data) {
-			$('#watch').hide();
-			$('#unwatch').show();
+			$scope.watch = false;
+			$scope.unwatch = true;
 		});
 
 		//push to the product's user list 
@@ -366,28 +386,28 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 	};
 
-	$scope.click_unwatch = function(userdata){
+	$scope.click_unwatch = function(userdata, item){
 
 		//find item index in user's watching list
 		var item_index = (userdata.productsWatching).indexOf($stateParams.item_id);
 
 		//find user index in product's user list
-		var user_index = ($scope.product.usersWatching).indexOf(userdata._id);
+		var user_index = (item.usersWatching).indexOf(userdata._id);
 
 		//update the info
 		if (item_index > -1) {
 			    (userdata.productsWatching).splice(item_index, 1);
 		}
 		if(user_index > -1){
-			($scope.product.usersWatching).splice(user_index, 1);
+			(item.usersWatching).splice(user_index, 1);
 		}
 
 		CurrentUser.editUserinfo(userdata._id, userdata).success(function(data) {
-			$('#watch').show();
-			$('#unwatch').hide();
+			$scope.watch = true;
+			$scope.unwatch = false;
 		});
 
-		CurrentUser.editProductinfo($scope.product._id, $scope.product).success(function(data) {
+		CurrentUser.editProductinfo(item._id, $scope.product).success(function(data) {
 			console.log("UnWatched");
 		});
 
