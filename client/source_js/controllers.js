@@ -50,6 +50,7 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 		$scope.page = 0;
 		$scope.sortselector = 'dateCreated';
 		$scope.sortorder = 1;
+		$scope.query= '';
 
 
 
@@ -114,10 +115,10 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 
 
 		$scope.search = function(query){
-			
+
 			$scope.search_progress = true; 
 			$scope.result = false;
-			if(typeof query != 'undefined' && query != " "){
+			if(typeof query != 'undefined' && query != ""){
 				$state.go("app.searchresult");
 				$scope.page = 0;
 				$rootScope.result = query;
