@@ -20,8 +20,9 @@ webAppServices.factory('CommonData', function($http){
 			random = Math.floor(Math.random() * (count - num + 1));
 			return $http.get('/api/products?where={sold:false}&sort={dateCreated:1}&limit=' + num + '&skip=' + random);
 		},
-		searchProducts : function(query) {
-			return $http.get('/api/products?where={name:{$in:[/'+query+'/i]},sold:false}');
+		searchProducts : function(query,page) {
+			var skipnum  = 10*page;
+			return $http.get('/api/products?where={name:{$in:[/'+query+'/i]},sold:false}&skip='+skipnum+'&limit=10');
 		}
     }
 });
@@ -37,14 +38,19 @@ webAppServices.factory('CurrentUser', function($http) {
 		getAllUser : function() {
 			return $http.get('/api/users?select={"email":1,"_id":0}');
 		},
-		getUserBuying : function() {
-			return $http.get('/auth/products/buying');
+		getUserBuying : function(page) {
+			var skipnum  = 10*page;
+			return $http.get('/auth/products/buying?skip='+skipnum+'&limit=10');
 		},
-		getUserSelling : function() {
-			return $http.get('/auth/products/selling');
+		getUserSelling : function(page) {
+			var skipnum  = 10*page;
+
+			return $http.get('/auth/products/selling?skip='+skipnum+'&limit=10');
 		},
-		getUserWatching : function() {
-			return $http.get('/auth/products/watching');
+		getUserWatching : function(page) {
+			var skipnum  = 10*page;
+			
+			return $http.get('/auth/products/watching?skip='+skipnum+'&limit=10');
 		},
 		getAccountInfo : function() {
 			return $http.get('/auth/user');

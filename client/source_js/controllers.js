@@ -47,6 +47,37 @@ webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope
 }]);
 
 webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', function($scope, $state, $http,$rootScope, CommonData, CurrentUser) {
+		$scope.page = 0;
+
+
+		$scope.PrevList = function(){
+		    if ($scope.page == 0)
+		      return;
+
+		    $scope.page = $scope.page-1;
+		  
+		    CommonData.searchProducts($rootScope.result, $scope.page).success(function(data){
+			      $scope.search_progress = false; 
+				  $rootScope.search_products = data.data;
+				  $scope.result = true;
+		    });
+		};
+
+		$scope.NextList = function(){
+		    $scope.page=$scope.page+1;
+		  
+		    CommonData.searchProducts($rootScope.result, $scope.page).success(function(data){
+		 
+		      if (data.data.length==0){
+		        $scope.page=$scope.page-1;
+		        return;
+		      }
+		      $scope.search_progress = false; 
+			  $rootScope.search_products = data.data;
+			  $scope.result = true;
+		    });
+
+		};
 
 
 		$scope.progress = [];
@@ -85,6 +116,7 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 			$scope.result = false;
 			if(typeof query != 'undefined' && query != " "){
 				$state.go("app.searchresult");
+				$scope.page = 0;
 				$rootScope.result = query;
 				CommonData.searchProducts($rootScope.result).success(function(data){
 					//console.log(data.data);	
@@ -151,7 +183,35 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
    	$scope.purchase_list = false;
    	$scope.list_progress = true;
 
-    CurrentUser.getUserBuying().success(function(data) {
+   	$scope.page = 0;
+
+   	$scope.PrevList = function(){
+	    if ($scope.page == 0)
+	      return;
+
+	    $scope.page = $scope.page-1;
+	  
+	    CurrentUser.getUserBuying($scope.page).success(function(data){
+	      $scope.products = data.data;
+	    });
+	};
+
+	$scope.NextList = function(){
+	    $scope.page=$scope.page+1;
+	  
+	    CurrentUser.getUserBuying($scope.page).success(function(data){
+	 
+	      if (data.data.length==0){
+	        $scope.page=$scope.page-1;
+	        return;
+	      }
+	      $scope.products = data.data;
+	    });
+
+	};
+
+
+    CurrentUser.getUserBuying($scope.page).success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
 
@@ -169,7 +229,35 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 	$scope.selling_list = false;
    	$scope.list_progress = true;
 
-	CurrentUser.getUserSelling().success(function(data) {
+   	$scope.page = 0;
+
+   	$scope.PrevList = function(){
+	    if ($scope.page == 0)
+	      return;
+
+	    $scope.page = $scope.page-1;
+	  
+	    CurrentUser.getUserSelling($scope.page).success(function(data){
+	      $scope.products = data.data;
+	    });
+	};
+
+	$scope.NextList = function(){
+	    $scope.page=$scope.page+1;
+	  
+	    CurrentUser.getUserSelling($scope.page).success(function(data){
+	 
+	      if (data.data.length==0){
+	        $scope.page=$scope.page-1;
+	        return;
+	      }
+	      $scope.products = data.data;
+	    });
+
+	};
+
+
+	CurrentUser.getUserSelling($scope.page).success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
 
@@ -188,7 +276,35 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
     $scope.watching_list = false;
    	$scope.list_progress = true;
 
-    CurrentUser.getUserWatching().success(function(data) {
+   	$scope.page = 0;
+   	
+   	$scope.PrevList = function(){
+	    if ($scope.page == 0)
+	      return;
+
+	    $scope.page = $scope.page-1;
+	  
+	    CurrentUser.getUserWatching($scope.page).success(function(data){
+	      $scope.products = data.data;
+	    });
+	};
+
+	$scope.NextList = function(){
+	    $scope.page=$scope.page+1;
+	  
+	    CurrentUser.getUserWatching($scope.page).success(function(data){
+	 
+	      if (data.data.length==0){
+	        $scope.page=$scope.page-1;
+	        return;
+	      }
+	      $scope.products = data.data;
+	    });
+
+	};
+
+
+    CurrentUser.getUserWatching($scope.page).success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
 
