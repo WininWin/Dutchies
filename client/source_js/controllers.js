@@ -47,6 +47,41 @@ webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope
 }]);
 
 webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', function($scope, $state, $http,$rootScope, CommonData, CurrentUser) {
+		$scope.page = 0;
+		$scope.sortselector = 'dateCreated';
+		$scope.sortorder = 1;
+		$scope.query= '';
+
+
+
+		$scope.PrevList = function(){
+		    if ($scope.page == 0)
+		      return;
+
+		    $scope.page = $scope.page-1;
+		  
+		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
+			      $scope.search_progress = false; 
+				  $rootScope.search_products = data.data;
+				  $scope.result = true;
+		    });
+		};
+
+		$scope.NextList = function(){
+		    $scope.page=$scope.page+1;
+		  
+		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
+		 
+		      if (data.data.length==0){
+		        $scope.page=$scope.page-1;
+		        return;
+		      }
+		      $scope.search_progress = false; 
+			  $rootScope.search_products = data.data;
+			  $scope.result = true;
+		    });
+
+		};
 
 
 		$scope.progress = [];
@@ -80,18 +115,19 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 
 
 		$scope.search = function(query){
-			
+
 			$scope.search_progress = true; 
 			$scope.result = false;
-			if(typeof query != 'undefined' && query != " "){
+			if(typeof query != 'undefined' && query != ""){
 				$state.go("app.searchresult");
+				$scope.page = 0;
 				$rootScope.result = query;
-				CommonData.searchProducts($rootScope.result).success(function(data){
+				CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder).success(function(data){
 					//console.log(data.data);	
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
 					$scope.result = true;
-					
+
 
 				});
 
@@ -103,6 +139,20 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 			}
 			
 		};
+
+		$scope.refresh = function(){
+			$scope.page = 0;
+			CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder).success(function(data){
+					//console.log(data.data);	
+					$scope.search_progress = false; 
+					$rootScope.search_products = data.data;
+					$scope.result = true;
+
+
+			});
+
+
+		}
 
 
 
@@ -151,7 +201,35 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
    	$scope.purchase_list = false;
    	$scope.list_progress = true;
 
-    CurrentUser.getUserBuying().success(function(data) {
+   	$scope.page = 0;
+
+   	$scope.PrevList = function(){
+	    if ($scope.page == 0)
+	      return;
+
+	    $scope.page = $scope.page-1;
+	  
+	    CurrentUser.getUserBuying($scope.page).success(function(data){
+	      $scope.products = data.data;
+	    });
+	};
+
+	$scope.NextList = function(){
+	    $scope.page=$scope.page+1;
+	  
+	    CurrentUser.getUserBuying($scope.page).success(function(data){
+	 
+	      if (data.data.length==0){
+	        $scope.page=$scope.page-1;
+	        return;
+	      }
+	      $scope.products = data.data;
+	    });
+
+	};
+
+
+    CurrentUser.getUserBuying($scope.page).success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
 
@@ -169,7 +247,35 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 	$scope.selling_list = false;
    	$scope.list_progress = true;
 
-	CurrentUser.getUserSelling().success(function(data) {
+   	$scope.page = 0;
+
+   	$scope.PrevList = function(){
+	    if ($scope.page == 0)
+	      return;
+
+	    $scope.page = $scope.page-1;
+	  
+	    CurrentUser.getUserSelling($scope.page).success(function(data){
+	      $scope.products = data.data;
+	    });
+	};
+
+	$scope.NextList = function(){
+	    $scope.page=$scope.page+1;
+	  
+	    CurrentUser.getUserSelling($scope.page).success(function(data){
+	 
+	      if (data.data.length==0){
+	        $scope.page=$scope.page-1;
+	        return;
+	      }
+	      $scope.products = data.data;
+	    });
+
+	};
+
+
+	CurrentUser.getUserSelling($scope.page).success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
 
@@ -188,7 +294,35 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
     $scope.watching_list = false;
    	$scope.list_progress = true;
 
-    CurrentUser.getUserWatching().success(function(data) {
+   	$scope.page = 0;
+   	
+   	$scope.PrevList = function(){
+	    if ($scope.page == 0)
+	      return;
+
+	    $scope.page = $scope.page-1;
+	  
+	    CurrentUser.getUserWatching($scope.page).success(function(data){
+	      $scope.products = data.data;
+	    });
+	};
+
+	$scope.NextList = function(){
+	    $scope.page=$scope.page+1;
+	  
+	    CurrentUser.getUserWatching($scope.page).success(function(data){
+	 
+	      if (data.data.length==0){
+	        $scope.page=$scope.page-1;
+	        return;
+	      }
+	      $scope.products = data.data;
+	    });
+
+	};
+
+
+    CurrentUser.getUserWatching($scope.page).success(function(data) {
 		if(data.message=="OK") {
 			$scope.products = data.data;
 
@@ -207,14 +341,60 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	$scope.phoneShow = false;
 	$scope.addressShow = false;
 	$scope.cardShow= false;
+	$scope.ErrorMsg = "";
+
+
+
+	$scope.updatePhone = function(){
+		if ($scope.TempPhone.match(/\d/g).length===10){
+			//update the phone
+			$scope.ErrorMsg = ""
+			$scope.phoneShow = false;
+			//refresh the page
+			console.log("pass");
+		}
+		else
+			$scope.ErrorMsg = "Please enter 10 digits for your phone number!";
+
+
+	}
+
+	$scope.updateAddress = function(){
+		if($scope.newaddress.zipcode.match(/\d/g).length===5){
+			$scope.newaddress.zipcode = parseInt($scope.newaddress.zipcode);
+			//update the address
+			$scope.ErrorMsg = "";
+			$scope.addressShow = false;
+			//refresh page
+		}
+
+		else
+			$scope.ErrorMsg = " Please enter 5 digits for your zipcode!";
+
+	}
+
+	$scope.updateCard = function(){
+		//update card
+		$scope.ErrorMsg = "";
+		$scope.cardShow = false;
+		//refresh page
+	}
+
+
+
+	$scope.states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
+          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
+          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
+          "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
+          "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 
 	$scope.change = function(field){
 		if (field == 1)
-			$scope.phoneShow = true;
+			$scope.phoneShow = !$scope.phoneShow;
 		if (field == 2)
-			$scope.addressShow = true;
+			$scope.addressShow = !$scope.addressShow;
 		if (field == 3)
-			$scope.cardShow = true;
+			$scope.cardShow = !$scope.cardShow;
 	}
 
 	$scope.creditcardfourdig;
@@ -223,10 +403,13 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
     CurrentUser.getAccountInfo().success(function(data) {
 		if(data.message=="OK") {
 			$scope.user = data.data;
+			$scope.newaddress = $scope.user.address;
+			$scope.newaddress.zipcode = $scope.newaddress.zipcode.toString();
 			$rootScope.userdata = data.data;
 			$rootScope.account = "My Account";
-		console.log($scope.user.mobilePhone)
-			//$scope.TempPhone = $scope.user.mobilePhone;
+			$scope.TempPhone =  data.data.mobilePhone;
+
+	
 			var cardnumstring = data.data.card.number.toString();
 			if (data.data.card)
 				$scope.creditcardfourdig = '****-'+cardnumstring.substr(cardnumstring.length-4);
@@ -279,7 +462,7 @@ webAppControllers.controller('CreateItemController', ['$scope', '$state', 'Curre
 	
 	$scope.product;
 	$scope.createItem = function (product) {
-		console.log($scope.product.img);
+		
 		// CurrentUser.createListing(product).success(function(data) {
 		// 	if (data.message == "OK") {
 		// 		$state.go("app.sell");

@@ -4,9 +4,9 @@
         	<form name="itemForm" novalidate>
                 <section class="row">
                 	<div class="column small-5">
-                    <img data-ng-src="{{product.img}}">
-                    </br>
-                    <input type="file" accept="image/*" fileread="product.img" />
+                        <img data-ng-src="{{product.img}}">
+                        </br>
+                        <input type="file" accept="image/*" fileread="product.img" />
         			</div>
             		<div class="column small-7">
                         <div class="form-group">
@@ -31,7 +31,8 @@
                 	<div class="column small-12">
                 		<div class="form-group">
                         	<label>Product Description:</label>
-        					<input type="text" class="form-control" name="password" ng-model="product.description"/>
+        					<<textarea rows="4" cols="50" ng-model="product.description"/>
+                            </textarea>
                         </div>
                 	</div>
                 </section>
