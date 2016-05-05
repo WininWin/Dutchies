@@ -61,6 +61,7 @@ module.exports = function(app, passport, User, Product, fs) {
 
 	/* get all the products that the logged in user is watching */
 	app.get('/auth/products/watching', isLoggedIn, function(req, res) {
+		console.log(req.user._id);
 		Product.find({"usersWatching":req.user._id})
 		.sort(getParam(req.query.sort))
 		.select(getParam(req.query.select))
@@ -116,19 +117,67 @@ module.exports = function(app, passport, User, Product, fs) {
 
 	// user wants to watch an item
 	app.put('/auth/products/watch/:id',isLoggedIn,function(req,res){
+		console.log("start watch");
 		User.findById(req.user._id,function(error,result){
 			if(error || result==null) {
+				console.log("watch Failed")
 				res.status(404);
 				res.json({"message":"User not found","data":[]});
 			}
 			else {
+				console.log("finded user")
 				// add the item to their watched items
 				result.productsWatching.push(req.params.id);
 				result.save(function(error){
 					// now update the product
-					Product.findById(req.params._id,function(error,result2){
-						result2.usersWatching.push(req.user._id);
+					console.log(req.params.id);
+					Product.findById(req.params.id,function(error,result2){
+						if (result2.usersWatching = null)
+							result2.usersWatching.push(req.user._id);
+						else{
+							result2.usersWatching = [];
+							result2.usersWatching.push(req.user._id);
+						}
 						result2.numUsersWatching += 1;
+						result2.save(function(error){
+							res.status(200);
+							res.json({"message":"OK","data":result})
+						})
+					})
+				})
+			}
+		})
+	})
+
+
+	app.put('/auth/products/unwatch/:id',isLoggedIn,function(req,res){
+		console.log("start unwatch");
+		User.findById(req.user._id,function(error,result){
+			if(error || result==null) {
+				console.log("unwatch Failed")
+				res.status(404);
+				res.json({"message":"User not found","data":[]});
+			}
+			else {
+				console.log("finded user")
+				// add the item to their watched items
+				//result.productsWatching.push(req.params.id);
+				var index = result.productsWatching.indexOf(req.params.id);
+				result.productsWatching.splice(index,1);
+
+				result.save(function(error){
+					// now update the product
+					Product.findById(req.params.id,function(error,result2){
+						
+						if (result2.usersWatching != null){
+							var index2 = result2.usersWatching.indexOf(req.user._id);
+							result2.usersWatching.splice(index2,1);
+							result2.numUsersWatching -= 1;
+						}
+						else{
+							console.log("this cannot be happen!!!!!!!!!!NO WAY!!");
+						}
+						
 						result2.save(function(error){
 							res.status(200);
 							res.json({"message":"OK","data":result})

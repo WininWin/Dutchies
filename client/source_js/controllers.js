@@ -319,11 +319,6 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 
 		}
 
-		$scope.watchButton = function(productid){
-			CurrentUser.watchProduct(productid);
-		}
-
-
 
 }]);
 
@@ -564,7 +559,7 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 		if(data.message=="OK") {
 			$scope.products = data.data;
 
-			 $scope.watching_list = true;
+			$scope.watching_list = true;
    			$scope.list_progress = false;
    			$scope.prevDisabled = true;
    			if ($scope.products.length < 10)
@@ -578,6 +573,19 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
     }).error(function(data){
     	$state.go("app.login");
     });
+
+    $scope.unwatch_refresh = function(productid){
+    	console.log(productid);
+    	for(var i=0; i<$scope.products.length; i++){
+    		if ($scope.products[i]._id == productid){
+    			$scope.products.splice(i,1);
+    			break;
+    		}
+    	}
+    	CurrentUser.unwatchProduct(productid);
+
+
+    }
 
 }]);
 
@@ -765,12 +773,14 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		
 
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
-		
 
+		console.log("get!!")
+		
 		if(data.message=="OK") {
 			$scope.product = data.data;
+			console.log(data.data);
 
-
+			console.log($rootScope.userdata);
 			if(typeof $rootScope.userdata != 'undefined' && ($scope.product).sold==false){
 				if($scope.product.sellerUser == $rootScope.userdata._id){
 			
@@ -779,16 +789,18 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 			
 
 				CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
+				console.log(data.data);
 	
 				$scope.userdata = data.data;
+
 				//If user is already watching the product, the user does need watch button.
 				if(typeof $scope.userdata!='undefined'){
 					if(($scope.userdata.productsWatching).indexOf($stateParams.item_id) != -1){
-						
+						console.log("watched")
 						$scope.unwatch = true;
 					}				
 					else{
-					
+						console.log("not watched")
 						if(!seller){
 							$scope.watch = true; 
 						}
@@ -813,52 +825,16 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 	$scope.click_watch = function(productid){
 
-		
-		// //push to the user's watching list
-		// (userdata.productsWatching).push($stateParams.item_id);
-
-		// CurrentUser.editUserinfo(userdata).success(function(data) {
-		// 	$scope.watch = false;
-		// 	$scope.unwatch = true;
-		// });
-
-		// //push to the product's user list 
-		// ($scope.product.usersWatching).push(userdata._id);
-
-		// CurrentUser.editProductinfo($scope.product._id, $scope.product).success(function(data) {
-		// 	console.log("Watched");
-		// });
 		CurrentUser.watchProduct(productid);
+		$scope.watch = false;
+		$scope.unwatch = true;
 
 	};
 
-	$scope.click_unwatch = function(userdata, item){
-
-		//find item index in user's watching list
-		var item_index = (userdata.productsWatching).indexOf($stateParams.item_id);
-
-		//find user index in product's user list
-		var user_index = (item.usersWatching).indexOf(userdata._id);
-
-		//update the info
-		if (item_index > -1) {
-			    (userdata.productsWatching).splice(item_index, 1);
-		}
-		if(user_index > -1){
-			(item.usersWatching).splice(user_index, 1);
-		}
-
-		CurrentUser.editUserinfo(userdata).success(function(data) {
-			$scope.watch = true;
-			$scope.unwatch = false;
-		});
-
-		CurrentUser.editProductinfo(item._id, $scope.product).success(function(data) {
-			console.log("UnWatched");
-		});
-
-
-
+	$scope.click_unwatch = function(productid){
+		CurrentUser.unwatchProduct(productid);
+		$scope.watch = true;
+		$scope.unwatch = false;
 	};
 
 

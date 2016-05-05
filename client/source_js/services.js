@@ -129,7 +129,12 @@ webAppServices.factory('CurrentUser', function($http) {
 			return $http.put('api/products/' + productid, data);
 		},
 		watchProduct : function(productid) {
-			return $http.put('/auth/products/watch/' + productid,"");	
+			console.log(productid);
+			return $http.put('/auth/products/watch/' + productid);	
+		},
+		unwatchProduct : function(productid){
+			console.log(productid);
+			return $http.put('/auth/products/unwatch/' + productid);
 		}
 
 	}
