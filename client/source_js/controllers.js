@@ -55,30 +55,44 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 
 
 		$scope.PrevList = function(){
-		    if ($scope.page == 0)
-		      return;
+		    if ($scope.page == 0) {
+		    	$scope.prevDisabled = true;
+		    	return;
+		    }
 
+			$scope.search_progress = true; 
+			$scope.result = false;
 		    $scope.page = $scope.page-1;
 		  
 		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
 			      $scope.search_progress = false; 
 				  $rootScope.search_products = data.data;
 				  $scope.result = true;
+				  $scope.nextDisabled = false;
+
 		    });
 		};
 
 		$scope.NextList = function(){
+			$scope.prevDisabled = false;
 		    $scope.page=$scope.page+1;
-		  
+		  	$scope.search_progress = true; 
+			$scope.result = false;
 		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
 		 
-		      if (data.data.length==0){
-		        $scope.page=$scope.page-1;
-		        return;
-		      }
-		      $scope.search_progress = false; 
-			  $rootScope.search_products = data.data;
-			  $scope.result = true;
+				if (data.data.length==0){
+					$scope.page=$scope.page-1;
+					return;
+				}
+				$scope.search_progress = false; 
+				$rootScope.search_products = data.data;
+				$scope.result = true;
+				if ($scope.search_products.length < 10)
+					$scope.nextDisabled = true;
+				else {
+					$scope.nextDisabled = false;
+					$rootScope.search_products.pop();
+				}
 		    });
 
 		};
@@ -115,7 +129,7 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 
 
 		$scope.search = function(query){
-
+			$scope.prevDisabled = true;
 			$scope.search_progress = true; 
 			$scope.result = false;
 			if(typeof query != 'undefined' && query != ""){
@@ -127,7 +141,13 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
 					$scope.result = true;
-
+					console.log($rootScope.search_products.length);
+					if ($scope.search_products.length < 10)
+						$scope.nextDisabled = true;
+					else {
+						$scope.nextDisabled = false;
+						$rootScope.search_products.pop();
+					}
 
 				});
 
@@ -142,12 +162,20 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 
 		$scope.refresh = function(){
 			$scope.page = 0;
+			$scope.search_progress = true; 
+			$scope.result = false;
+			$scope.prevDisabled = true;
 			CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder).success(function(data){
 					//console.log(data.data);	
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
 					$scope.result = true;
-
+					if ($scope.search_products.length < 10)
+						$scope.nextDisabled = true;
+					else {
+						$scope.nextDisabled = false;
+						$rootScope.search_products.pop();
+					}
 
 			});
 
@@ -204,26 +232,40 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
    	$scope.page = 0;
 
    	$scope.PrevList = function(){
-	    if ($scope.page == 0)
-	      return;
+	    if ($scope.page == 0) {
+	    	$scope.prevDisabled = true;
+	    	return;
+	    }
 
 	    $scope.page = $scope.page-1;
-	  
+	  	$scope.purchase_list = false;
+   		$scope.list_progress = true;
 	    CurrentUser.getUserBuying($scope.page).success(function(data){
-	      $scope.products = data.data;
+	    	$scope.products = data.data;
+	    	$scope.purchase_list = true;
+   			$scope.list_progress = false;
 	    });
 	};
 
 	$scope.NextList = function(){
 	    $scope.page=$scope.page+1;
-	  
+	  	$scope.purchase_list = false;
+   		$scope.list_progress = true;
+   		$scope.prevDisabled = false;
 	    CurrentUser.getUserBuying($scope.page).success(function(data){
-	 
-	      if (data.data.length==0){
-	        $scope.page=$scope.page-1;
-	        return;
-	      }
-	      $scope.products = data.data;
+	 		$scope.purchase_list = true;
+   			$scope.list_progress = false;
+		    if (data.data.length==0){
+		        $scope.page=$scope.page-1;
+		        return;
+		    }
+		    $scope.products = data.data;
+		    if ($scope.products.length < 10)
+				$scope.nextDisabled = true;
+			else {
+				$scope.nextDisabled = false;
+				$scope.products.pop();
+			}
 	    });
 
 	};
@@ -235,6 +277,13 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
 
 				$scope.purchase_list = true;
    				$scope.list_progress = false;
+   				$scope.prevDisabled = true;
+   				if ($scope.products.length < 10)
+						$scope.nextDisabled = true;
+				else {
+					$scope.nextDisabled = false;
+					$scope.products.pop();
+				}
 		}
     }).error(function(data){
     	$state.go("app.login");
@@ -250,26 +299,40 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
    	$scope.page = 0;
 
    	$scope.PrevList = function(){
-	    if ($scope.page == 0)
-	      return;
-
+	    if ($scope.page == 0) {
+	    	$scope.prevDisabled = true;
+	    	return;
+	    }
+	  	$scope.selling_list = false;
+   		$scope.list_progress = true;
 	    $scope.page = $scope.page-1;
 	  
 	    CurrentUser.getUserSelling($scope.page).success(function(data){
-	      $scope.products = data.data;
+	    	$scope.products = data.data;
+		    $scope.selling_list = true;
+	   		$scope.list_progress = false;
 	    });
 	};
 
 	$scope.NextList = function(){
 	    $scope.page=$scope.page+1;
-	  
+	  	$scope.selling_list = false;
+   		$scope.list_progress = true;
+   		$scope.prevDisabled = false;
 	    CurrentUser.getUserSelling($scope.page).success(function(data){
-	 
-	      if (data.data.length==0){
-	        $scope.page=$scope.page-1;
-	        return;
-	      }
-	      $scope.products = data.data;
+	 		$scope.selling_list = true;
+   			$scope.list_progress = false;
+	    	if (data.data.length==0){
+	    	  $scope.page=$scope.page-1;
+	    	  return;
+	    	}
+	    	$scope.products = data.data;
+	    	if ($scope.products.length < 10)
+				$scope.nextDisabled = true;
+			else {
+				$scope.nextDisabled = false;
+				$scope.products.pop();
+			}
 	    });
 
 	};
@@ -281,7 +344,13 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 
 			$scope.selling_list = true;
    			$scope.list_progress = false;
-
+   			$scope.prevDisabled = true;
+			if ($scope.products.length < 10)
+					$scope.nextDisabled = true;
+			else {
+				$scope.nextDisabled = false;
+				$scope.products.pop();
+			}
 		}
     }).error(function(data){
     	$state.go("app.login");
@@ -297,26 +366,40 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
    	$scope.page = 0;
    	
    	$scope.PrevList = function(){
-	    if ($scope.page == 0)
-	      return;
-
+	    if ($scope.page == 0) {
+	    	$scope.prevDisabled = true;
+	    	return;
+	    }
+	    $scope.watching_list = false;
+   		$scope.list_progress = true;
 	    $scope.page = $scope.page-1;
 	  
 	    CurrentUser.getUserWatching($scope.page).success(function(data){
-	      $scope.products = data.data;
+	    	$scope.products = data.data;
+	    	$scope.watching_list = true;
+   			$scope.list_progress = false;
 	    });
 	};
 
 	$scope.NextList = function(){
 	    $scope.page=$scope.page+1;
-	  
+		$scope.watching_list = false;
+   		$scope.list_progress = true;
+   		$scope.prevDisabled = false;
 	    CurrentUser.getUserWatching($scope.page).success(function(data){
-	 
-	      if (data.data.length==0){
-	        $scope.page=$scope.page-1;
-	        return;
-	      }
-	      $scope.products = data.data;
+	 		$scope.watching_list = true;
+   			$scope.list_progress = false;
+	    	if (data.data.length==0){
+	    	  $scope.page=$scope.page-1;
+	    	  return;
+	    	}
+	    	$scope.products = data.data;
+	    	if ($scope.products.length < 10)
+				$scope.nextDisabled = true;
+			else {
+				$scope.nextDisabled = false;
+				$scope.products.pop();
+			}
 	    });
 
 	};
@@ -328,6 +411,14 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 
 			 $scope.watching_list = true;
    			$scope.list_progress = false;
+   			$scope.prevDisabled = true;
+   			if ($scope.products.length < 10)
+				$scope.nextDisabled = true;
+			else {
+				$scope.nextDisabled = false;
+				$scope.products.pop();
+			}
+
 		}
     }).error(function(data){
     	$state.go("app.login");

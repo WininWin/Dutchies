@@ -27,12 +27,17 @@
 							</div>
 							<div class="columns small-2 small-centered">
 								</br>
-								<md-button class = "md-raised md-warn">Pay</button>
+								<md-button class = "md-raised md-warn">Pay</md-button>
 							</div>
 						</div>
 					</div>
-					<button ng-click="PrevList()" class="button">Prev</button>
-					<button ng-click="NextList()" class="button">Next</button>
+				</div>
+			</section>
+			<section class="row">
+				<div class="column small-3 small-centered text-centered">
+					</br>
+					<md-button class="md-raised md-accent md-hue-1>" ng-click="PrevList()" ng-disabled="prevDisabled" ng-show="purchase_list">Prev</md-button>
+					<md-button class="md-raised md-accent md-hue-1>" ng-click="NextList()" ng-disabled="nextDisabled" ng-show="purchase_list">Next</md-button>
 				</div>
 			</section>
 		</div>
