@@ -1,26 +1,13 @@
 <div ng-controller='SearchController'>		
-	<section class="row view-container">
+	<section class="row view-container-no-border">
 		<div class="column small-12"> 
-			<form>
-			<section class="row">
-				<div class="small-10 small-centered text-center columns">
-					<label><h2>Find Your Product</h2></label></br>
-					<input name = "search_input" type="text" ng-model = "query" ng-minlength="1">
-				</div>
-			</section>
-			<section class="row">
-				<div class="column small-2 small-centered text-center">
-					<md-button class = "md-raised md-accent md-hue-1" type="submit" ng-click="search(query)">Search</md-button>
-				</div>
-			</section>
-			</form>
 			<section class="row">
 				<div class="column small-12 text-center">
-					</br><h4>Search Results</h4></br>
+					</br><h3>Search Results for "{{ query }}"...</h3></br>
 				</div>
 			</section>
 			<section class="row">
-				<div class="column small-10 small-centered" ng-show="result">
+				<div class="column small-12 small-centered" ng-show="result">
 					<h5>Sort By:</h5>
                     <select ng-change="refresh()" ng-model="sortselector">
                       <option value="dateCreated">Date Created</option>
@@ -39,6 +26,7 @@
 				<div class="row column text-center">
 					<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="search_progress"></i>
 				</div>
+				</br>
 			</section>
 			<section class="row" ng-show="result">
 				<div class="column small-12 small-centered">
@@ -55,10 +43,6 @@
 								<a class="md-accent md-hue-1" ui-sref="app.userDetails({user_id: item.sellerUser})">
 									<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
 								</a>
-							</div>
-							<div class="columns small-2 small-centered">
-								</br>
-								<md-button class="md-raised md-warn">Watch</md-button>
 							</div>
 						</div>
 					</div>

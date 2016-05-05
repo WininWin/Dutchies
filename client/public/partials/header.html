@@ -27,15 +27,19 @@
 			</ul>
 		</div>	
 	</div>-->
-	<md-toolbar md-scroll-shrink ng-if="true">
+	<md-toolbar class="md-tall" layout="column">
 		<div class="md-toolbar-tools">
 			<img src="/data/images/logo.png"/ ui-sref="app" class="header-logo">
 			<!-- <md-button class="nav-button" ui-sref="app">Dutchies</md-button> -->
-			<span flex=""></span>
+			<span flex="auto"></span>
 			<md-button class="nav-button" ui-sref-active="active-state" ui-sref="app.buy">Purchased</md-button>
 			<md-button class="nav-button" ui-sref-active="active-state" ui-sref="app.sell">Your Auctions</md-button>
 			<md-button class="nav-button" ui-sref-active="active-state" ui-sref="app.watching">Watching</md-button>
 			<md-button class="nav-button" ui-sref-active="active-state" ui-sref="app.account">My Account</md-button>
+		</div>
+		<div class="md-toolbar-tools md-toolbar-tools-bottom">
+				<input name = "search_input" type="text" ng-model = "query" ng-minlength="1" placeholder="Search products..." class="searchinput">
+				<button class="button searchbutton" type="submit" ng-click="search(query)"><i class="fa fa-search" aria-hidden="true"></i></button>
 		</div>
 	</md-toolbar>
 

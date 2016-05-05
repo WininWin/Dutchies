@@ -1,24 +1,8 @@
 <div ng-controller='ContentController'>		
-	<section class="row view-container">
+	<section class="row view-container-no-border">
 		<div class="column small-12">
-			<div class="row">
-			<form>
-				<section class="row">
-					<div class="small-10 small-centered text-center columns">
-						<label><h2>Find Your Product</h2></label></br>
-						<input name = "search_input" type="text" ng-model = "query" ng-minlength="1"> 
-						<span id="warning"></span>
-					</div>
-				</section>
-				<section class="row">
-					<div class="column small-2 small-centered text-center">
-						<md-button class = "md-raised md-accent md-hue-1"  type="submit" ng-click="search(query)">Search</button>
-					</div>
-				</section>
-			</form>
-			</div>
-			<div class="row column text-center">
-				</br><h3>Recently Added</h3>
+			<div class="row column">
+				</br><h5>Recently Added</h5>
 				  <hr>
 			</div>
 			<div class="row column text-center">
@@ -34,8 +18,8 @@
 				</div>
 			</div>
 			<hr>
-			<div class="row column text-center">
-				<h3>Most Popular Products</h3>
+			<div class="row column">
+				<h5>Most Popular Products</h5>
 				<hr>
 			</div>
 			<div class="row column text-center">
@@ -51,8 +35,8 @@
 				</div>
 			</div>
 			<hr>
-			<div class="row column text-center">
-				<h3>Explore</h3>
+			<div class="row column">
+				<h5>Explore New Products</h5>
 				<hr>
 			</div>
 			<div class="row column text-center">
