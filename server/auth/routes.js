@@ -126,10 +126,10 @@ module.exports = function(app, passport, User, Product, fs) {
 				result.productsWatching.push(req.params.id);
 				result.save(function(error){
 					// now update the product
-					Product.findById(req.params._id,function(error,result){
-						result.usersWatching.push(req.user._id);
-						result.numUsersWatching += 1;
-						result.save(function(error){
+					Product.findById(req.params._id,function(error,result2){
+						result2.usersWatching.push(req.user._id);
+						result2.numUsersWatching += 1;
+						result2.save(function(error){
 							res.status(200);
 							res.json({"message":"OK","data":result})
 						})
