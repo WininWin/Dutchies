@@ -1,6 +1,7 @@
-<div ng-controller='ContentController'>		
+<div ng-controller='SearchController'>		
 	<section class="row view-container">
 		<div class="column small-12"> 
+			<form>
 			<section class="row">
 				<div class="small-10 small-centered text-center columns">
 					<label><h2>Find Your Product</h2></label></br>
@@ -9,9 +10,10 @@
 			</section>
 			<section class="row">
 				<div class="column small-2 small-centered text-center">
-					<md-button class = "md-raised md-accent md-hue-1"  ng-click="search(query)">Search</md-button>
+					<md-button class = "md-raised md-accent md-hue-1" type="submit" ng-click="search(query)">Search</md-button>
 				</div>
 			</section>
+			</form>
 			<section class="row">
 				<div class="column small-12 text-center">
 					</br><h4>Search Results</h4></br>

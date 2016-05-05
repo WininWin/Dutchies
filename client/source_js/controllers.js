@@ -145,7 +145,111 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 			$scope.search_progress = true; 
 			$scope.result = false;
 			if(typeof query != 'undefined' && query != ""){
-				$state.go("app.searchresult");
+				$state.go('app.search', {query: $scope.query })
+
+			}
+			else{
+				$("#warning").text("Put at least 1 word");
+				$scope.search_progress = false; 
+			}
+			
+		};
+
+		$scope.refresh = function(){
+			$scope.page = 0;
+			$scope.search_progress = true; 
+			$scope.result = false;
+			$scope.prevDisabled = true;
+			CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder).success(function(data){
+					//console.log(data.data);	
+					$scope.search_progress = false; 
+					$rootScope.search_products = data.data;
+					$scope.result = true;
+					if ($scope.search_products.length < 10)
+						$scope.nextDisabled = true;
+					else {
+						$scope.nextDisabled = false;
+						$rootScope.search_products.pop();
+					}
+
+			});
+
+
+		}
+
+		$scope.watchButton = function(productid){
+			CurrentUser.watchProduct(productid);
+		}
+
+
+
+}]);
+
+webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', '$stateParams', function($scope, $state, $http,$rootScope, CommonData, CurrentUser, $stateParams) {
+		$scope.page = 0;
+		$scope.sortselector = 'dateCreated';
+		$scope.sortorder = 1;
+		$scope.query= '';
+
+
+
+		$scope.PrevList = function(){
+		    if ($scope.page == 0) {
+		    	$scope.prevDisabled = true;
+		    	return;
+		    }
+
+			$scope.search_progress = true; 
+			$scope.result = false;
+		    $scope.page = $scope.page-1;
+		  
+		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
+			      $scope.search_progress = false; 
+				  $rootScope.search_products = data.data;
+				  $scope.result = true;
+				  $scope.nextDisabled = false;
+
+		    });
+		};
+
+		$scope.NextList = function(){
+			$scope.prevDisabled = false;
+		    $scope.page=$scope.page+1;
+		  	$scope.search_progress = true; 
+			$scope.result = false;
+		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
+		 
+				if (data.data.length==0){
+					$scope.page=$scope.page-1;
+					return;
+				}
+				$scope.search_progress = false; 
+				$rootScope.search_products = data.data;
+				$scope.result = true;
+				if ($scope.search_products.length < 10)
+					$scope.nextDisabled = true;
+				else {
+					$scope.nextDisabled = false;
+					$rootScope.search_products.pop();
+				}
+		    });
+
+		};
+
+
+		$scope.progress = [];
+		for(i = 0; i < 3; i++){
+			$scope.progress[i] = true;
+		}
+
+
+
+		$scope.performSearch = function(query){
+			$scope.prevDisabled = true;
+			$scope.search_progress = true; 
+			$scope.result = false;
+			if(typeof query != 'undefined' && query != ""){
+				// $state.go("app.search");
 				$scope.page = 0;
 				$rootScope.result = query;
 				CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder).success(function(data){
@@ -171,6 +275,24 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 			}
 			
 		};
+
+		$scope.search = function(query){
+			$scope.prevDisabled = true;
+			$scope.search_progress = true; 
+			$scope.result = false;
+			if(typeof query != 'undefined' && query != ""){
+				$state.go('app.search', {query: $scope.query })
+
+			}
+			else{
+				$("#warning").text("Put at least 1 word");
+				$scope.search_progress = false; 
+			}
+			
+		};
+
+		$scope.query = $stateParams.query;
+		$scope.performSearch($scope.query);
 
 		$scope.refresh = function(){
 			$scope.page = 0;

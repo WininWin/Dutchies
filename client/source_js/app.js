@@ -48,8 +48,8 @@ app.config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider', functi
     
   })
 
-  .state('app.searchresult', {
-    url: 'searchresult',
+  .state('app.search', {
+    url: 'search/:query',
     views: {
       'content@': {
         templateUrl: 'partials/searchresult.html',
