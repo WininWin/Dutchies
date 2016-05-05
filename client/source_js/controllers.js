@@ -194,11 +194,14 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 }]);
 
 webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', '$stateParams', function($scope, $state, $http,$rootScope, CommonData, CurrentUser, $stateParams) {
+		
+		$scope.categories = ["All", "Automotive & Powersports","Baby Products (Excluding Apparel)","Beauty","Books","Camera & Photo","Cell Phones","Clothing & Accessories","Collectible Coins","Collectibles (Books)","Collectibles (Entertainment)","Electronics (Accessories)","Electronics (Consumer)","Fine Art","Grocery & Gourmet Food","Handmade","Health & Personal Care","Historical & Advertising Collectibles","Home & Garden","Industrial & Scientific","Jewelry","Luggage & Travel Accessories","Music","Musical Instruments","Office Products","Outdoors","Personal Computers","Shoes, Handbags & Sunglasses","Software & Computer Games","Sports","Sports Collectibles","Tools & Home Improvement","Toys & Games","Video, DVD & Blu-Ray","Video Games & Video Game Consoles","Watches","Wine"]
+
 		$scope.page = 0;
 		$scope.sortselector = 'dateCreated';
 		$scope.sortorder = 1;
 		$scope.query= '';
-
+		$scope.filtercategory = "All";
 
 
 		$scope.PrevList = function(){
@@ -214,7 +217,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 			$scope.result = false;
 		    $scope.page = $scope.page-1;
 		  
-		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
+		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
 			      $scope.search_progress = false; 
 				  $rootScope.search_products = data.data;
 				  $scope.result = true;
@@ -228,7 +231,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 		    $scope.page=$scope.page+1;
 		  	$scope.search_progress = true; 
 			$scope.result = false;
-		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
+		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
 		 
 				if (data.data.length==0){
 					$scope.page=$scope.page-1;
@@ -263,7 +266,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 				// $state.go("app.search");
 				$scope.page = 0;
 				$rootScope.result = query;
-				CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder).success(function(data){
+				CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
 					//console.log(data.data);	
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
@@ -309,7 +312,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 			$scope.search_progress = true; 
 			$scope.result = false;
 			$scope.prevDisabled = true;
-			CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder).success(function(data){
+			CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
 					//console.log(data.data);	
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;

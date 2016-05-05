@@ -20,12 +20,24 @@ webAppServices.factory('CommonData', function($http){
 			random = Math.floor(Math.random() * (count - num + 1));
 			return $http.get('/api/products?where={sold:false}&sort={dateCreated:1}&limit=' + num + '&skip=' + random);
 		},
-		searchProducts : function(query,page,sortval,sortorder) {
+		searchProducts : function(query,page,sortval,sortorder,filter) {
+
 			var skipnum  = 10*page;
-			var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false}&skip='+skipnum+'&limit=11&sort={'+sortval
+			
+			if (filter == "All"){
+				var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false}&skip='+skipnum+'&limit=11&sort={'+sortval
+				+':' + sortorder.toString() + '}';	
+				return $http.get(querystring);
+			}
+
+			else{
+				var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false,category:"'+filter+'"}&skip='+skipnum+'&limit=11&sort={'+sortval
 				+':' + sortorder.toString() + '}';
 
-			return $http.get(querystring);
+				console.log(querystring);
+				return $http.get(querystring);
+			}
+			
 		},
 		getUserSellingProducts : function(id,nopics) {
 			var query = '/api/products?where={sellerUser:"'+id+'"}';
