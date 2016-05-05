@@ -66,25 +66,20 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 
 		$scope.PrevList = function(){
 
-			console.log($scope.page);
 
-		    if ($scope.page == 0) {
-		    	$scope.prevDisabled = true;
-		    	return;
-		    }
-
-		    if($scope.page == 1)
-		    	$scope.prevDisabled = true;
 
 			$scope.search_progress = true; 
 			$scope.result = false;
 		    $scope.page = $scope.page-1;
 		  
+		  	if ($scope.page == 0)
+	    		$scope.prevDisabled = true;
 		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
 			      $scope.search_progress = false; 
 				  $rootScope.search_products = data.data;
 				  $scope.result = true;
 				  $scope.nextDisabled = false;
+				  $rootScope.search_products.pop();
 
 		    });
 		};
@@ -205,24 +200,18 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 
 
 		$scope.PrevList = function(){
-		    if ($scope.page == 0) {
-		    	$scope.prevDisabled = true;
-		    	return;
-		    }
-
-		    if($scope.page == 1)
-		    	$scope.prevDisabled = true;
-
 			$scope.search_progress = true; 
 			$scope.result = false;
 		    $scope.page = $scope.page-1;
+		    if ($scope.page == 0) 
+		    	$scope.prevDisabled = true;
 		  
 		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
 			      $scope.search_progress = false; 
 				  $rootScope.search_products = data.data;
 				  $scope.result = true;
 				  $scope.nextDisabled = false;
-
+				  $rootScope.search_products.pop();
 		    });
 		};
 
@@ -240,6 +229,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 				$scope.search_progress = false; 
 				$rootScope.search_products = data.data;
 				$scope.result = true;
+
 				if ($scope.search_products.length < 10)
 					$scope.nextDisabled = true;
 				else {
@@ -386,21 +376,22 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
    	$scope.page = 0;
 
    	$scope.PrevList = function(){
-	    if ($scope.page == 0) {
-	    	$scope.prevDisabled = true;
-	    	return;
-	    }
 
-	    if ($scope.page == 1)
-	    	$scope.prevDisabled = true;
+
+	    $scope.nextDisabled = false;
+
+
 
 	    $scope.page = $scope.page-1;
+	    if ($scope.page == 0)
+	    	$scope.prevDisabled = true;
 	  	$scope.purchase_list = false;
    		$scope.list_progress = true;
 	    CurrentUser.getUserBuying($scope.page).success(function(data){
 	    	$scope.products = data.data;
 	    	$scope.purchase_list = true;
    			$scope.list_progress = false;
+   			$scope.products.pop();
 	    });
 	};
 
@@ -456,22 +447,22 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
    	$scope.page = 0;
 
    	$scope.PrevList = function(){
-	    if ($scope.page == 0) {
-	    	$scope.prevDisabled = true;
-	    	return;
-	    }
+	
 
-	    if ($scope.page == 1)
-	    	$scope.prevDisabled = true;
+
+	    $scope.nextDisabled = false;
 
 	  	$scope.selling_list = false;
    		$scope.list_progress = true;
 	    $scope.page = $scope.page-1;
+	    if ($scope.page == 0) 
+	    	$scope.prevDisabled = true;
 	  
 	    CurrentUser.getUserSelling($scope.page).success(function(data){
 	    	$scope.products = data.data;
 		    $scope.selling_list = true;
 	   		$scope.list_progress = false;
+	   		$scope.products.pop();
 	    });
 	};
 
@@ -525,21 +516,21 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
    	$scope.list_progress = true;
 
    	$scope.page = 0;
+
    	
    	$scope.PrevList = function(){
-	    if ($scope.page == 0) {
-	    	$scope.prevDisabled = true;
-	    	return;
-	    }
 
-	    if ($scope.page == 1)
-	    	$scope.prevDisabled = true;
 	    $scope.watching_list = false;
    		$scope.list_progress = true;
 	    $scope.page = $scope.page-1;
+
+	    if ($scope.page == 0)
+	    	$scope.prevDisabled = true;
+	    $scope.nextDisabled = false;
 	  
 	    CurrentUser.getUserWatching($scope.page).success(function(data){
 	    	$scope.products = data.data;
+	    	$scope.products.pop();
 	    	$scope.watching_list = true;
    			$scope.list_progress = false;
 	    });
