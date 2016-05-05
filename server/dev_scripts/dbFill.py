@@ -156,15 +156,14 @@ def main(argv):
         product = choice(products)
         try:
             with open("images/"+product + ".jpg", "rb") as image_file:
-                image = "data:image/jpeg;base64," + base64.b64encode(image_file.read())
+                image = "/uploads/permanent/" + product + ".jpg"
         except:
-            image = ""
-        image = ""
+            image = "/data/images/nopreview.jpg"
 
         params = urllib.urlencode({'name': product, 'img': image, 'description': description, 'category': choice(categories), 'reservePrice': price,'currentPrice': price + 100,'startPrice': price + 100, 'sold': 'true' if sold else 'false', 'sellerUser': sellerUser, 'sellerUserName': sellerUserName, 'sellerUserEmail': sellerUserEmail, 'dateSold': dateSold, 'soldToUser': soldToUser, 'soldToUserName': soldToUserName, 'soldToUserEmail': soldToUserEmail, 'usersWatching': usersWatching, 'numUsersWatching': numUsersWatching}, True)
 
         # POST the product
-        conn.request("POST", "/api/products", params, headers)
+        conn.request("POST", "/dev/products", params, headers)
         response = conn.getresponse()
         data = response.read()
         print product

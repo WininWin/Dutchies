@@ -80,10 +80,10 @@ webAppServices.factory('CurrentUser', function($http) {
 			return $http.post('/auth/signup', user);
 		},
 		createListing : function(product) {
-			return $http.post('/auth/products/selling');
+			return $http.post('/auth/products',product,{headers: {'Content-Type': undefined },transformRequest: angular.identity});
 		}, 
 		editListing : function(product) {
-			return $http.put('/api/products/' + product._id);
+			return $http.put('/api/products/' + product._id,product);
 		},
 		editUserinfo : function(data) {
 			return $http.put('/auth/user/update', data);

@@ -1,4 +1,4 @@
-var webAppControllers = angular.module('webAppControllers', ['ngMaterial']);
+var webAppControllers = angular.module('webAppControllers', ['ngMaterial','ngFileUpload']);
 
 
 webAppControllers.directive("fileread", [function () {
@@ -696,31 +696,41 @@ webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentU
 	};
 }]);
 
-webAppControllers.controller('CreateItemController', ['$scope', '$state', 'CurrentUser', function($scope, $state, CurrentUser) {
-	
+webAppControllers.controller('CreateItemController', ['$scope', '$state', 'CurrentUser', 'Upload', function($scope, $state, CurrentUser, Upload) {
+	$scope.submitting = 0;
 	$scope.product;
 	$scope.createItem = function (product) {
-		
-		// CurrentUser.createListing(product).success(function(data) {
-		// 	if (data.message == "OK") {
-		// 		$state.go("app.sell");
-		// 	}
-		// });
+		$scope.submitting = 1;
+		$scope.product.currentPrice = $scope.product.startPrice;
+		Upload.upload({
+			url: '/auth/products',
+			data: $scope.product
+		}).success(function(){
+			$scope.submitting = 0;
+		}).error(function(){
+			$scope.submitting = 0;
+		})
 	};
 }]);
 
-webAppControllers.controller('EditItemController', ['$scope', '$state', 'CurrentUser', '$stateParams', function($scope, $state, CurrentUser, $stateParams) {
+webAppControllers.controller('EditItemController', ['$scope', '$state', 'CurrentUser', '$stateParams', 'Upload', function($scope, $state, CurrentUser, $stateParams,Upload) {
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
 		if(data.message=="OK") {
 			$scope.product = data.data;
 		}
 	});
+	$scope.submitting = 0;
 	$scope.updateItem = function (product) {
-		// CurrentUser.editListing(product).success(function(data) {
-		// 	if (data.message == "OK") {
-		// 		$state.go("app.sell");
-		// 	}
-		// });
+		$scope.submitting = 1;
+		Upload.upload({
+			url: '/auth/products',
+			data: $scope.product,
+			method: PUT
+		}).success(function(){
+			$scope.submitting = 0;
+		}).error(function(){
+			$scope.submitting = 0;
+		})
 	};
 
 }]);

@@ -23,7 +23,7 @@ var ProductSchema = new mongoose.Schema({
   soldToUserName: { type: String, default: ''},
   soldToUserEmail: { type: String, default: ''},
   img:{type: String},
-  shipping:{type:Number, default: 0}
+  shippingPrice:{type:Number, default: 0}
 });
 
 // Export the Mongoose model

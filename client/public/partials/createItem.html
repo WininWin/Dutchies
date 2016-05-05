@@ -4,26 +4,68 @@
         	<form name="itemForm" novalidate>
                 <section class="row">
                 	<div class="column small-5">
-                        <img data-ng-src="{{product.img}}">
                         </br>
-                        <input type="file" accept="image/*" fileread="product.img" />
+                        <div class="text-center margin-bottom"><md-button class="md-raised md-accent md-hue-1" ngf-select ng-model="product.img" name="img" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="4MB" >Upload Image</md-button></div>
+                        <div class="text-center margin-bottom"><img ngf-src="product.img" ngf-resize="{width: 400, height: 300, quality: 0.9}"/></div>
+                        
         			</div>
             		<div class="column small-7">
                         <div class="form-group">
                             <label>Product Name:</label>
-                            <input type="text" class="form-control" name="pName" ng-model="product.name" required/>
+                            <input type="text" class="form-control"  ng-model="product.name" required/>
+                        </div>
+                        <div class="form-group">
+                            <label>Category:</label>
+                            <select type="text" class="form-control" ng-model="product.category" required>
+                                <option>Automotive & Powersports</option>
+                                <option>Baby Products (Excluding Apparel)</option>
+                                <option>Beauty</option>
+                                <option>Books</option>
+                                <option>Camera & Photo</option>
+                                <option>Cell Phones</option>
+                                <option>Clothing & Accessories</option>
+                                <option>Collectible Coins</option>
+                                <option>Collectibles (Books)</option>
+                                <option>Collectibles (Entertainment)</option>
+                                <option>Electronics (Accessories)</option>
+                                <option>Electronics (Consumer)</option>
+                                <option>Fine Art</option>
+                                <option>Grocery & Gourmet Food</option>
+                                <option>Handmade</option>
+                                <option>Health & Personal Care</option>
+                                <option>Historical & Advertising Collectibles</option>
+                                <option>Home & Garden</option>
+                                <option>Industrial & Scientific</option>
+                                <option>Jewelry</option>
+                                <option>Luggage & Travel Accessories</option>
+                                <option>Music</option>
+                                <option>Musical Instruments</option>
+                                <option>Office Products</option>
+                                <option>Outdoors</option>
+                                <option>Personal Computers</option>
+                                <option>Shoes, Handbags & Sunglasses</option>
+                                <option>Software & Computer Games</option>
+                                <option>Sports</option>
+                                <option>Sports Collectibles</option>
+                                <option>Tools & Home Improvement</option>
+                                <option>Toys & Games</option>
+                                <option>Video, DVD & Blu-Ray</option>
+                                <option>Video Games & Video Game Consoles</option>
+                                <option>Watches</option>
+                                <option>Wine</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Starting Value ($):</label>
-                            <input type="text" class="form-control" name="password" ng-model="product.starting" required/>
+                            <input type="text" class="form-control" ng-model="product.startPrice" required/>
                         </div>
                         <div class="form-group">
                         	<label>Reserve Price ($):</label>
-        					<input type="text" class="form-control" name="password" ng-model="product.reserve" required/>
+        					<input type="text" class="form-control" ng-model="product.reservePrice" required/>
                         </div>
                         <div class="form-group">
                         	<label>Shipping Fee ($):</label>
-        					<input type="text" class="form-control" name="password" ng-model="product.shipping" required/>
+        					<input type="text" class="form-control" ng-model="product.shippingPrice" required/>
                         </div>
                     </div>
                 </section>
@@ -31,14 +73,15 @@
                 	<div class="column small-12">
                 		<div class="form-group">
                         	<label>Product Description:</label>
-        					<<textarea rows="4" cols="50" ng-model="product.description"/>
+        					<textarea rows="4" cols="50" ng-model="product.description"/>
                             </textarea>
                         </div>
                 	</div>
                 </section>
                	<section class="row">
                 	<div class="column small-12 text-center">
-                		<md-button class="md-raised md-accent md-hue-1" ng-click="createItem(product)">Create Item Listing</md-button>
+                		<md-button class="md-raised md-accent md-hue-1" ng-click="createItem(product)">Create Item</md-button>
+                        <i class="fa fa-spinner fa-spin fa-1x fa-fw margin-bottom" ng-show="submitting"></i>
                 	</div>
                 </section>
             </form>
