@@ -40,7 +40,10 @@ webAppServices.factory('CommonData', function($http){
 			
 		},
 		getUserSellingProducts : function(id,nopics) {
+			console.log(id);
+
 			var query = '/api/products?where={sellerUser:"'+id+'"}';
+			console.log(query);
 			if(nopics)
 				query += '&select={_id:1,name:1,numUsersWatching:1}';
 			return $http.get(query);

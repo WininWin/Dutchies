@@ -24,8 +24,10 @@
                             <p>Watching: {{ product.usersWatching.length }} Users Watching</p>
                         </div>
                         <div class="column small-6">
-                            <p>Sold By: <a ui-sref="app.userDetails({user_id: item.sellerUser})">{{ product.sellerUserName }}</a></p>
-                            <p>Seller Email: {{ product.sellerUserEmail }}</p>
+                            <p>Sold By: <a ui-sref="app.userDetails({user_id:product.sellerUser})">{{ product.sellerUserName }}</a></p>
+                            
+                            <p>Seller Email: {{ product.sellerUserEmail }}  <a href="mailto:product.sellerUserEmail?Subject=Hello%20again" target="_top"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> </p> 
+
                             <md-button ng-click = "click_watch(product._id)" ng-show = "watch" class="md-raised md-warn">Watch</md-button>
                             <md-button ng-click = "click_unwatch(userdata, product)" ng-show = "unwatch" class="md-raised md-primary">Unwatch</md-button>
                         </div>
