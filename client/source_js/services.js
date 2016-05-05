@@ -22,7 +22,7 @@ webAppServices.factory('CommonData', function($http){
 		},
 		searchProducts : function(query,page,sortval,sortorder) {
 			var skipnum  = 10*page;
-			var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false}&skip='+skipnum+'&limit=10&sort={'+sortval
+			var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false}&skip='+skipnum+'&limit=11&sort={'+sortval
 				+':' + sortorder.toString() + '}';
 
 			return $http.get(querystring);

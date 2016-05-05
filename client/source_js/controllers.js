@@ -65,10 +65,16 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 
 
 		$scope.PrevList = function(){
+
+			console.log($scope.page);
+
 		    if ($scope.page == 0) {
 		    	$scope.prevDisabled = true;
 		    	return;
 		    }
+
+		    if($scope.page == 1)
+		    	$scope.prevDisabled = true;
 
 			$scope.search_progress = true; 
 			$scope.result = false;
@@ -84,6 +90,8 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 		};
 
 		$scope.NextList = function(){
+			console.log($scope.page);
+
 			$scope.prevDisabled = false;
 		    $scope.page=$scope.page+1;
 		  	$scope.search_progress = true; 
@@ -199,6 +207,9 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 		    	return;
 		    }
 
+		    if($scope.page == 1)
+		    	$scope.prevDisabled = true;
+
 			$scope.search_progress = true; 
 			$scope.result = false;
 		    $scope.page = $scope.page-1;
@@ -257,7 +268,6 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
 					$scope.result = true;
-					console.log($rootScope.search_products.length);
 					if ($scope.search_products.length < 10)
 						$scope.nextDisabled = true;
 					else {
@@ -378,6 +388,9 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
 	    	return;
 	    }
 
+	    if ($scope.page == 1)
+	    	$scope.prevDisabled = true;
+
 	    $scope.page = $scope.page-1;
 	  	$scope.purchase_list = false;
    		$scope.list_progress = true;
@@ -444,6 +457,10 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 	    	$scope.prevDisabled = true;
 	    	return;
 	    }
+
+	    if ($scope.page == 1)
+	    	$scope.prevDisabled = true;
+
 	  	$scope.selling_list = false;
    		$scope.list_progress = true;
 	    $scope.page = $scope.page-1;
@@ -511,6 +528,9 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 	    	$scope.prevDisabled = true;
 	    	return;
 	    }
+
+	    if ($scope.page == 1)
+	    	$scope.prevDisabled = true;
 	    $scope.watching_list = false;
    		$scope.list_progress = true;
 	    $scope.page = $scope.page-1;
@@ -719,8 +739,8 @@ webAppControllers.controller('CreateItemController', ['$scope', '$state', 'Curre
 
 webAppControllers.controller('EditItemController', ['$scope', '$state', 'CurrentUser', '$stateParams', function($scope, $state, CurrentUser, $stateParams) {
 	$scope.categories = ["Automotive & Powersports","Baby Products (Excluding Apparel)","Beauty","Books","Camera & Photo","Cell Phones","Clothing & Accessories","Collectible Coins","Collectibles (Books)","Collectibles (Entertainment)","Electronics (Accessories)","Electronics (Consumer)","Fine Art","Grocery & Gourmet Food","Handmade","Health & Personal Care","Historical & Advertising Collectibles","Home & Garden","Industrial & Scientific","Jewelry","Luggage & Travel Accessories","Music","Musical Instruments","Office Products","Outdoors","Personal Computers","Shoes, Handbags & Sunglasses","Software & Computer Games","Sports","Sports Collectibles","Tools & Home Improvement","Toys & Games","Video, DVD & Blu-Ray","Video Games & Video Game Consoles","Watches","Wine"]
-	
-	
+
+
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
 		if(data.message=="OK") {
 			$scope.product = data.data;
