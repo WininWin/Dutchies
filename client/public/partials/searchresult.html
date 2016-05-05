@@ -20,7 +20,7 @@
 				</div>
 			</section>
 			<section class="row">
-				<div class="column small-10 small-centered">
+				<div class="column small-10 small-centered" ng-show="result">
 					<h5>Sort By:</h5>
                     <select ng-change="refresh()" ng-model="sortselector">
                       <option value="dateCreated">Date Created</option>
@@ -35,17 +35,14 @@
 
 			        <h5>Category:</h5>
 					<select ng-change="refresh()" ng-model="filtercategory" ng-options="category for category in categories" required> </select>
-
-
-
-					<div class="row column text-center">
-						<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="search_progress"></i>
-					</div>
+				</div>
+				<div class="row column text-center">
+					<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="search_progress"></i>
 				</div>
 			</section>
-			<section class="row">
+			<section class="row" ng-show="result">
 				<div class="column small-12 small-centered">
-					<div class="row product-container" ng-repeat="item in search_products" ng-show="result">
+					<div class="row product-container" ng-repeat="item in search_products" >
 						<div class="columns small-2 text-center small-offset thumbnail-wrapper">
 							<img class="thumbnail" data-ng-src={{item.img}}>
 						</div>
@@ -67,11 +64,11 @@
 					</div>
 				</div>
 			</section>
-			<section class="row">
+			<section class="row" ng-show="result">
 				<div class="column small-3 small-centered text-centered">
 					</br>
-					<md-button class="md-raised md-accent md-hue-1>" ng-click="PrevList()" ng-disabled="prevDisabled" ng-show="result">Prev</md-button>
-					<md-button class="md-raised md-accent md-hue-1>" ng-click="NextList()" ng-disabled="nextDisabled" ng-show="result">Next</md-button>
+					<md-button class="md-raised md-accent md-hue-1>" ng-click="PrevList()" ng-disabled="prevDisabled">Prev</md-button>
+					<md-button class="md-raised md-accent md-hue-1>" ng-click="NextList()" ng-disabled="nextDisabled">Next</md-button>
 				</div>
 			</section>
 		</div>
