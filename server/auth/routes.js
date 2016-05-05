@@ -103,6 +103,28 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 		});
 	});
 
+	// update a product 
+	/* PUT */
+	app.put('/auth/products/:id',uploading.single('img'),isLoggedIn, function(req, res) {
+		if (req.file)
+			req.body.img = '/uploads/' + req.file.filename;
+		else
+			req.body.img = '/data/images/nopreview.jpg';
+		req.body.sellerUser = req.user._id;
+		req.body.sellerUserName = req.user.name;
+		req.body.sellerUserEmail = req.user.email;
+		Product.findByIdAndUpdate(req.params.id,req.body, function(error,result){
+			if(error) {
+				res.status(500);
+				res.json({"message":errorToString(error),"data":[]});
+			}
+			else {
+				res.status(201);
+				res.json({"message":"Product updated","data":result})
+			}
+		});
+	});
+
 
 	// when a user buys a product, marks it as sold, updates buying user PATCH??
 

@@ -767,9 +767,9 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 	$scope.updateItem = function (product) {
 		$scope.submitting = 1;
 		Upload.upload({
-			url: '/auth/products',
+			url: '/auth/products/'+$stateParams.item_id,
 			data: $scope.product,
-			method: PUT
+			method: 'PUT'
 		}).success(function(){
 			$scope.submitting = 0;
 		}).error(function(){
