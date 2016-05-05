@@ -11,28 +11,33 @@
 					<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="list_progress"></i>
 				</div>
 				<div class="column small-12 small-centered" ng-show="watching_list">
-						<div class="row product-container" ng-repeat="item in products">
-							<div class="columns small-2 text-center small-offset thumbnail-wrapper">
-								<img class="thumbnail" data-ng-src={{item.img}}>
+					<div class="row product-container" ng-repeat="item in products">
+						<div class="columns small-2 text-center small-offset thumbnail-wrapper">
+							<img class="thumbnail" data-ng-src={{item.img}}>
+						</div>
+						<div class="product-margin">
+							<div class="columns small-8">
+								<a class="md-accent" ui-sref="app.itemDetails({item_id: item._id})">
+									<div class="product-listing-title">{{item.name}}</div>
+									<div class="product-listing-info">Current Price: ${{item.currentPrice}} | Watched By: {{item.usersWatching.length}} Users</div>
+								</a>
+								<a class="md-accent md-hue-1" ui-sref="app.userDetails({user_id: item.sellerUser})">
+									<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
+								</a>
 							</div>
-							<div class="product-margin">
-								<div class="columns small-8">
-									<a class="md-accent" ui-sref="app.itemDetails({item_id: item._id})">
-										<div class="product-listing-title">{{item.name}}</div>
-										<div class="product-listing-info">Current Price: ${{item.currentPrice}} | Watched By: {{item.usersWatching.length}} Users</div>
-									</a>
-									<a class="md-accent md-hue-1" ui-sref="app.userDetails({user_id: item.sellerUser})">
-										<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
-									</a>
-								</div>
-								<div class="columns small-2 small-centered">
-									</br>
-									<md-button class="md-raised md-primary">Unwatch</button>
-								</div>
+							<div class="columns small-2 small-centered">
+								</br>
+								<md-button class="md-raised md-primary">Unwatch</md-button>
 							</div>
 						</div>
-						<button ng-click="PrevList()" class="button">Prev</button>
-						<button ng-click="NextList()" class="button">Next</button>
+					</div>
+				</div>
+			</section>
+			<section class="row">
+				<div class="column small-3 small-centered text-centered">
+					</br>
+					<md-button class="md-raised md-accent md-hue-1>" ng-click="PrevList()" ng-disabled="prevDisabled" ng-show="watching_list">Prev</md-button>
+					<md-button class="md-raised md-accent md-hue-1>" ng-click="NextList()" ng-disabled="nextDisabled" ng-show="watching_list">Next</md-button>
 				</div>
 			</section>
 		</div>

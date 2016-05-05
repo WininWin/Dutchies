@@ -52,17 +52,17 @@ webAppServices.factory('CurrentUser', function($http) {
 		},
 		getUserBuying : function(page) {
 			var skipnum  = 10*page;
-			return $http.get('/auth/products/buying?skip='+skipnum+'&limit=10&sort={dateSold:-1}');
+			return $http.get('/auth/products/buying?skip='+skipnum+'&limit=11&sort={dateSold:-1}');
 		},
 		getUserSelling : function(page) {
 			var skipnum  = 10*page;
 
-			return $http.get('/auth/products/selling?skip='+skipnum+'&limit=10&sort={dateCreated:-1}');
+			return $http.get('/auth/products/selling?skip='+skipnum+'&limit=11&sort={dateCreated:-1}');
 		},
 		getUserWatching : function(page) {
 			var skipnum  = 10*page;
 			
-			return $http.get('/auth/products/watching?skip='+skipnum+'&limit=10&sort={dateCreated:-1}');
+			return $http.get('/auth/products/watching?skip='+skipnum+'&limit=11&sort={dateCreated:-1}');
 		},
 		getAccountInfo : function() {
 			return $http.get('/auth/user');
