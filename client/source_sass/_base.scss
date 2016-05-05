@@ -1,16 +1,19 @@
 // Add any custom Sass & CSS here
 body{
-	background-color: rgba(245, 245, 245, 1.0);
+	background-color: white;
 	background-repeat: repeat;
 }
 
 .view-container {
-	border-radius: 8px;
-	border: solid 1px #E0E0E0;
 	margin-top: 2%;
 	padding: 5% 2% 5% 2%;
 	background-color: white;
-	
+	border-radius: 8px;
+	border: solid 1px #E0E0E0;
+}
+.view-container-no-border {
+	padding: 2% 2% 5% 2%;
+	background-color: white;
 }
 
 .product-container {
@@ -73,6 +76,41 @@ body{
 	height:40px;
 	cursor:pointer;
 }
+
+.nav-search {
+}
+
+.searchinput {
+	height: 2.4rem;
+	font-size: 0.9rem;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	padding: 1 0 1 1;
+	border-top: 1px solid rgba(0, 0, 0, 0.4);
+	border-left: 1px solid rgba(0, 0, 0, 0.4);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.searchbutton {
+	display: inline-block;
+	text-align: center;
+	line-height: 1;
+	cursor: pointer;
+	vertical-align: middle;
+	border-top: 1px solid rgba(0, 0, 0, 0.4);
+	border-right: 1px solid rgba(0, 0, 0, 0.4);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+	font-size: 0.9rem;
+	background-color: rgb(120,144,156);
+	color: white;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+
+.searchbutton:hover {
+	background-color: rgb(55,71,79);
+}
+
  .margin-bottom {
  	margin-bottom: 15px;
  }

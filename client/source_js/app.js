@@ -16,7 +16,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider', functi
       'default': '600'
     })
     .backgroundPalette('grey', {
-      'default': '100'
+      'default': 'A100'
     });
 
   $urlRouterProvider.otherwise('/');
