@@ -579,10 +579,8 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 
 	$scope.updatePhone = function(){
 		if ($scope.TempPhone.match(/\d/g).length===10){
-			//update the phone
 			$scope.ErrorMsg = ""
 			$scope.phoneShow = false;
-			//refresh the page
 			console.log("pass");
 			$scope.user.mobilePhone = $scope.TempPhone;
 			CurrentUser.editUserinfo($scope.user);
@@ -596,10 +594,8 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	$scope.updateAddress = function(){
 		if($scope.newaddress.zipcode.match(/\d/g).length===5){
 			$scope.newaddress.zipcode = parseInt($scope.newaddress.zipcode);
-			//update the address
 			$scope.ErrorMsg = "";
 			$scope.addressShow = false;
-			//refresh page
 			$scope.user.address = $scope.newaddress;
 			CurrentUser.editUserinfo($scope.user);
 		}
@@ -611,10 +607,20 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 
 	$scope.updateCard = function(){
 		//update card
-		$scope.ErrorMsg = "";
-		$scope.cardShow = false;
-		//refresh page
-		CurrentUser.editUserinfo($scope.user);
+
+		if ($scope.card.number && $scope.card.holderName && $scope.card.ExpireDate){
+			$scope.ErrorMsg = "";
+			$scope.cardShow = false;
+			$scope.user.card= $scope.card;
+			CurrentUser.editUserinfo($scope.user);
+			var cardnumstring = $scope.card.number.toString();
+			$scope.creditcardfourdig = 'XXXX XXXX XXXX '+cardnumstring.substr(cardnumstring.length-4);
+			return;
+		}
+		else{
+			$scope.ErrorMsg = "Please fill up all the information!";
+		}
+
 
 	}
 
@@ -744,7 +750,7 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 		if(data.message=="OK") {
 			$scope.product = data.data;
-		
+
 
 			if(typeof $rootScope.userdata != 'undefined' && ($scope.product).sold==false){
 				if($scope.product.sellerUser == $rootScope.userdata._id){
