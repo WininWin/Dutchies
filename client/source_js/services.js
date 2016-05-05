@@ -39,6 +39,28 @@ webAppServices.factory('CommonData', function($http){
 			}
 			
 		},
+
+		searchProductsCount: function(query,page,sortval,sortorder,filter) {
+
+			var skipnum  = 10*page;
+			
+			if (filter == "All"){
+				var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false}&skip='+skipnum+'&limit=11&sort={'+sortval
+				+':' + sortorder.toString() + '}&count="true"';	
+				console.log(querystring);
+				return $http.get(querystring);
+			}
+
+			else{
+				var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false,category:"'+filter+'"}&skip='+skipnum+'&limit=11&sort={'+sortval
+				+':' + sortorder.toString() + '}&count="true"';
+
+				console.log(querystring);
+				return $http.get(querystring);
+			}
+			
+		},
+
 		getUserSellingProducts : function(id,nopics) {
 			console.log(id);
 
@@ -95,10 +117,10 @@ webAppServices.factory('CurrentUser', function($http) {
 			return $http.post('/auth/signup', user);
 		},
 		createListing : function(product) {
-			return $http.post('/auth/products/selling');
+			return $http.post('/auth/products',product,{headers: {'Content-Type': undefined },transformRequest: angular.identity});
 		}, 
 		editListing : function(product) {
-			return $http.put('/api/products/' + product._id);
+			return $http.put('/api/products/' + product._id,product);
 		},
 		editUserinfo : function(data) {
 			return $http.put('/auth/user/update', data);
@@ -107,7 +129,12 @@ webAppServices.factory('CurrentUser', function($http) {
 			return $http.put('api/products/' + productid, data);
 		},
 		watchProduct : function(productid) {
-			return $http.put('/auth/products/watch/' + productid,"");	
+			console.log(productid);
+			return $http.put('/auth/products/watch/' + productid);	
+		},
+		unwatchProduct : function(productid){
+			console.log(productid);
+			return $http.put('/auth/products/unwatch/' + productid);
 		}
 
 	}

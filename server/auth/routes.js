@@ -1,4 +1,4 @@
-module.exports = function(app, passport, User, Product, fs) {
+module.exports = function(app, passport, User, Product, fs, uploading) {
 
 
 	/******************* Auth Routes *******************/
@@ -61,6 +61,7 @@ module.exports = function(app, passport, User, Product, fs) {
 
 	/* get all the products that the logged in user is watching */
 	app.get('/auth/products/watching', isLoggedIn, function(req, res) {
+		console.log(req.user._id);
 		Product.find({"usersWatching":req.user._id})
 		.sort(getParam(req.query.sort))
 		.select(getParam(req.query.select))
@@ -77,6 +78,53 @@ module.exports = function(app, passport, User, Product, fs) {
 			}
 		})
 	});
+
+	// add a new product to sell
+	/* POST */
+	app.post('/auth/products',uploading.single('img'),isLoggedIn, function(req, res) {
+		if (req.file)
+			req.body.img = '/uploads/' + req.file.filename;
+		else
+			req.body.img = '/data/images/nopreview.jpg';
+		if(!req.body.currentPrice)
+			req.body.startPrice = req.body.currentPrice;
+		req.body.sellerUser = req.user._id;
+		req.body.sellerUserName = req.user.name;
+		req.body.sellerUserEmail = req.user.email;
+		Product.create(req.body, function(error,result){
+			if(error) {
+				res.status(500);
+				res.json({"message":errorToString(error),"data":[]});
+			}
+			else {
+				res.status(201);
+				res.json({"message":"Product added","data":result})
+			}
+		});
+	});
+
+	// update a product 
+	/* PUT */
+	app.put('/auth/products/:id',uploading.single('img'),isLoggedIn, function(req, res) {
+		if (req.file)
+			req.body.img = '/uploads/' + req.file.filename;
+		else
+			req.body.img = '/data/images/nopreview.jpg';
+		req.body.sellerUser = req.user._id;
+		req.body.sellerUserName = req.user.name;
+		req.body.sellerUserEmail = req.user.email;
+		Product.findByIdAndUpdate(req.params.id,req.body, function(error,result){
+			if(error) {
+				res.status(500);
+				res.json({"message":errorToString(error),"data":[]});
+			}
+			else {
+				res.status(201);
+				res.json({"message":"Product updated","data":result})
+			}
+		});
+	});
+
 
 	// when a user buys a product, marks it as sold, updates buying user PATCH??
 
@@ -116,19 +164,67 @@ module.exports = function(app, passport, User, Product, fs) {
 
 	// user wants to watch an item
 	app.put('/auth/products/watch/:id',isLoggedIn,function(req,res){
+		console.log("start watch");
 		User.findById(req.user._id,function(error,result){
 			if(error || result==null) {
+				console.log("watch Failed")
 				res.status(404);
 				res.json({"message":"User not found","data":[]});
 			}
 			else {
+				console.log("finded user")
 				// add the item to their watched items
 				result.productsWatching.push(req.params.id);
 				result.save(function(error){
 					// now update the product
-					Product.findById(req.params._id,function(error,result2){
-						result2.usersWatching.push(req.user._id);
+					console.log(req.params.id);
+					Product.findById(req.params.id,function(error,result2){
+						if (result2.usersWatching = null)
+							result2.usersWatching.push(req.user._id);
+						else{
+							result2.usersWatching = [];
+							result2.usersWatching.push(req.user._id);
+						}
 						result2.numUsersWatching += 1;
+						result2.save(function(error){
+							res.status(200);
+							res.json({"message":"OK","data":result})
+						})
+					})
+				})
+			}
+		})
+	})
+
+
+	app.put('/auth/products/unwatch/:id',isLoggedIn,function(req,res){
+		console.log("start unwatch");
+		User.findById(req.user._id,function(error,result){
+			if(error || result==null) {
+				console.log("unwatch Failed")
+				res.status(404);
+				res.json({"message":"User not found","data":[]});
+			}
+			else {
+				console.log("finded user")
+				// add the item to their watched items
+				//result.productsWatching.push(req.params.id);
+				var index = result.productsWatching.indexOf(req.params.id);
+				result.productsWatching.splice(index,1);
+
+				result.save(function(error){
+					// now update the product
+					Product.findById(req.params.id,function(error,result2){
+						
+						if (result2.usersWatching != null){
+							var index2 = result2.usersWatching.indexOf(req.user._id);
+							result2.usersWatching.splice(index2,1);
+							result2.numUsersWatching -= 1;
+						}
+						else{
+							console.log("this cannot be happen!!!!!!!!!!NO WAY!!");
+						}
+						
 						result2.save(function(error){
 							res.status(200);
 							res.json({"message":"OK","data":result})
@@ -165,6 +261,20 @@ module.exports = function(app, passport, User, Product, fs) {
 					res.json({"message":"Database is now empty","data":[]})
 				}
 			});
+			}
+		});
+	});
+
+	/* POST */
+	app.post('/dev/products',function(req, res) {
+		Product.create(req.body, function(error,result){
+			if(error) {
+				res.status(500);
+				res.json({"message":errorToString(error),"data":[]});
+			}
+			else {
+				res.status(201);
+				res.json({"message":"Product added","data":result})
 			}
 		});
 	});
@@ -384,51 +494,22 @@ module.exports = function(app, passport, User, Product, fs) {
 		});
 
 		/* POST */
-		productRoute.post(function(req, res) {
-
-			if (req.body.img){
-				console.log ('User upload a image');
-				Product.create(req.body, function(error,result){
-					if(error) {
-						res.status(500);
-						res.json({"message":errorToString(error),"data":[]});
-					}
-					else {
-						res.status(201);
-						res.json({"message":"Product added","data":result})
-					}
-				});
-
-			}
-			else{
-				fs.readFile('./nopreview.jpg', function(dataErr,data){
-					if(data){
-						console.log("No user image, add default img")
-						var buf = new Buffer(data,'hex');
-						req.body.img = "";//"data:image/JPEG;base64," + buf.toString('base64');
-						
-						Product.create(req.body, function(error,result){
-							if(error) {
-								res.status(500);
-								res.json({"message":errorToString(error),"data":[]});
-							}
-							else {
-								res.status(201);
-								res.json({"message":"Product added","data":result})
-							}
-						});
-
-					}
-
-					else{
-						res.status(500);
-						res.json({"message" : "Server error, default image doesn't exist", "data":[]});
-
-					}
-				})
-
-			}
-			
+		productRoute.post(uploading.single('img'),function(req, res) {
+			console.log(req.file);
+			if (req.file)
+				req.body.img = '/uploads/' + req.file.filename;
+			else
+				req.body.img = '/data/images/nopreview.jpg';
+			Product.create(req.body, function(error,result){
+				if(error) {
+					res.status(500);
+					res.json({"message":errorToString(error),"data":[]});
+				}
+				else {
+					res.status(201);
+					res.json({"message":"Product added","data":result})
+				}
+			});
 		});
 
 	/***** products/:id Route *****/
@@ -451,7 +532,15 @@ module.exports = function(app, passport, User, Product, fs) {
 		});
 
 		/* PUT */
-		productidRoute.put(function(req, res) {
+		productidRoute.put(uploading.single('img'),function(req, res) {
+			if (req.file){
+				req.body.img = '/uploads/' + req.file.filename;
+				console.log("image was uploaded");
+			}
+			else{
+				req.body.img = '/data/images/nopreview.jpg';
+				console.log("NO image was uploaded");
+			}
 			//get the product by id to update it
 			Product.findById(req.params.id,function(error,result){
 				if(error || result==null) {

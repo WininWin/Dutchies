@@ -19,17 +19,17 @@
                                        
                         <div class="column small-6">
                             <p>Current Price: ${{ product.currentPrice }}</p>
-                            <p>Shipping Fee: ${{ product.shipping }}</p>
-                            <p>Total Price: ${{ product.shipping + product.currentPrice }}</p>
+                            <p>Shipping Fee: ${{ product.shippingPrice }}</p>
+                            <p>Total Price: ${{ product.shippingPrice + product.currentPrice }}</p>
                             <p>Watching: {{ product.usersWatching.length }} Users Watching</p>
                         </div>
                         <div class="column small-6">
                             <p>Sold By: <a ui-sref="app.userDetails({user_id:product.sellerUser})">{{ product.sellerUserName }}</a></p>
                             
-                            <p>Seller Email: {{ product.sellerUserEmail }}  <a href="mailto:product.sellerUserEmail?Subject=Hello%20again" target="_top"><i class="fa fa-envelope-o" aria-hidden="true"></i></a> </p> 
+                            <p>Seller Email: <a href="mailto:product.sellerUserEmail?Subject=Hello%20again" target="_top">{{ product.sellerUserEmail }}  <i class="fa fa-envelope-o" aria-hidden="true"></i></a> </p> 
 
                             <md-button ng-click = "click_watch(product._id)" ng-show = "watch" class="md-raised md-warn">Watch</md-button>
-                            <md-button ng-click = "click_unwatch(userdata, product)" ng-show = "unwatch" class="md-raised md-primary">Unwatch</md-button>
+                            <md-button ng-click = "click_unwatch(product._id)" ng-show = "unwatch" class="md-raised md-primary">Unwatch</md-button>
                         </div>
                     </section>
                     <section class="row">

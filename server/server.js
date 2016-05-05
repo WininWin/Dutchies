@@ -12,6 +12,7 @@ var configDB = require('./auth/database.js');
 var router = express.Router();
 var lib = require("./lib.js")
 var fs = require('fs');
+var multer = require('multer');
 
 //connect to the database on mlab
 mongoose.connect(configDB.url);
@@ -34,18 +35,31 @@ app.use(passport.session());
 
 // Use the body-parser package in our application
 app.use(bodyParser.urlencoded({
-	extended: true
+	extended: true,
+	limit: '50mb'
 }));
 app.use(bodyParser.json({
-	extended: true
+	extended: true,
+	limit: '50mb'
 }));
+
+// enable uploads for photos
+var uploading = multer({
+  dest: __dirname + '/../client/public/uploads/',
+  limits: {fileSize: 3000000, files:1},
+})
 
 
 //serve our client side
 app.use('/',express.static(__dirname + '/../client/public'));
 //serve our API and authentication side
-require('./auth/routes.js')(app, passport, User, Product, fs);
+require('./auth/routes.js')(app, passport, User, Product, fs, uploading);
 
+app.post('/uploads/test',function(req,res){
+	// console.log(req.files.picture);
+	res.status(200);
+	res.json({'message':'success'});
+})
 
 // Launch the script to update prices
 var priceUpdateRate = 5000
