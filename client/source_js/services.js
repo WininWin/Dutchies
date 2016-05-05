@@ -3,7 +3,7 @@ var webAppServices = angular.module('webAppServices', ['credit-cards','ngMateria
 webAppServices.factory('CommonData', function($http){
 
     return{
-       getAllproducts : function() {
+        getAllproducts : function() {
 			return $http.get("/api/products");
 		},
 		mostWatchedProducts : function() {
@@ -26,6 +26,15 @@ webAppServices.factory('CommonData', function($http){
 				+':' + sortorder.toString() + '}';
 
 			return $http.get(querystring);
+		},
+		getUserSellingProducts : function(id,nopics) {
+			var query = '/api/products?where={sellerUser:"'+id+'"}';
+			if(nopics)
+				query += '&select={_id:1,name:1,numUsersWatching:1}';
+			return $http.get(query);
+		},
+		getUserInfo : function(id) {
+			return $http.get('/api/users/'+id+'?select={name:1,email:1}');
 		}
     }
 });
@@ -76,11 +85,14 @@ webAppServices.factory('CurrentUser', function($http) {
 		editListing : function(product) {
 			return $http.put('/api/products/' + product._id);
 		},
-		editUserinfo : function(userid, data) {
-			return $http.put('api/users/' + userid, data);
+		editUserinfo : function(data) {
+			return $http.put('/auth/user/update', data);
 		},
 		editProductinfo : function(productid, data){
 			return $http.put('api/products/' + productid, data);
+		},
+		watchProduct : function(productid) {
+			return $http.put('/auth/products/watch/' + productid,"");	
 		}
 
 	}

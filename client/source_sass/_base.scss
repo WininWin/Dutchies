@@ -60,3 +60,11 @@ body{
 	margin-left:50%;
 	transform: translateX(-50%);
 }
+
+.invisible {
+	opacity: 0;
+}
+
+.active-state {
+	background-color: #970800 !important;
+}

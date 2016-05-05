@@ -26,7 +26,7 @@
                         <div class="column small-6">
                             <p>Sold By: <a ui-sref="app.userDetails({user_id: item.sellerUser})">{{ product.sellerUserName }}</a></p>
                             <p>Seller Email: {{ product.sellerUserEmail }}</p>
-                            <md-button ng-click = "click_watch(userdata)" ng-show = "watch" class="md-raised md-warn">Watch</md-button>
+                            <md-button ng-click = "click_watch(product._id)" ng-show = "watch" class="md-raised md-warn">Watch</md-button>
                             <md-button ng-click = "click_unwatch(userdata, product)" ng-show = "unwatch" class="md-raised md-primary">Unwatch</md-button>
                         </div>
                     </section>

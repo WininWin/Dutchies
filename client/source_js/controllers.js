@@ -24,13 +24,23 @@ webAppControllers.directive("fileread", [function () {
 webAppControllers.run(function($rootScope,$http,$state, CurrentUser) {
 	$rootScope.loggedin = 0;
 	$rootScope.account = "";
+	$rootScope.loggingout = 0;
     $rootScope.logout = function() {
+    	$rootScope.loggingout = 1;
         CurrentUser.userLogout().success(function(data){
         	$state.go('app');
         	$rootScope.userdata = {};
         	$rootScope.loggedin = 0; 
         	$rootScope.account = "Login";
+        	$rootScope.loggingout = 0;
+        })
+        .error(function(error){
+        	$rootScope.loggingout = 0;
         });
+    };
+
+    $rootScope.watch = function(productid) {
+    	
     };
 
 
@@ -114,6 +124,8 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 		});
 
 
+
+
 		$scope.search = function(query){
 
 			$scope.search_progress = true; 
@@ -154,6 +166,10 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 
 		}
 
+		$scope.watchButton = function(productid){
+			CurrentUser.watchProduct(productid);
+		}
+
 
 
 }]);
@@ -166,11 +182,13 @@ webAppControllers.controller('FooterController',['$scope', '$state', function($s
 
 
 webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$rootScope', 'CurrentUser', function($scope,$state,$http,$rootScope, CurrentUser) {
- 	
+	$scope.submitting = 0;
  	$scope.login = function() {
+ 		$scope.submitting = 1;
  		$scope.loginError = 0;
 		var login_creds = {"email":$scope.email,"password":$scope.password};
 	 	CurrentUser.userLogin(login_creds).success(function(data) {
+	 		$scope.submitting = 0;
 			if(!data.error) {
 				$rootScope.userdata = data;
 				$rootScope.loggedin = 1;
@@ -179,6 +197,7 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 
 	   })
 	 	.error(function(){
+	 		$scope.submitting = 0;
 	 		$scope.loginError = 1;
 	 	});
 	 }
@@ -352,6 +371,8 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$scope.phoneShow = false;
 			//refresh the page
 			console.log("pass");
+			$scope.user.mobilePhone = $scope.TempPhone;
+			CurrentUser.editUserinfo($scope.user);
 		}
 		else
 			$scope.ErrorMsg = "Please enter 10 digits for your phone number!";
@@ -366,6 +387,8 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$scope.ErrorMsg = "";
 			$scope.addressShow = false;
 			//refresh page
+			$scope.user.address = $scope.newaddress;
+			CurrentUser.editUserinfo($scope.user);
 		}
 
 		else
@@ -378,6 +401,8 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 		$scope.ErrorMsg = "";
 		$scope.cardShow = false;
 		//refresh page
+		CurrentUser.editUserinfo($scope.user);
+
 	}
 
 
@@ -412,7 +437,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	
 			var cardnumstring = data.data.card.number.toString();
 			if (data.data.card)
-				$scope.creditcardfourdig = '****-'+cardnumstring.substr(cardnumstring.length-4);
+				$scope.creditcardfourdig = 'XXXX XXXX XXXX '+cardnumstring.substr(cardnumstring.length-4);
 		}
 
     })
@@ -548,24 +573,24 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 	
 
-	$scope.click_watch = function(userdata){
+	$scope.click_watch = function(productid){
 
 		
-		//push to the user's watching list
-		(userdata.productsWatching).push($stateParams.item_id);
+		// //push to the user's watching list
+		// (userdata.productsWatching).push($stateParams.item_id);
 
-		CurrentUser.editUserinfo(userdata._id, userdata).success(function(data) {
-			$scope.watch = false;
-			$scope.unwatch = true;
-		});
+		// CurrentUser.editUserinfo(userdata).success(function(data) {
+		// 	$scope.watch = false;
+		// 	$scope.unwatch = true;
+		// });
 
-		//push to the product's user list 
-		($scope.product.usersWatching).push(userdata._id);
+		// //push to the product's user list 
+		// ($scope.product.usersWatching).push(userdata._id);
 
-		CurrentUser.editProductinfo($scope.product._id, $scope.product).success(function(data) {
-			console.log("Watched");
-		});
-
+		// CurrentUser.editProductinfo($scope.product._id, $scope.product).success(function(data) {
+		// 	console.log("Watched");
+		// });
+		CurrentUser.watchProduct(productid);
 
 	};
 
@@ -585,7 +610,7 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 			(item.usersWatching).splice(user_index, 1);
 		}
 
-		CurrentUser.editUserinfo(userdata._id, userdata).success(function(data) {
+		CurrentUser.editUserinfo(userdata).success(function(data) {
 			$scope.watch = true;
 			$scope.unwatch = false;
 		});
@@ -605,20 +630,20 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 }]);
 
-webAppControllers.controller('UserDetailsController', ['$scope', '$state', 'CurrentUser', '$stateParams', function($scope, $state, CurrentUser, $stateParams) {
-	
-	CurrentUser.getUserInfo($stateParams.user_id).success(function(data) {
+webAppControllers.controller('UserDetailsController', ['$scope', '$state', 'CommonData', '$stateParams', function($scope, $state, CommonData, $stateParams) {
+	$scope.loading1 = 1;
+	$scope.loading2 = 1;
+	CommonData.getUserInfo($stateParams.user_id).success(function(data){
+		$scope.loading1=0;
 		if(data.message=="OK") {
 			$scope.user = data.data;
-			console.log(data.data);
-			$scope.userProducts = []
-			for (var i = 0; i < $scope.user.productsSelling.length; i++) {
-				CurrentUser.getProductInfo($scope.user.productsSelling[i]).success(function(data2) {
-					if(data.message == "OK") {
-						$scope.userProducts.push(data2.data);
-					}
-				});
-			}
+		}
+	})
+
+	CommonData.getUserSellingProducts($stateParams.user_id,1).success(function(data) {
+		$scope.loading2=0;
+		if(data.message=="OK") {
+			$scope.userProducts = data.data;
 		}
 	});
 	

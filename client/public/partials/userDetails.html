@@ -3,7 +3,7 @@
         <div class="column small-12">
         	<section class="row">
                 <div class="column small-12">
-                    <h3>{{user.name}}</h3>
+                    <i class="fa fa-spinner fa-spin fa-2x fa-fw margin-bottom" ng-show="loading1"></i><h3>{{user.name}}</h3>
                 </div>
             </section>
             <section class="row">
@@ -17,6 +17,7 @@
                 </div>
             </section>
             </br>
+            <i class="fa fa-spinner fa-spin fa-2x fa-fw margin-bottom" ng-show="loading2"></i>
             <section class="row" ng-repeat="product in userProducts">
                 <div class="column small-11 small-offset-1">
                     <a class="md-accent" ui-sref="app.itemDetails({item_id: product._id})">{{product.name}}</a>

@@ -159,6 +159,7 @@ def main(argv):
                 image = "data:image/jpeg;base64," + base64.b64encode(image_file.read())
         except:
             image = ""
+        image = ""
 
         params = urllib.urlencode({'name': product, 'img': image, 'description': description, 'category': choice(categories), 'reservePrice': price,'currentPrice': price + 100,'startPrice': price + 100, 'sold': 'true' if sold else 'false', 'sellerUser': sellerUser, 'sellerUserName': sellerUserName, 'sellerUserEmail': sellerUserEmail, 'dateSold': dateSold, 'soldToUser': soldToUser, 'soldToUserName': soldToUserName, 'soldToUserEmail': soldToUserEmail, 'usersWatching': usersWatching, 'numUsersWatching': numUsersWatching}, True)
 

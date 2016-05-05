@@ -3,7 +3,9 @@
         <div class="column small-12">
             <div class="page-header text-center">
                 <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+                <i class="fa fa-spinner fa-spin fa-1x fa-fw margin-bottom invisible" ng-show="loggingout"></i>
                 <md-button ng-click="logout()" class="md-raised md-accent md-hue-1">Logout</md-button>
+                <i class="fa fa-spinner fa-spin fa-1x fa-fw margin-bottom" ng-show="loggingout"></i>
             </div>
 
             <section class="row">
@@ -24,7 +26,7 @@
                                     <div ng-show="phoneShow">
                                         <strong>New Phone Number</strong>
                                         <input type="text" ng-model = "TempPhone" onkeypress='validate(event)' maxlength="10"> 
-                                        <md-button class = "md-raised md-warn" ng-click="updatePhone()"> Update </md-button> 
+                                        <md-button class = "md-raised md-warn" type="submit" ng-click="updatePhone()"> Update </md-button> 
 
                                         <md-button class="md-raised md-primary" ng-click="change(1)"> Cancel </md-button> 
 
@@ -38,8 +40,8 @@
                                     <div ng-hide="addressShow">
                                          <strong>Address</strong> 
                                          <md-button  class = "md-raised md-warn" ng-click="change(2)"> EDIT </md-button> </br>
-                                        {{user.address.streetAddress}},  {{user.address.city}}</br>
-                                        {{user.address.state}},  {{user.address.zipcode}}</br>                   
+                                        {{user.address.streetAddress}}</br>
+                                        {{user.address.city}}, {{user.address.state}} {{user.address.zipcode}}</br>                   
                                     </div>
 
                                     <div ng-show="addressShow">
@@ -58,7 +60,7 @@
                                             <label> Zip code*</label>
                                             <input type='text' class="form-control" ng-model="newaddress.zipcode" onkeypress='validate(event)' maxlength="5" required>
                                             
-                                            <md-button class = "md-raised md-warn"  ng-click='updateAddress()'>Update</md-button> 
+                                            <md-button class = "md-raised md-warn" type="submit"  ng-click='updateAddress()'>Update</md-button> 
                                             <md-button class="md-raised md-primary" ng-click="change(2)"> Cancel </md-button> 
                                         </form>
 
@@ -83,11 +85,11 @@
                                             <input type="text" ng-model="card.cvc" cc-cvc ng-required="true" />
                                             
                                             Expiration Date* </br>
-                                            <input ng-model="card.exp_month" cc-exp-month ng-required="true" />
-                                            <input ng-model="card.exp_year" cc-exp-year ng-required="true" />
+                                            <input type="text" ng-model="card.exp_month" cc-exp-month ng-required="true" />
+                                            <input type="text" ng-model="card.exp_year" cc-exp-year ng-required="true" />
                                             
                                             </br>
-                                            <md-button  class = "md-raised md-warn" ng-click="updateCard()" >Update</md-button> 
+                                            <md-button  class = "md-raised md-warn" type="submit" ng-click="updateCard()" >Update</md-button> 
                                             <md-button class="md-raised md-primary" ng-click="change(3)"> Cancel </md-button> 
                                             
                                         </form>

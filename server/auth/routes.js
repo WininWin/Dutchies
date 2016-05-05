@@ -91,9 +91,53 @@ module.exports = function(app, passport, User, Product, fs) {
 
 
 	// allow user to edit their account details PUT
-
+	app.put('/auth/user/update', isLoggedIn, function(req, res) {
+		console.log(req.user);
+		console.log(req.body);
+		User.findByIdAndUpdate(req.user._id,req.body,function(error) {
+			if(error) {
+				res.status(500);
+				res.json({"message":errorToString(error),"data":[]});
+			}
+			else {
+				User.findById(req.user._id,function(error,result_inner){
+					if(error) {
+						res.status(404);
+						res.json({"message":"An unknown error occured","data":[]});
+					}
+					else {
+						res.status(200);
+						res.json({"message":"User updated","data":result_inner})
+					}
+				});
+			}
+		})
+	});
 
 	// user wants to watch an item
+	app.put('/auth/products/watch/:id',isLoggedIn,function(req,res){
+		User.findById(req.user._id,function(error,result){
+			if(error || result==null) {
+				res.status(404);
+				res.json({"message":"User not found","data":[]});
+			}
+			else {
+				// add the item to their watched items
+				result.productsWatching.push(req.params.id);
+				result.save(function(error){
+					// now update the product
+					Product.findById(req.params._id,function(error,result){
+						result.usersWatching.push(req.user._id);
+						result.numUsersWatching += 1;
+						result.save(function(error){
+							res.status(200);
+							res.json({"message":"OK","data":result})
+						})
+					})
+				})
+			}
+		})
+	})
 
 	app.get('/auth/logout', function(req, res) {
 		req.logout();
@@ -361,7 +405,7 @@ module.exports = function(app, passport, User, Product, fs) {
 					if(data){
 						console.log("No user image, add default img")
 						var buf = new Buffer(data,'hex');
-						req.body.img = "data:image/JPEG;base64," + buf.toString('base64');
+						req.body.img = "";//"data:image/JPEG;base64," + buf.toString('base64');
 						
 						Product.create(req.body, function(error,result){
 							if(error) {
