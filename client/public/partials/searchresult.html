@@ -3,7 +3,7 @@
 		<div class="column small-12"> 
 			<section class="row">
 				<div class="small-10 small-centered text-center columns">
-					<label><h4>Find Your Product</h4></label></br>
+					<label><h2>Find Your Product</h2></label></br>
 					<input name = "search_input" type="text" ng-model = "query" ng-minlength="1">
 				</div>
 			</section>
@@ -14,9 +14,12 @@
 			</section>
 			<section class="row">
 				<div class="column small-12 text-center">
-					</br><h2>Search Results</h2></br>
+					</br><h4>Search Results</h4></br>
 				</div>
-				Sort By:
+			</section>
+			<section class="row">
+				<div class="column small-10 small-centered">
+					<h5>Sort By:</h5>
                     <select ng-change="refresh()" ng-model="sortselector">
                       <option value="dateCreated">Date Created</option>
                       <option value="currentPrice">Price</option>
@@ -34,6 +37,7 @@
 					<div class="row column text-center">
 						<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="search_progress"></i>
 					</div>
+				</div>
 			</section>
 			<section class="row">
 				<div class="column small-12 small-centered">
