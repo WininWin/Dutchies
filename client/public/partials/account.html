@@ -17,7 +17,8 @@
                                 <strong>Email</strong>: {{user.email}}<br>
                                 <div>
                                     <div ng-hide="phoneShow">
-                                        <strong>Phone</strong>: <md-button class = "md-raised md-warn" ng-click="change(1)"> EDIT </md-button> </br>
+                                        <strong>Phone</strong> <i class="fa fa-phone" aria-hidden="true"></i>
+                                        <md-button class = "md-raised md-warn" ng-click="change(1)"> EDIT </md-button> </br>
                                         {{user.mobilePhone}}   
                                         
                                         </br>
@@ -38,7 +39,7 @@
 
                                 <div>
                                     <div ng-hide="addressShow">
-                                         <strong>Address</strong> 
+                                         <strong>Address</strong>  <i class="fa fa-map-marker" aria-hidden="true"></i>
                                          <md-button  class = "md-raised md-warn" ng-click="change(2)"> EDIT </md-button> </br>
                                         {{user.address.streetAddress}}</br>
                                         {{user.address.city}}, {{user.address.state}} {{user.address.zipcode}}</br>                   
@@ -69,7 +70,9 @@
 
                                 <div>
                                     <div ng-hide="cardShow">
-                                        <strong>Credit Card</strong>:  <md-button class = "md-raised md-warn" ng-click="change(3)"> EDIT </md-button> </br>
+                                        <strong>Credit Card</strong> <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+
+                                          <md-button class = "md-raised md-warn" ng-click="change(3)"> EDIT </md-button> </br>
                                          {{creditcardfourdig}} 
                                        
                                     </div>
