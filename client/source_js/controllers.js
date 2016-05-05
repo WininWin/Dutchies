@@ -772,6 +772,7 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 			method: 'PUT'
 		}).success(function(){
 			$scope.submitting = 0;
+			$state.go("app.sell");
 		}).error(function(){
 			$scope.submitting = 0;
 		})
