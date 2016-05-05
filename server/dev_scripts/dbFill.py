@@ -160,7 +160,7 @@ def main(argv):
         except:
             image = "/data/images/nopreview.jpg"
 
-        params = urllib.urlencode({'name': product, 'img': image, 'description': description, 'category': choice(categories), 'reservePrice': price,'currentPrice': price + 100,'startPrice': price + 100, 'sold': 'true' if sold else 'false', 'sellerUser': sellerUser, 'sellerUserName': sellerUserName, 'sellerUserEmail': sellerUserEmail, 'dateSold': dateSold, 'soldToUser': soldToUser, 'soldToUserName': soldToUserName, 'soldToUserEmail': soldToUserEmail, 'usersWatching': usersWatching, 'numUsersWatching': numUsersWatching}, True)
+        params = urllib.urlencode({'name': product, 'img': image, 'shippingPrice': randint(0,10), 'description': description, 'category': choice(categories), 'reservePrice': price,'currentPrice': price + 100,'startPrice': price + 100, 'sold': 'true' if sold else 'false', 'sellerUser': sellerUser, 'sellerUserName': sellerUserName, 'sellerUserEmail': sellerUserEmail, 'dateSold': dateSold, 'soldToUser': soldToUser, 'soldToUserName': soldToUserName, 'soldToUserEmail': soldToUserEmail, 'usersWatching': usersWatching, 'numUsersWatching': numUsersWatching}, True)
 
         # POST the product
         conn.request("POST", "/dev/products", params, headers)
