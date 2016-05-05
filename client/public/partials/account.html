@@ -17,7 +17,8 @@
                                 <strong>Email</strong>: {{user.email}}<br>
                                 <div>
                                     <div ng-hide="phoneShow">
-                                        <strong>Phone</strong>: <md-button class = "md-raised md-warn" ng-click="change(1)"> EDIT </md-button> </br>
+                                        <strong>Phone</strong> <i class="fa fa-phone" aria-hidden="true"></i>
+                                        <md-button class = "md-raised md-warn" ng-click="change(1)"> EDIT </md-button> </br>
                                         {{user.mobilePhone}}   
                                         
                                         </br>
@@ -38,7 +39,7 @@
 
                                 <div>
                                     <div ng-hide="addressShow">
-                                         <strong>Address</strong> 
+                                         <strong>Address</strong>  <i class="fa fa-map-marker" aria-hidden="true"></i>
                                          <md-button  class = "md-raised md-warn" ng-click="change(2)"> EDIT </md-button> </br>
                                         {{user.address.streetAddress}}</br>
                                         {{user.address.city}}, {{user.address.state}} {{user.address.zipcode}}</br>                   
@@ -69,7 +70,9 @@
 
                                 <div>
                                     <div ng-hide="cardShow">
-                                        <strong>Credit Card</strong>:  <md-button class = "md-raised md-warn" ng-click="change(3)"> EDIT </md-button> </br>
+                                        <strong>Credit Card</strong> <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+
+                                          <md-button class = "md-raised md-warn" ng-click="change(3)"> EDIT </md-button> </br>
                                          {{creditcardfourdig}} 
                                        
                                     </div>
@@ -78,19 +81,20 @@
                                         <strong>New Credit Card</strong>
                                         <form name="paymentForm">
                                             Card Number*
-                                            <input type="text" ng-model="card.number" name="cardNumber" cc-number cc-eager-type required>
-                                            {{paymentForm.cardNumber.$ccType}}
+                                            <input type="text" ng-model="card.number" onkeypress='validate(event)' required maxlength="16">
+                                           
+                                            Holder Name*
+                                            <input type="text" ng-model="card.holderName" required />
                                             
-                                            CVC*
-                                            <input type="text" ng-model="card.cvc" cc-cvc ng-required="true" />
+                                            Expiration Date*    MM/YY</br>
+                                            <input type="text" ng-model="card.ExpireDate" maxlength="5" required="true" />
+                                           
                                             
-                                            Expiration Date* </br>
-                                            <input type="text" ng-model="card.exp_month" cc-exp-month ng-required="true" />
-                                            <input type="text" ng-model="card.exp_year" cc-exp-year ng-required="true" />
-                                            
+                                            {{ErrorMsg}}
                                             </br>
                                             <md-button  class = "md-raised md-warn" type="submit" ng-click="updateCard()" >Update</md-button> 
                                             <md-button class="md-raised md-primary" ng-click="change(3)"> Cancel </md-button> 
+
                                             
                                         </form>
                                        

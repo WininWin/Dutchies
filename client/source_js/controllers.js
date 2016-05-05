@@ -65,25 +65,28 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 
 
 		$scope.PrevList = function(){
-		    if ($scope.page == 0) {
-		    	$scope.prevDisabled = true;
-		    	return;
-		    }
+
+
 
 			$scope.search_progress = true; 
 			$scope.result = false;
 		    $scope.page = $scope.page-1;
 		  
+		  	if ($scope.page == 0)
+	    		$scope.prevDisabled = true;
 		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
 			      $scope.search_progress = false; 
 				  $rootScope.search_products = data.data;
 				  $scope.result = true;
 				  $scope.nextDisabled = false;
+				  $rootScope.search_products.pop();
 
 		    });
 		};
 
 		$scope.NextList = function(){
+			console.log($scope.page);
+
 			$scope.prevDisabled = false;
 		    $scope.page=$scope.page+1;
 		  	$scope.search_progress = true; 
@@ -186,29 +189,29 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 }]);
 
 webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', '$stateParams', function($scope, $state, $http,$rootScope, CommonData, CurrentUser, $stateParams) {
+		
+		$scope.categories = ["All", "Automotive & Powersports","Baby Products (Excluding Apparel)","Beauty","Books","Camera & Photo","Cell Phones","Clothing & Accessories","Collectible Coins","Collectibles (Books)","Collectibles (Entertainment)","Electronics (Accessories)","Electronics (Consumer)","Fine Art","Grocery & Gourmet Food","Handmade","Health & Personal Care","Historical & Advertising Collectibles","Home & Garden","Industrial & Scientific","Jewelry","Luggage & Travel Accessories","Music","Musical Instruments","Office Products","Outdoors","Personal Computers","Shoes, Handbags & Sunglasses","Software & Computer Games","Sports","Sports Collectibles","Tools & Home Improvement","Toys & Games","Video, DVD & Blu-Ray","Video Games & Video Game Consoles","Watches","Wine"]
+
 		$scope.page = 0;
 		$scope.sortselector = 'dateCreated';
 		$scope.sortorder = 1;
 		$scope.query= '';
-
+		$scope.filtercategory = "All";
 
 
 		$scope.PrevList = function(){
-		    if ($scope.page == 0) {
-		    	$scope.prevDisabled = true;
-		    	return;
-		    }
-
 			$scope.search_progress = true; 
 			$scope.result = false;
 		    $scope.page = $scope.page-1;
+		    if ($scope.page == 0) 
+		    	$scope.prevDisabled = true;
 		  
-		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
+		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
 			      $scope.search_progress = false; 
 				  $rootScope.search_products = data.data;
 				  $scope.result = true;
 				  $scope.nextDisabled = false;
-
+				  $rootScope.search_products.pop();
 		    });
 		};
 
@@ -217,7 +220,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 		    $scope.page=$scope.page+1;
 		  	$scope.search_progress = true; 
 			$scope.result = false;
-		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder).success(function(data){
+		    CommonData.searchProducts($rootScope.result, $scope.page, $scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
 		 
 				if (data.data.length==0){
 					$scope.page=$scope.page-1;
@@ -226,6 +229,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 				$scope.search_progress = false; 
 				$rootScope.search_products = data.data;
 				$scope.result = true;
+
 				if ($scope.search_products.length < 10)
 					$scope.nextDisabled = true;
 				else {
@@ -252,12 +256,11 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 				// $state.go("app.search");
 				$scope.page = 0;
 				$rootScope.result = query;
-				CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder).success(function(data){
+				CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
 					//console.log(data.data);	
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
 					$scope.result = true;
-					console.log($rootScope.search_products.length);
 					if ($scope.search_products.length < 10)
 						$scope.nextDisabled = true;
 					else {
@@ -299,7 +302,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 			$scope.search_progress = true; 
 			$scope.result = false;
 			$scope.prevDisabled = true;
-			CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder).success(function(data){
+			CommonData.searchProducts($rootScope.result,$scope.page,$scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
 					//console.log(data.data);	
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
@@ -315,11 +318,6 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 
 
 		}
-
-		$scope.watchButton = function(productid){
-			CurrentUser.watchProduct(productid);
-		}
-
 
 
 }]);
@@ -373,18 +371,22 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
    	$scope.page = 0;
 
    	$scope.PrevList = function(){
-	    if ($scope.page == 0) {
-	    	$scope.prevDisabled = true;
-	    	return;
-	    }
+
+
+	    $scope.nextDisabled = false;
+
+
 
 	    $scope.page = $scope.page-1;
+	    if ($scope.page == 0)
+	    	$scope.prevDisabled = true;
 	  	$scope.purchase_list = false;
    		$scope.list_progress = true;
 	    CurrentUser.getUserBuying($scope.page).success(function(data){
 	    	$scope.products = data.data;
 	    	$scope.purchase_list = true;
    			$scope.list_progress = false;
+   			$scope.products.pop();
 	    });
 	};
 
@@ -440,18 +442,22 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
    	$scope.page = 0;
 
    	$scope.PrevList = function(){
-	    if ($scope.page == 0) {
-	    	$scope.prevDisabled = true;
-	    	return;
-	    }
+	
+
+
+	    $scope.nextDisabled = false;
+
 	  	$scope.selling_list = false;
    		$scope.list_progress = true;
 	    $scope.page = $scope.page-1;
+	    if ($scope.page == 0) 
+	    	$scope.prevDisabled = true;
 	  
 	    CurrentUser.getUserSelling($scope.page).success(function(data){
 	    	$scope.products = data.data;
 		    $scope.selling_list = true;
 	   		$scope.list_progress = false;
+	   		$scope.products.pop();
 	    });
 	};
 
@@ -505,18 +511,21 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
    	$scope.list_progress = true;
 
    	$scope.page = 0;
+
    	
    	$scope.PrevList = function(){
-	    if ($scope.page == 0) {
-	    	$scope.prevDisabled = true;
-	    	return;
-	    }
+
 	    $scope.watching_list = false;
    		$scope.list_progress = true;
 	    $scope.page = $scope.page-1;
+
+	    if ($scope.page == 0)
+	    	$scope.prevDisabled = true;
+	    $scope.nextDisabled = false;
 	  
 	    CurrentUser.getUserWatching($scope.page).success(function(data){
 	    	$scope.products = data.data;
+	    	$scope.products.pop();
 	    	$scope.watching_list = true;
    			$scope.list_progress = false;
 	    });
@@ -550,7 +559,7 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 		if(data.message=="OK") {
 			$scope.products = data.data;
 
-			 $scope.watching_list = true;
+			$scope.watching_list = true;
    			$scope.list_progress = false;
    			$scope.prevDisabled = true;
    			if ($scope.products.length < 10)
@@ -564,6 +573,19 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
     }).error(function(data){
     	$state.go("app.login");
     });
+
+    $scope.unwatch_refresh = function(productid){
+    	console.log(productid);
+    	for(var i=0; i<$scope.products.length; i++){
+    		if ($scope.products[i]._id == productid){
+    			$scope.products.splice(i,1);
+    			break;
+    		}
+    	}
+    	CurrentUser.unwatchProduct(productid);
+
+
+    }
 
 }]);
 
@@ -579,10 +601,8 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 
 	$scope.updatePhone = function(){
 		if ($scope.TempPhone.match(/\d/g).length===10){
-			//update the phone
 			$scope.ErrorMsg = ""
 			$scope.phoneShow = false;
-			//refresh the page
 			console.log("pass");
 			$scope.user.mobilePhone = $scope.TempPhone;
 			CurrentUser.editUserinfo($scope.user);
@@ -596,10 +616,8 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	$scope.updateAddress = function(){
 		if($scope.newaddress.zipcode.match(/\d/g).length===5){
 			$scope.newaddress.zipcode = parseInt($scope.newaddress.zipcode);
-			//update the address
 			$scope.ErrorMsg = "";
 			$scope.addressShow = false;
-			//refresh page
 			$scope.user.address = $scope.newaddress;
 			CurrentUser.editUserinfo($scope.user);
 		}
@@ -611,10 +629,20 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 
 	$scope.updateCard = function(){
 		//update card
-		$scope.ErrorMsg = "";
-		$scope.cardShow = false;
-		//refresh page
-		CurrentUser.editUserinfo($scope.user);
+
+		if ($scope.card.number && $scope.card.holderName && $scope.card.ExpireDate){
+			$scope.ErrorMsg = "";
+			$scope.cardShow = false;
+			$scope.user.card= $scope.card;
+			CurrentUser.editUserinfo($scope.user);
+			var cardnumstring = $scope.card.number.toString();
+			$scope.creditcardfourdig = 'XXXX XXXX XXXX '+cardnumstring.substr(cardnumstring.length-4);
+			return;
+		}
+		else{
+			$scope.ErrorMsg = "Please fill up all the information!";
+		}
+
 
 	}
 
@@ -699,6 +727,8 @@ webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentU
 webAppControllers.controller('CreateItemController', ['$scope', '$state', 'CurrentUser', 'Upload', function($scope, $state, CurrentUser, Upload) {
 	$scope.submitting = 0;
 	$scope.product;
+	$scope.categories = ["Automotive & Powersports","Baby Products (Excluding Apparel)","Beauty","Books","Camera & Photo","Cell Phones","Clothing & Accessories","Collectible Coins","Collectibles (Books)","Collectibles (Entertainment)","Electronics (Accessories)","Electronics (Consumer)","Fine Art","Grocery & Gourmet Food","Handmade","Health & Personal Care","Historical & Advertising Collectibles","Home & Garden","Industrial & Scientific","Jewelry","Luggage & Travel Accessories","Music","Musical Instruments","Office Products","Outdoors","Personal Computers","Shoes, Handbags & Sunglasses","Software & Computer Games","Sports","Sports Collectibles","Tools & Home Improvement","Toys & Games","Video, DVD & Blu-Ray","Video Games & Video Game Consoles","Watches","Wine"]
+
 	$scope.createItem = function (product) {
 		$scope.submitting = 1;
 		$scope.product.currentPrice = $scope.product.startPrice;
@@ -714,6 +744,8 @@ webAppControllers.controller('CreateItemController', ['$scope', '$state', 'Curre
 }]);
 
 webAppControllers.controller('EditItemController', ['$scope', '$state', 'CurrentUser', '$stateParams', 'Upload', function($scope, $state, CurrentUser, $stateParams,Upload) {
+	$scope.categories = ["Automotive & Powersports","Baby Products (Excluding Apparel)","Beauty","Books","Camera & Photo","Cell Phones","Clothing & Accessories","Collectible Coins","Collectibles (Books)","Collectibles (Entertainment)","Electronics (Accessories)","Electronics (Consumer)","Fine Art","Grocery & Gourmet Food","Handmade","Health & Personal Care","Historical & Advertising Collectibles","Home & Garden","Industrial & Scientific","Jewelry","Luggage & Travel Accessories","Music","Musical Instruments","Office Products","Outdoors","Personal Computers","Shoes, Handbags & Sunglasses","Software & Computer Games","Sports","Sports Collectibles","Tools & Home Improvement","Toys & Games","Video, DVD & Blu-Ray","Video Games & Video Game Consoles","Watches","Wine"]
+
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
 		if(data.message=="OK") {
 			$scope.product = data.data;
@@ -750,12 +782,14 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		
 
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
-		
 
+		console.log("get!!")
+		
 		if(data.message=="OK") {
 			$scope.product = data.data;
-		
+			console.log(data.data);
 
+			console.log($rootScope.userdata);
 			if(typeof $rootScope.userdata != 'undefined' && ($scope.product).sold==false){
 				if($scope.product.sellerUser == $rootScope.userdata._id){
 			
@@ -764,16 +798,18 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 			
 
 				CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
+				console.log(data.data);
 	
 				$scope.userdata = data.data;
+
 				//If user is already watching the product, the user does need watch button.
 				if(typeof $scope.userdata!='undefined'){
 					if(($scope.userdata.productsWatching).indexOf($stateParams.item_id) != -1){
-						
+						console.log("watched")
 						$scope.unwatch = true;
 					}				
 					else{
-					
+						console.log("not watched")
 						if(!seller){
 							$scope.watch = true; 
 						}
@@ -798,52 +834,16 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 	$scope.click_watch = function(productid){
 
-		
-		// //push to the user's watching list
-		// (userdata.productsWatching).push($stateParams.item_id);
-
-		// CurrentUser.editUserinfo(userdata).success(function(data) {
-		// 	$scope.watch = false;
-		// 	$scope.unwatch = true;
-		// });
-
-		// //push to the product's user list 
-		// ($scope.product.usersWatching).push(userdata._id);
-
-		// CurrentUser.editProductinfo($scope.product._id, $scope.product).success(function(data) {
-		// 	console.log("Watched");
-		// });
 		CurrentUser.watchProduct(productid);
+		$scope.watch = false;
+		$scope.unwatch = true;
 
 	};
 
-	$scope.click_unwatch = function(userdata, item){
-
-		//find item index in user's watching list
-		var item_index = (userdata.productsWatching).indexOf($stateParams.item_id);
-
-		//find user index in product's user list
-		var user_index = (item.usersWatching).indexOf(userdata._id);
-
-		//update the info
-		if (item_index > -1) {
-			    (userdata.productsWatching).splice(item_index, 1);
-		}
-		if(user_index > -1){
-			(item.usersWatching).splice(user_index, 1);
-		}
-
-		CurrentUser.editUserinfo(userdata).success(function(data) {
-			$scope.watch = true;
-			$scope.unwatch = false;
-		});
-
-		CurrentUser.editProductinfo(item._id, $scope.product).success(function(data) {
-			console.log("UnWatched");
-		});
-
-
-
+	$scope.click_unwatch = function(productid){
+		CurrentUser.unwatchProduct(productid);
+		$scope.watch = true;
+		$scope.unwatch = false;
 	};
 
 

@@ -20,15 +20,52 @@ webAppServices.factory('CommonData', function($http){
 			random = Math.floor(Math.random() * (count - num + 1));
 			return $http.get('/api/products?where={sold:false}&sort={dateCreated:1}&limit=' + num + '&skip=' + random);
 		},
-		searchProducts : function(query,page,sortval,sortorder) {
+		searchProducts : function(query,page,sortval,sortorder,filter) {
+
 			var skipnum  = 10*page;
-			var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false}&skip='+skipnum+'&limit=10&sort={'+sortval
+			
+			if (filter == "All"){
+				var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false}&skip='+skipnum+'&limit=11&sort={'+sortval
+				+':' + sortorder.toString() + '}';	
+				return $http.get(querystring);
+			}
+
+			else{
+				var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false,category:"'+filter+'"}&skip='+skipnum+'&limit=11&sort={'+sortval
 				+':' + sortorder.toString() + '}';
 
-			return $http.get(querystring);
+				console.log(querystring);
+				return $http.get(querystring);
+			}
+			
 		},
+
+		searchProductsCount: function(query,page,sortval,sortorder,filter) {
+
+			var skipnum  = 10*page;
+			
+			if (filter == "All"){
+				var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false}&skip='+skipnum+'&limit=11&sort={'+sortval
+				+':' + sortorder.toString() + '}&count="true"';	
+				console.log(querystring);
+				return $http.get(querystring);
+			}
+
+			else{
+				var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false,category:"'+filter+'"}&skip='+skipnum+'&limit=11&sort={'+sortval
+				+':' + sortorder.toString() + '}&count="true"';
+
+				console.log(querystring);
+				return $http.get(querystring);
+			}
+			
+		},
+
 		getUserSellingProducts : function(id,nopics) {
+			console.log(id);
+
 			var query = '/api/products?where={sellerUser:"'+id+'"}';
+			console.log(query);
 			if(nopics)
 				query += '&select={_id:1,name:1,numUsersWatching:1}';
 			return $http.get(query);
@@ -92,7 +129,12 @@ webAppServices.factory('CurrentUser', function($http) {
 			return $http.put('api/products/' + productid, data);
 		},
 		watchProduct : function(productid) {
-			return $http.put('/auth/products/watch/' + productid,"");	
+			console.log(productid);
+			return $http.put('/auth/products/watch/' + productid);	
+		},
+		unwatchProduct : function(productid){
+			console.log(productid);
+			return $http.put('/auth/products/unwatch/' + productid);
 		}
 
 	}

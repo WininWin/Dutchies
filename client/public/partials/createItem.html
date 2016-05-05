@@ -67,6 +67,12 @@
                         	<label>Shipping Fee ($):</label>
         					<input type="text" class="form-control" ng-model="product.shippingPrice" required/>
                         </div>
+
+                        <div class="form-group">
+                            <label> Category: </label>
+                            <select ng-model="product.category" ng-options="category for category in categories" required> </select>
+
+                        </div>
                     </div>
                 </section>
                 <section class="row">
