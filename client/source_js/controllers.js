@@ -728,17 +728,29 @@ webAppControllers.controller('CreateItemController', ['$scope', '$state', 'Curre
 	$scope.submitting = 0;
 	$scope.product;
 	$scope.categories = ["Automotive & Powersports","Baby Products (Excluding Apparel)","Beauty","Books","Camera & Photo","Cell Phones","Clothing & Accessories","Collectible Coins","Collectibles (Books)","Collectibles (Entertainment)","Electronics (Accessories)","Electronics (Consumer)","Fine Art","Grocery & Gourmet Food","Handmade","Health & Personal Care","Historical & Advertising Collectibles","Home & Garden","Industrial & Scientific","Jewelry","Luggage & Travel Accessories","Music","Musical Instruments","Office Products","Outdoors","Personal Computers","Shoes, Handbags & Sunglasses","Software & Computer Games","Sports","Sports Collectibles","Tools & Home Improvement","Toys & Games","Video, DVD & Blu-Ray","Video Games & Video Game Consoles","Watches","Wine"]
-
+	$scope.ErrorMsg="";
 	$scope.createItem = function (product) {
+		
+		if (product.reservePrice > product.startPrice){
+			$scope.ErrorMsg = "Your starting price should be higher than reserve price!";
+			return;
+		}
+
+
+
+
 		$scope.submitting = 1;
 		$scope.product.currentPrice = $scope.product.startPrice;
 		Upload.upload({
 			url: '/auth/products',
 			data: $scope.product
 		}).success(function(){
+			$scope.ErrorMsg="";
 			$scope.submitting = 0;
+			$state.go("app.sell");
 		}).error(function(){
 			$scope.submitting = 0;
+			$ErrorMsg = "Some datas in your form is wrong!"
 		})
 	};
 }]);
