@@ -20,8 +20,8 @@
                         <div class="column small-6">
                             {{product._id}}
                             <p>Current Price: ${{ product.currentPrice }}</p>
-                            <p>Shipping Fee: ${{ product.shipping }}</p>
-                            <p>Total Price: ${{ product.shipping + product.currentPrice }}</p>
+                            <p>Shipping Fee: ${{ product.shippingPrice }}</p>
+                            <p>Total Price: ${{ product.shippingPrice + product.currentPrice }}</p>
                             <p>Watching: {{ product.usersWatching.length }} Users Watching</p>
                         </div>
                         <div class="column small-6">
