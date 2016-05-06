@@ -669,19 +669,19 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	}
 
 	$scope.creditcardfourdig;
-	if($window.sessionStorage.userdata!=undefined)
-		$scope.user = JSON.parse($window.sessionStorage.userdata);
+	
     CurrentUser.getAccountInfo().success(function(data) {
 		if(data.message=="OK") {
-			CurrentUser.getUserSellingCount().success(function(data) {
-		    	CurrentUser.getUserWatchingCount().success(function(data2) {
-		    		CurrentUser.getUserBuyingCount().success(function(data3) {
-		    			$scope.buyCount = data3.data;
+			CurrentUser.getUserSellingCount().success(function(data2) {
+		    	CurrentUser.getUserWatchingCount().success(function(data3) {
+		    		CurrentUser.getUserBuyingCount().success(function(data4) {
+		    			$scope.buyCount = data4.data;
 		    		});
-		    		$scope.watchCount = data2.data;
+		    		$scope.watchCount = data3.data;
 		    	});
-		    	$scope.sellCount = data.data;
+		    	$scope.sellCount = data2.data;
 		    });
+		    $scope.user = data.data;
 			$scope.newaddress = $scope.user.address;
 			$scope.newaddress.zipcode = $scope.newaddress.zipcode.toString();
 			$rootScope.account = "My Account";
