@@ -29,7 +29,7 @@ webAppControllers.run(function($rootScope,$http,$state,$window, CurrentUser) {
     	$rootScope.loggingout = 1;
         CurrentUser.userLogout().success(function(data){
         	$state.go('app');
-        	$window.sessionStorage.userdata = {};
+        	$window.sessionStorage.userdata = "";
         	$window.sessionStorage.loggedin = 0;
         	$rootScope.loggedin = 0;
         	$rootScope.account = "Login";
@@ -175,8 +175,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 				// $state.go("app.search");
 				$scope.page = 0;
 				//$scope.result = query;
-				CommonData.searchProducts($rootScope.query,$scope.page,$scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
-					//console.log(data.data);	
+				CommonData.searchProducts($rootScope.query,$scope.page,$scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){	
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
 					$scope.result = true;
@@ -227,7 +226,6 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 			$scope.result = false;
 			$scope.prevDisabled = true;
 			CommonData.searchProducts($rootScope.query,$scope.page,$scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
-					//console.log(data.data);	
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
 					$scope.result = true;
@@ -262,7 +260,7 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 	 	CurrentUser.userLogin(login_creds).success(function(data) {
 	 		$scope.submitting = 0;
 			if(!data.error) {
-				$window.sessionStorage.userdata = data;
+				$window.sessionStorage.userdata = JSON.stringify(data.data);
 				$window.sessionStorage.loggedin = 1;
 				$state.go("app.account");
 			}
@@ -456,7 +454,6 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 	      var temp = {};
 	      temp.shipped = true;
 	      temp.img="keep_current";
-	      console.log(temp);
 	      CurrentUser.editProductinfo(productid,temp);
 	      item.shipped = true;
 
@@ -541,7 +538,6 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 			$scope.watching_list = true;
    			$scope.list_progress = false;
    			$scope.prevDisabled = true;
-   			console.log($scope.products.length)
    			if ($scope.products.length <= 10)
 				$scope.nextDisabled = true;
 			else {
@@ -555,7 +551,6 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
     });
 
     $scope.unwatch_refresh = function(productid){
-    	console.log(productid);
     	for(var i=0; i<$scope.products.length; i++){
     		if ($scope.products[i]._id == productid){
     			$scope.products.splice(i,1);
@@ -593,7 +588,6 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 		if ($scope.TempPhone.match(/\d/g).length===10){
 			$scope.ErrorMsg = ""
 			$scope.phoneShow = false;
-			console.log("pass");
 			$scope.user.mobilePhone = $scope.TempPhone;
 			CurrentUser.editUserinfo($scope.user);
 		}
@@ -676,7 +670,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 
 	$scope.creditcardfourdig;
 	if($window.sessionStorage.userdata!=undefined)
-		$scope.user = $window.sessionStorage.userdata;
+		$scope.user = JSON.parse($window.sessionStorage.userdata);
     CurrentUser.getAccountInfo().success(function(data) {
 		if(data.message=="OK") {
 			CurrentUser.getUserSellingCount().success(function(data) {
@@ -688,10 +682,8 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 		    	});
 		    	$scope.sellCount = data.data;
 		    });
-			$scope.user = data.data;
 			$scope.newaddress = $scope.user.address;
 			$scope.newaddress.zipcode = $scope.newaddress.zipcode.toString();
-			$window.sessionStorage.userdata = data.data;
 			$rootScope.account = "My Account";
 			$scope.TempPhone =  data.data.mobilePhone;
 
@@ -825,13 +817,13 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		
 		if(data.message=="OK") {
 			$scope.product = data.data;
-
-			if(typeof $window.sessionStorage.userdata != 'undefined' && ($scope.product).sold==false){
-				if($scope.product.sellerUser == $window.sessionStorage.userdata._id){
+			var user = JSON.parse($window.sessionStorage.userdata);
+			if(typeof user != 'undefined' && ($scope.product).sold==false){
+				if($scope.product.sellerUser == user._id){
 						seller = 1;
 				}
 			
-				if (($scope.product.usersWatching).indexOf($window.sessionStorage.userdata._id)!=-1){
+				if (($scope.product.usersWatching).indexOf(user._id)!=-1){
 					$scope.unwatch = true;
 					$scope.buy = true;
 				}
@@ -845,8 +837,8 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 			}
 
-			if(typeof $window.sessionStorage.userdata != 'undefined' && ($scope.product).sold==true){
-				if($scope.product.soldToUser == $window.sessionStorage.userdata._id){
+			if(typeof user != 'undefined' && ($scope.product).sold==true){
+				if($scope.product.soldToUser == user._id){
 					$scope.buyer = true;
 				}
 
