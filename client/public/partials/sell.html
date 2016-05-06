@@ -17,7 +17,7 @@
 					<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="list_progress"></i>
 				</div>
 				<div class="column small-12 small-centered" ng-show="selling_list">
-					<section class="row product-container" ng-repeat="item in products">
+					<section class="row product-container" ng-repeat="item in products" id="{{item._id}}">
 						<div class="columns small-2 text-center small-offset thumbnail-wrapper">
 							<img class="thumbnail" data-ng-src="{{item.img}}">
 						</div>
@@ -33,7 +33,8 @@
 							</div>
 							<div class="columns small-2 small-centered">
 								<md-button class="md-raised md-warn" ui-sref="app.editItem({item_id: item._id})">Edit</md-button></br>
-								<md-button class="md-raised md-primary">Delete</md-button>
+								<md-button class="md-raised md-primary" ng-hide="item.delete" ng-click="deleteItemPart1(item._id)">Delete</md-button>
+								<md-button class="md-raised md-primary extra-padding" ng-show="item.delete" ng-click="deleteItemPart2(item._id)">Confirm Delete</md-button>
 							</div>
 						</div>
 					</section>

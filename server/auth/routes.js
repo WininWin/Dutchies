@@ -62,7 +62,7 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 	/* get all the products that the logged in user is watching */
 	app.get('/auth/products/watching', isLoggedIn, function(req, res) {
 		console.log(req.user._id);
-		Product.find({"usersWatching":req.user._id})
+		Product.find({"usersWatching":req.user._id,sold:false})
 		.sort(getParam(req.query.sort))
 		.select(getParam(req.query.select))
 		.skip(req.query.skip)
@@ -159,6 +159,31 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 
 
 	// change details about item PUT
+
+
+	// delete a product
+	app.delete('/auth/products/:id', isLoggedIn, function(req,res){
+		//get the product by id to update it
+		Product.findById(req.params.id,function(error,result){
+			if(error || result==null) {
+				res.status(404);
+				res.json({"message":"Product not found","data":[]});
+			}
+			else {
+				//now we have the product, we'll delete it
+				result.remove(function(error) {
+					if(error) {
+						res.status(500);
+						res.json({"message":errorToString(error),"data":[]});
+					}
+					else {
+						res.status(200);
+						res.json({"message":"Product deleted","data":[]})
+					}
+				})
+			}
+		})
+	})
 
 
 	// allow user to edit their account details PUT
