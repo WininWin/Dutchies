@@ -29,7 +29,7 @@ this.priceDaemon = function() {
 					var w = result[i].usersWatching.length;
 					if(Math.pow(1.05,(-1)*w)>(r*3/4)){
 						updatedCount += 1;
-						var newPrice = (parseInt(result[i].currentPrice)) + (((result[i].startPrice-result[i].reservePrice)*r*.001).toFixed(2))*-1.0;
+						var newPrice = (parseInt(result[i].currentPrice)) + (((result[i].startPrice-result[i].reservePrice)*r*.0001).toFixed(2))*-1.0;
 						if (newPrice >= result[i].reservePrice) 
 							Product.findByIdAndUpdate(result[i]._id,{ currentPrice: newPrice, cyclesSinceLastPriceUpdate:0},function(error){});
 						else 

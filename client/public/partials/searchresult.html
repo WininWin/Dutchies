@@ -33,7 +33,7 @@
 			</section>
 			<section class="row" ng-show="result">
 				<div class="column small-12 small-centered">
-					<h5 class="text-center" ng-show="noresults">There were no results that matched your query.</h5>
+					<h5 class="text-center" ng-show="!search_products.length">There were no results that matched your query.</h5>
 					<div class="row product-container" ng-repeat="item in search_products" >
 						<div class="columns small-2 text-center small-offset thumbnail-wrapper">
 							<img class="thumbnail" data-ng-src={{item.img}}>
