@@ -580,9 +580,11 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	$scope.phoneShow = false;
 	$scope.addressShow = false;
 	$scope.cardShow= false;
+	$scope.passwordShow= false;
 	$scope.ErrorMsg = "";
 
 	$scope.updatePhone = function(){
+		$scope.ErrorMsg = ""
 		if ($scope.TempPhone.match(/\d/g).length===10){
 			$scope.ErrorMsg = ""
 			$scope.phoneShow = false;
@@ -596,6 +598,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	}
 
 	$scope.updateAddress = function(){
+		$scope.ErrorMsg = ""
 		if($scope.newaddress.zipcode.match(/\d/g).length===5){
 			$scope.newaddress.zipcode = parseInt($scope.newaddress.zipcode);
 			$scope.ErrorMsg = "";
@@ -611,6 +614,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 
 	$scope.updateCard = function(){
 		//update card
+		$scope.ErrorMsg = ""
 
 		if ($scope.card.number && $scope.card.holderName && $scope.card.ExpireDate){
 			$scope.ErrorMsg = "";
@@ -623,6 +627,23 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 		}
 		else{
 			$scope.ErrorMsg = "Please fill up all the information!";
+		}
+
+
+	}
+
+	$scope.updatePassword = function(){
+		//update card
+		$scope.ErrorMsg = ""
+
+		if ($scope.password == $scope.confirmPassword){
+			$scope.passwordShow = false;
+			CurrentUser.changePassword($scope.user.email,$scope.password).error(function(data){
+				$scope.ErrorMsg = "Unable to change password."
+			})
+		}
+		else{
+			$scope.ErrorMsg = "The passwords you entered do not match!";
 		}
 
 
@@ -643,6 +664,8 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$scope.addressShow = !$scope.addressShow;
 		if (field == 3)
 			$scope.cardShow = !$scope.cardShow;
+		if (field == 4)
+			$scope.passwordShow = !$scope.passwordShow;
 	}
 
 	$scope.creditcardfourdig;

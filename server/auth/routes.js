@@ -8,6 +8,11 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 		res.json({"message":"OK", "data": req.user});
 	});
 
+	app.post('/auth/password', passport.authenticate('local-password-change'), function(req, res) {
+		res.status(200);
+		res.json({"message":"Password changed", "data": req.user});
+	});
+
 	app.post('/auth/login', passport.authenticate('local-login'), function(req, res) {
 		res.json({ "message": "OK", "data": req.user
 		});

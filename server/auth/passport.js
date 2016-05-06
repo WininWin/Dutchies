@@ -42,6 +42,28 @@ module.exports = function(passport) {
 		});
 	}));
 
+	passport.use('local-password-change', new LocalStrategy({
+		usernameField : 'email',
+		passwordField : 'password', 
+		passReqToCallback: true
+	},
+	function(req, email, password, done) {
+		User.findOne({'email' : email}, function(err, user) {
+			if(err)
+				return done(err);
+			else {
+				user.password = user.generateHash(password);
+				
+				user.save(function(err) {
+					if(err)
+						throw err;
+					return done(null, user);
+				});
+			}
+			
+		});
+	}));
+
 	passport.use('local-login', new LocalStrategy({
 		usernameField: 'email',
 		passwordField: 'password',
