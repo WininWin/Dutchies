@@ -502,6 +502,16 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 
     }
 
+    $scope.buy_refresh = function(productid){
+    	for(var i=0; i<$scope.products.length; i++){
+    		if ($scope.products[i]._id == productid){
+    			$scope.products.splice(i,1);
+    			break;
+    		}
+    	}
+    	CurrentUser.buyProduct(productid);
+    }
+
 }]);
 
 
@@ -714,7 +724,7 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		
 		if(data.message=="OK") {
 			$scope.product = data.data;
-
+			console.log(data.data);
 
 			if(typeof $rootScope.userdata != 'undefined' && ($scope.product).sold==false){
 				if($scope.product.sellerUser == $rootScope.userdata._id){

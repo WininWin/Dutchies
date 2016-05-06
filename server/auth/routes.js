@@ -127,9 +127,32 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 
 
 	// when a user buys a product, marks it as sold, updates buying user PATCH??
+	app.put('/auth/products/buy/:id',isLoggedIn,function(req,res){
+
+		Product.findById(req.params.id, function(error,result){
+			if(result){
+				result.sold = true;
+				result.dateSold = Date.now();
+				result.soldToUser = req.user._id;
+				result.soldToUserName = req.user.name;
+				result.soldToUserEmail = req.user.email;
+				result.save(function(error){
+					res.status(200);
+					res.json({"message":"OK","data":result})
+				})
+			}
+			else{
+				res.status(500);
+				res.json({"message":"ERROR", "data":[]});
+			}
+		});
+
+	})
+
 
 
 	// allow a user to create a new product for sale POST
+
 
 
 	// allow a user to delete their product DELETE
@@ -173,6 +196,11 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 					res.status(200);
 					res.json({"message":"OK","data":result})
 				})
+			}
+
+			else{
+				res.status(500);
+				res.json({"message":"ERROR", "data":[]});
 			}
 		});
 
