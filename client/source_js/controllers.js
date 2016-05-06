@@ -425,13 +425,26 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
     });
   
     $scope.deleteItemPart1 = function(productid) {
-    	$scope.products.delete = true;
+    	
+		for (var i =0; i< $scope.products.length; i++){
+			if ($scope.products[i]._id = productid){
+				var name = $scope.products[i].name;
+				break;
+			}
+
+		}
+
+
+		if (confirm("Do you want to delete item "+name) == true) {
+	       CurrentUser.deleteProduct(productid);
+    		$('#'+productid).remove();
+	    } 
+	    else {
+	       return;
+	    }
+    	
     }
 
-    $scope.deleteItemPart2 = function(productid) {
-    	CurrentUser.deleteProduct(productid);
-    	$('#'+productid).remove();
-    }
 }]);
 
 webAppControllers.controller('WatchingController', ['$scope', '$state', '$http', '$rootScope', 'CurrentUser', function($scope, $state, $http,$rootScope, CurrentUser) {
