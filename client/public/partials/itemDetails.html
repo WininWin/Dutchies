@@ -26,14 +26,13 @@
                         <div class="column small-6">
                             <p>Sold By: <a ui-sref="app.userDetails({user_id:product.sellerUser})">{{ product.sellerUserName }}</a></p>
                             
-                            <p>Seller Email: <a href="mailto:{{product.sellerUserEmail}}?Subject=Hello%20again" target="_top">{{ product.sellerUserEmail }}  <i class="fa fa-envelope-o" aria-hidden="true"></i></a> </p> 
-
-                            <md-button ng-click = "click_watch(product._id)" ng-show = "watch" class="md-raised md-warn md-fixed-width"><i class="fa fa-eye" ></i> Watch</md-button>
-                            <md-button ng-click = "click_unwatch(product._id)" ng-show = "unwatch" class="md-raised md-primary md-fixed-width"><i class="fa fa-eye-slash"></i> Unwatch</md-button>
+                            <p>Seller Email: <a href="mailto:{{product.sellerUserEmail}}?Subject=Hello%20again" target="_top">{{ product.sellerUserEmail }}
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i></a> </p>                            
                         </div>
                     </section>
                     <section class="row">
-                        <div class="column small-12">
+                        </br>
+                        <div class="column small-6">
                             
                             <md-button ng-show = "buy" class="md-warn md-raised" ng-click="showConfirm($event,product._id)">
                               Buy
@@ -41,12 +40,16 @@
 
                             <div ng-show = "buyer">
                                 <h5> You bought it on: </h5>
-                                {{product.dateSold| date:"MMMM dd, yyyy"}}
+                                {{product.dateSold | date:"MMMM dd, yyyy"}}
                             </div>
 
                             <div ng-show = "sold">
                                 <h5> This product is sold </h5>
                             </div>
+                        </div>
+                        <div class="column small-6">
+                            <md-button ng-click = "click_watch(product._id)" ng-show = "watch" class="md-raised md-warn md-fixed-width"><i class="fa fa-eye" ></i> Watch</md-button>
+                            <md-button ng-click = "click_unwatch(product._id)" ng-show = "unwatch" class="md-raised md-primary md-fixed-width"><i class="fa fa-eye-slash"></i> Unwatch</md-button>
                         </div>
                     </section>
                 </div>

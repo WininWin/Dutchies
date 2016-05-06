@@ -9,8 +9,7 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 	});
 
 	app.post('/auth/login', passport.authenticate('local-login'), function(req, res) {
-		res.json({
-			user: req.user
+		res.json({ "message": "OK", "data": req.user
 		});
 	});
 
