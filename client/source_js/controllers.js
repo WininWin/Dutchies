@@ -254,8 +254,7 @@ webAppControllers.controller('FooterController',['$scope', '$state','$window', f
 webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$rootScope', 'CurrentUser', '$window', function($scope,$state,$http,$rootScope, CurrentUser, $window) {
 	$scope.submitting = 0;
 	$rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
-		$scope.lastState = from.name;
-		console.log($scope.lastState);
+		$window.sessionStorage.lastState = JSON.stringify(from);
 	});
  	$scope.login = function() {
  		$scope.submitting = 1;
@@ -266,7 +265,7 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 			if(!data.error) {
 				$window.sessionStorage.userdata = JSON.stringify(data.data);
 				$window.sessionStorage.loggedin = 1;
-				$state.go($scope.lastState);
+				$state.go(JSON.parse($window.sessionStorage.lastState).name);
 			}
 	   	})
 	 	.error(function(){
