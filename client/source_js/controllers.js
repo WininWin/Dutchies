@@ -313,6 +313,7 @@ webAppControllers.controller('FooterController',['$scope', '$state','$window', f
 
 webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$rootScope', 'CurrentUser', '$window', function($scope,$state,$http,$rootScope, CurrentUser, $window) {
 	$scope.submitting = 0;
+	$scope.success=0;
 	// if we're already logged in, redirect to the accounts page
 	if($window.sessionStorage.user!="" && $window.sessionStorage.user!=undefined)
 		$state.go('app.account');
@@ -322,6 +323,7 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 	});
 
  	$scope.login = function() {
+ 		$scope.success=0;
  		$scope.submitting = 1;
  		$scope.loginError = 0;
 		var login_creds = {"email":$scope.email,"password":$scope.password};
@@ -335,6 +337,8 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 					$state.go('app.account');
 				else
 					$state.go(JSON.parse($window.sessionStorage.lastState).name);
+				$state.go('app.account');
+				$scope.success=1;
 					
 			}
 	   	})
@@ -826,7 +830,7 @@ webAppControllers.controller('CreateItemController', ['$scope', '$state', 'Curre
 			$state.go("app.sell");
 		}).error(function(){
 			$scope.submitting = 0;
-			$ErrorMsg = "Some datas in your form is wrong!"
+			$ErrorMsg = "There are errors in the form above."
 		})
 	};
 }]);
@@ -881,10 +885,11 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		
 		if(data.message=="OK") {
 			$scope.product = data.data;
-			if ($window.sessionStorage.userdata != "" && $window.sessionStorage.userdata != undefined)
+			if ($window.sessionStorage.userdata != "" && $window.sessionStorage.userdata != undefined){
 				var user = JSON.parse($window.sessionStorage.userdata);
-			if(user._id==$scope.product.sellerUser)
-				$scope.seller = 1
+				if(user._id==$scope.product.sellerUser)
+					$scope.seller = 1
+			}
 			if(typeof user != 'undefined' && ($scope.product).sold==false){
 
 				if (($scope.product.usersWatching).indexOf(user._id)!=-1){

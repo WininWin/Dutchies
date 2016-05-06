@@ -11,23 +11,23 @@
         			</div>
             		<div class="column small-7">
                         <div class="form-group">
-                            <label>Product Name:</label>
+                            <label>Product Name*</label>
                             <input type="text" class="form-control"  ng-model="product.name" required>
                         </div>
                         <div class="form-group">
-                            <label>Category:</label>
+                            <label>Category*</label>
                             <select ng-model="product.category" ng-options="category for category in categories" required> </select>
                         </div>
                         <div class="form-group">
-                            <label>Starting Value ($):</label>
+                            <label>Starting Price ($)*</label>
                             <input type="text" class="form-control" ng-model="product.startPrice" required>
                         </div>
                         <div class="form-group">
-                        	<label>Reserve Price ($):</label>
+                        	<label>Reserve Price ($)*</label>
         					<input type="text" class="form-control" ng-model="product.reservePrice" required>
                         </div>
                         <div class="form-group">
-                        	<label>Shipping Fee ($):</label>
+                        	<label>Shipping Fee ($)*</label>
         					<input type="text" class="form-control" ng-model="product.shippingPrice" required>
                         </div>
                     </div>
@@ -45,12 +45,16 @@
                 </section>
                	<section class="row">
                 	<div class="column small-12 text-center">
-                		<md-button  type= "submit" class="md-raised md-accent md-hue-1" ng-click="createItem(product)">Create Item</md-button>
+                		<md-button  type= "submit" class="md-raised md-accent md-hue-1" ng-click="createItem(product)" ng-disabled="itemForm.$invalid">Create Item</md-button>
                         <i class="fa fa-spinner fa-spin fa-1x fa-fw margin-bottom" ng-show="submitting"></i>
                 	</div>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="alert callout" ng-show="itemForm.$invalid">There are errors with your responses. Fix them before submitting.</div>
                 </section>
             </form>
-            {{ErrorMsg}}
+            
         </div>
     </section>
 </div>

@@ -6,7 +6,7 @@ var Product = require('./models/product');
 
 this.priceDaemon = function() {
 	// increment cycles cine last updated for all products
-	var conditions = { sold: false, $where: "this.currentPrice >= this.reservePrice" }
+	var conditions = { sold: false, $where: "this.currentPrice > this.reservePrice" }
 	  , update = { $inc: { cyclesSinceLastPriceUpdate: 1 }}
 	  , options = { multi: true };
 	Product.update(conditions,update,options,function(){});

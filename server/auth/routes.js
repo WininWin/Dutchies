@@ -1,7 +1,7 @@
 module.exports = function(app, passport, User, Product, fs, uploading) {
 
 
-	/******************* Auth Routes *******************/
+	/******************* Specialized API Routes *******************/
 
 	app.post('/auth/signup', passport.authenticate('local-signup'), function(req, res) {
 		res.status(201);
@@ -372,8 +372,7 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 
 
 
-	/******************* API Routes *******************/
-	/* These routes need to be removed or better authenticated only to super users at a later time. */
+	/******************* General API Routes *******************/
 
 	/***** default Route *****/
 		var homeRoute = app.route('/api');

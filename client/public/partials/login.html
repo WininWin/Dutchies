@@ -17,11 +17,14 @@
                             <label>Password</label>
                             <input type="password" class="form-control" name="password" ng-model="password">
                         </div>
+
+                        <md-button class = "md-raised md-accent md-hue-1" type="submit" ng-click="login()">Login</md-button>
+                        <i class="fa fa-spinner fa-spin fa-1x fa-fw margin-bottom" ng-show="submitting"></i>
+
                         <div ng-show="loginError">
                             <div class="alert callout">You entered an invalid username and/or password. Try again.</div>
                         </div>
-                        <md-button class = "md-raised md-accent md-hue-1" type="submit" ng-click="login()">Login</md-button>
-                        <i class="fa fa-spinner fa-spin fa-1x fa-fw margin-bottom" ng-show="submitting"></i>
+                        <div class="success callout" ng-show="success">You logged in successfully!</div>
                     </form>
 
                     <hr>

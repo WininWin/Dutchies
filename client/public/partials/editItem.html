@@ -9,20 +9,20 @@
         			</div>
             		<div class="column small-7">
                         <div class="form-group">
-                            <label>Product Name:</label>
+                            <label>Product Name*</label>
                             <input type="text" class="form-control" name="pName" ng-model="product.name" required/>
                         </div>
                         <div class="form-group">
-                        	<label>Reserve Price ($):</label>
+                        	<label>Reserve Price ($)*</label>
         					<input type="text" class="form-control" name="password" ng-model="product.reservePrice" required>
                         </div>
                         <div class="form-group">
-                        	<label>Shipping Fee ($):</label>
+                        	<label>Shipping Fee ($)*</label>
         					<input type="text" class="form-control" name="password" ng-model="product.shippingPrice" required>
                         </div>
 
                          <div class="form-group">
-                            <label> Category: </label>
+                            <label> Category* </label>
                             <select ng-model="product.category" ng-options="category for category in categories" required></select>
 
                         </div>
@@ -39,8 +39,11 @@
                 </section>
                	<section class="row">
                 	<div class="column small-12 text-center">
-                		<md-button class="md-raised md-accent md-hue-1" type="submit" ng-click="updateItem(product)">Update Item</md-button>
+                		<md-button class="md-raised md-accent md-hue-1" type="submit" ng-click="updateItem(product)" ng-disabled="itemForm.$invalid">Update Item</md-button>
                         <i class="fa fa-spinner fa-spin fa-1x fa-fw margin-bottom" ng-show="submitting"></i>
+                        <br>
+                        <br>
+                        <div class="alert callout" ng-show="itemForm.$invalid">There are errors with your responses. Fix them before submitting.</div>
                 	</div>
                 </section>
             </form>
