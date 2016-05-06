@@ -31,10 +31,18 @@
 									<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
 								</a>
 							</div>
-							<div class="columns small-2 small-centered">
-								<md-button class="md-raised md-warn" ui-sref="app.editItem({item_id: item._id})">Edit</md-button></br>
-								<md-button class="md-raised md-primary" ng-hide="item.delete" ng-click="deleteItemPart1(item._id)">Delete</md-button>
-								<md-button class="md-raised md-primary extra-padding" ng-show="item.delete" ng-click="deleteItemPart2(item._id)">Confirm Delete</md-button>
+							<div class="columns small-2 small-centered">	
+								<div ng-hide = "item.sold">
+									<center>
+										<md-button class="md-raised md-warn" ui-sref="app.editItem({item_id: item._id})">Edit</md-button></br>
+										<md-button class="md-raised md-primary" ng-hide="item.delete" ng-click="deleteItemPart1(item._id)">Delete</md-button>
+										<md-button class="md-raised md-primary extra-padding" ng-show="item.delete" ng-click="deleteItemPart2(item._id)">Confirm Delete</md-button>
+									</center>
+								</div>
+
+								<div ng-show = "item.sold">
+									<img  data-ng-src="./data/Sold.png">
+								</div>
 							</div>
 						</div>
 					</section>
