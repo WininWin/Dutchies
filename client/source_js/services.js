@@ -136,6 +136,10 @@ webAppServices.factory('CurrentUser', function($http) {
 			console.log(productid);
 			return $http.put('/auth/products/unwatch/' + productid);
 		},
+		buyProduct : function(productid){
+			return $http.put('/auth/products/buy/' + productid)
+		},
+		
 		deleteProduct : function(productid) {
 			return $http.delete('/auth/products/'+productid);
 		}

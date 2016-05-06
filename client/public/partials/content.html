@@ -43,12 +43,14 @@
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="progress[2]"></i>
 			</div>
 			<div class="row small-up-2 medium-up3 large-up-6">
-				<div ng-repeat = "item in randomProducts" class="column small-12 medium-2 text-center">
-					<div class="thumbnail-wrapper">
-						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
-					</div>
-					<p class="homepage-label" ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
-					<p class="small-text">${{item.currentPrice}}</p>
+				<div ng-repeat = "item in randomProducts" class="column">
+					<center>
+						<div class="thumbnail-wrapper">
+							<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
+						</div>
+					</center>
+					<p ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
+					<p>${{item.currentPrice}}</p>
 				</div>
 
 			</div>
