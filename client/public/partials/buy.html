@@ -19,7 +19,7 @@
 							<div class="columns small-8">
 								<a class="md-accent" ui-sref="app.itemDetails({item_id: item._id})">
 									<div class="product-listing-title">{{item.name}}</div>
-									<div class="product-listing-info">Sold on {{item.dateSold | date:"MMMM dd, yyyy"}}</div>
+									<div class="product-listing-info">Bought on {{item.dateSold | date:"MMMM dd, yyyy"}}</div>
 								</a>
 								<a class="md-accent md-hue-1" ui-sref="app.userDetails({user_id: item.sellerUser})">
 									<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>

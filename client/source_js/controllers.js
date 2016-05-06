@@ -1,4 +1,4 @@
-var webAppControllers = angular.module('webAppControllers', ['ngMaterial','ngFileUpload']);
+var webAppControllers = angular.module('webAppControllers', ['ngMaterial', 'ngMessages', 'ngFileUpload']);
 
 
 webAppControllers.directive("fileread", [function () {
@@ -355,7 +355,7 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
 
 }]);
 
-webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$window', '$rootScope', 'CurrentUser', function($scope, $state, $http, $window, $rootScope, CurrentUser) {
+webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$window', '$rootScope', 'CurrentUser','$mdDialog', function($scope, $state, $http, $window, $rootScope, CurrentUser,$mdDialog) {
 	$scope.selling_list = false;
    	$scope.list_progress = true;
 
@@ -420,30 +420,33 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
     	$state.go("app.login");
     });
   
+
+  	$scope.showConfirm = function(ev,productid) {
+    // Appending dialog to document.body to cover sidenav in docs app
+	    var confirm = $mdDialog.confirm()
+	          .title('Would you like to delete this product?')
+	          .textContent('You cannot restore the data if you delete it')
+	          .targetEvent(ev)
+	          .ok('Yes!')
+	          .cancel('No!');
+
+	    $mdDialog.show(confirm).then(function() {
+	      $scope.deleteItemPart1(productid);
+	    });
+	  };
+
+
     $scope.deleteItemPart1 = function(productid) {
     	
-		for (var i =0; i< $scope.products.length; i++){
-			if ($scope.products[i]._id = productid){
-				var name = $scope.products[i].name;
-				break;
-			}
-
-		}
-
-
-		if (confirm("Do you want to delete item "+name) == true) {
-	       CurrentUser.deleteProduct(productid);
-    		$('#'+productid).remove();
-	    } 
-	    else {
-	       return;
-	    }
-
+		
+	    CurrentUser.deleteProduct(productid);
+    	$('#'+productid).remove();
+	   
     }
 
 }]);
 
-webAppControllers.controller('WatchingController', ['$scope', '$state', '$http', '$rootScope', 'CurrentUser', function($scope, $state, $http,$rootScope, CurrentUser) {
+webAppControllers.controller('WatchingController', ['$scope', '$state', '$http', '$rootScope', 'CurrentUser','$mdDialog', function($scope, $state, $http,$rootScope, CurrentUser,$mdDialog) {
     $scope.watching_list = false;
    	$scope.list_progress = true;
 
@@ -487,6 +490,20 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 	    });
 
 	};
+
+	$scope.showConfirm = function(ev,productid) {
+    // Appending dialog to document.body to cover sidenav in docs app
+	    var confirm = $mdDialog.confirm()
+	          .title('Would you like to buy this product?')
+	          .textContent('Your credit card will be charged if you click yes!')
+	          .targetEvent(ev)
+	          .ok('Yes!')
+	          .cancel('No!');
+
+	    $mdDialog.show(confirm).then(function() {
+	      $scope.buy_refresh(productid);
+	    });
+	  };
 
 
     CurrentUser.getUserWatching($scope.page).success(function(data) {
@@ -726,7 +743,8 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 }]);
 
 
-webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$rootScope', 'CurrentUser', '$stateParams','$window', function($scope, $state, $rootScope, CurrentUser, $stateParams, $window) {
+
+webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$rootScope', 'CurrentUser', '$stateParams','$window', '$mdDialog',function($scope, $state, $rootScope, CurrentUser, $stateParams, $window,$mdDialog) {
 
 	// $('#watch').hide();
 	// $('#unwatch').hide();
@@ -806,6 +824,21 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		$state.go("app.buy");
 
 	};
+
+
+	$scope.showConfirm = function(ev,productid) {
+    // Appending dialog to document.body to cover sidenav in docs app
+	    var confirm = $mdDialog.confirm()
+	          .title('Would you like to buy this product?')
+	          .textContent('Your credit card will be charged if you click yes!')
+	          .targetEvent(ev)
+	          .ok('Yes!')
+	          .cancel('No!');
+
+	    $mdDialog.show(confirm).then(function() {
+	      $scope.click_buy(productid);
+	    });
+	  };
 
 
 }]);

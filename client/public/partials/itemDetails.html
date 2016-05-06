@@ -34,11 +34,14 @@
                     </section>
                     <section class="row">
                         <div class="column small-12">
-                            <md-button ng-show = "buy" ng-click="click_buy(product._id)" class="md-raised md-warn">Buy It Now!</md-button>
+                            
+                            <md-button ng-show = "buy" class="md-warn md-raised" ng-click="showConfirm($event,product._id)">
+                              Buy
+                            </md-button>
 
                             <div ng-show = "buyer">
                                 <h5> You bought it on: </h5>
-                                {{product.dateSold}}
+                                {{product.dateSold| date:"MMMM dd, yyyy"}}
                             </div>
 
                             <div ng-show = "sold">
