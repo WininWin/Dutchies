@@ -180,38 +180,38 @@ def main(argv):
             SoldTo_Product_Dic[soldToUser].append(productID)
 
         
-    for key in Seller_Product_Dic:
+    # for key in Seller_Product_Dic:
         
-        productlist = Seller_Product_Dic[key]
-        if (len(productlist)!=0):
-            putDict = {'productsSelling': [str(x).replace('[','').replace(']','').replace("'",'').replace('"','') for x in productlist]}
-            params = urllib.urlencode(putDict,True)
-            conn.request("PUT", "/api/users/"+key, params, headers)
-            response = conn.getresponse()
-            data = response.read()
-            d = json.loads(data)
+    #     productlist = Seller_Product_Dic[key]
+    #     if (len(productlist)!=0):
+    #         putDict = {'productsSelling': [str(x).replace('[','').replace(']','').replace("'",'').replace('"','') for x in productlist]}
+    #         params = urllib.urlencode(putDict,True)
+    #         conn.request("PUT", "/api/users/"+key, params, headers)
+    #         response = conn.getresponse()
+    #         data = response.read()
+    #         d = json.loads(data)
 
-    for key in SoldTo_Product_Dic:
+    # for key in SoldTo_Product_Dic:
         
-        productlist = SoldTo_Product_Dic[key]
-        if (len(productlist)!=0):
-            putDict = {'productsBought': [str(x).replace('[','').replace(']','').replace("'",'').replace('"','') for x in productlist]}
-            params = urllib.urlencode(putDict,True)
-            conn.request("PUT", "/api/users/"+key, params, headers)
-            response = conn.getresponse()
-            data = response.read()
-            d = json.loads(data)
+    #     productlist = SoldTo_Product_Dic[key]
+    #     if (len(productlist)!=0):
+    #         putDict = {'productsBought': [str(x).replace('[','').replace(']','').replace("'",'').replace('"','') for x in productlist]}
+    #         params = urllib.urlencode(putDict,True)
+    #         conn.request("PUT", "/api/users/"+key, params, headers)
+    #         response = conn.getresponse()
+    #         data = response.read()
+    #         d = json.loads(data)
 
-    for key in Watching_Product_Dic:
+    # for key in Watching_Product_Dic:
         
-        productlist = Watching_Product_Dic[key]
-        if (len(productlist)!=0):
-            putDict = {'productsWatching': [str(x).replace('[','').replace(']','').replace("'",'').replace('"','') for x in productlist]}
-            params = urllib.urlencode(putDict,True)
-            conn.request("PUT", "/api/users/"+key, params, headers)
-            response = conn.getresponse()
-            data = response.read()
-            d = json.loads(data)
+    #     productlist = Watching_Product_Dic[key]
+    #     if (len(productlist)!=0):
+    #         putDict = {'productsWatching': [str(x).replace('[','').replace(']','').replace("'",'').replace('"','') for x in productlist]}
+    #         params = urllib.urlencode(putDict,True)
+    #         conn.request("PUT", "/api/users/"+key, params, headers)
+    #         response = conn.getresponse()
+    #         data = response.read()
+    #         d = json.loads(data)
 
     # Exit gracefully
     conn.close()
