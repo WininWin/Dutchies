@@ -6,6 +6,9 @@ webAppServices.factory('CommonData', function($http){
         getAllproducts : function() {
 			return $http.get("/api/products");
 		},
+		getAllUserEmails : function() {
+			return $http.get('/api/users?select={"email":1}');
+		},
 		mostWatchedProducts : function() {
 			return $http.get('/api/products?where={sold:false}&sort={numUsersWatching:-1}&limit=6')
 		},

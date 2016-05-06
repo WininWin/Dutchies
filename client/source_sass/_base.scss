@@ -56,6 +56,12 @@ body{
 .product-listing-title {
 	padding-bottom: 0.5%;
 	font-size: 24px;
+
+	@include breakpoint (small only) {
+		font-size: 15px;
+		padding-bottom: 0.5%;
+	}
+
 }
 
 .product-listing-info {
@@ -64,9 +70,11 @@ body{
 
 .thumbnail-wrapper {
 	height: 110px;
-	// width: 150px;
 	text-align: center;
 	margin: 0 auto;
+	@include breakpoint (small only) {
+		height:70px;
+	}
 }
 
 .thumbnail-wrapper-big {
@@ -188,6 +196,9 @@ body{
 
 .margin-top-button {
 	margin-top:18px;
+	@include breakpoint (small only) {
+		margin-top:4px;
+	}
 }
 
 .md-button.md-fab.md-mini {
@@ -246,4 +257,13 @@ body{
 	margin-right: auto;
     margin-left: auto;
     display: block;
+}
+
+.form-error {
+	display: block;
+}
+
+form input.ng-invalid.ng-touched {
+    border-color: #ec5840;
+    background-color: rgba(236, 88, 64, 0.1);
 }

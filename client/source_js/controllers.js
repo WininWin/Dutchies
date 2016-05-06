@@ -23,6 +23,7 @@ webAppControllers.directive("fileread", [function () {
 //global functions
 webAppControllers.run(function($rootScope,$http,$state,$window, CurrentUser) {
 	$window.sessionStorage.loggedin = 0;
+	$rootScope.loggedin = 0;
 	$rootScope.account = "";
 	$rootScope.loggingout = 0;
     $rootScope.logout = function() {
@@ -111,7 +112,7 @@ webAppControllers.controller('ContentController',['$scope' ,'$state','$http', '$
 
 }]);
 
-webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', '$stateParams', function($scope, $state, $http,$rootScope, CommonData, CurrentUser, $stateParams) {
+webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$rootScope', 'CommonData', 'CurrentUser', '$stateParams','$window', function($scope, $state, $http,$rootScope, CommonData, CurrentUser, $stateParams,$window) {
 		
 		$scope.categories = ["All","Baby Products (Excluding Apparel)","Beauty","Books","Camera & Photo","Cell Phones","Clothing & Accessories","Collectible Coins","Collectibles (Books)","Collectibles (Entertainment)","Electronics (Accessories)","Electronics (Consumer)","Fine Art","Grocery & Gourmet Food","Handmade","Health & Personal Care","Historical & Advertising Collectibles","Home & Garden","Industrial & Scientific","Jewelry","Luggage & Travel Accessories","Music","Musical Instruments","Office Products","Outdoors","Personal Computers","Shoes, Handbags & Sunglasses","Software & Computer Games","Sports","Sports Collectibles","Tools & Home Improvement","Toys & Games","Video, DVD & Blu-Ray","Video Games & Video Game Consoles","Watches","Wine"]
 
@@ -134,6 +135,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 				  $scope.result = true;
 				  $scope.nextDisabled = false;
 				  $rootScope.search_products.pop();
+				  $scope.updateWatchButtons();
 		    });
 		};
 
@@ -155,6 +157,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 					$scope.nextDisabled = false;
 					$rootScope.search_products.pop();
 				}
+				$scope.updateWatchButtons();
 		    });
 
 		};
@@ -190,7 +193,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 					}
 					if(!$scope.search_products.length)
 						$scope.noresults = 1;
-
+					$scope.updateWatchButtons();
 				});
 
 
@@ -235,12 +238,69 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 						$scope.nextDisabled = false;
 						$rootScope.search_products.pop();
 					}
-
+					$scope.updateWatchButtons();
 			});
 
 
 		}
 
+
+
+		$scope.updateWatchButtons = function(){
+	    	for(var i=0; i<$rootScope.search_products.length; i++){
+	    		$rootScope.search_products[i].tmp_watch = $scope.show_watch($rootScope.search_products[i])
+	    		$rootScope.search_products[i].tmp_unwatch = $scope.show_unwatch($rootScope.search_products[i])
+	    	}
+		}
+
+		$scope.show_watch = function(item){
+			if ($window.sessionStorage.userdata != "" && $window.sessionStorage.userdata != undefined) {
+				var user = JSON.parse($window.sessionStorage.userdata);
+				if(user._id!=item.sellerUser && item.usersWatching.indexOf(user._id)==-1)
+					return 1;
+			}
+			else return 0;
+		}
+		$scope.show_unwatch = function(item){
+			if ($window.sessionStorage.userdata != "" && $window.sessionStorage.userdata != undefined){
+				var user = JSON.parse($window.sessionStorage.userdata);
+				if(user._id!=item.sellerUser && item.usersWatching.indexOf(user._id)>-1)
+					return 1;
+			}
+			else return 0;
+		}
+		$scope.show_edit = function(item){
+			if ($window.sessionStorage.userdata != "" && $window.sessionStorage.userdata != undefined){
+				var user = JSON.parse($window.sessionStorage.userdata);
+				if(user._id==item.sellerUser)
+					return 1;
+			}
+			else return 0;
+		}
+
+		$scope.unwatch_refresh = function(productid){
+	    	for(var i=0; i<$rootScope.search_products.length; i++){
+	    		if ($rootScope.search_products[i]._id == productid){
+	    			$rootScope.search_products[i].usersWatching.splice(productid,1);
+	    			$rootScope.search_products[i].tmp_watch = 1;
+	    			$rootScope.search_products[i].tmp_unwatch = 0;
+	    			break;
+	    		}
+	    	}
+	    	CurrentUser.unwatchProduct(productid);
+	    }
+
+		$scope.watch_refresh = function(productid){
+	    	for(var i=0; i<$rootScope.search_products.length; i++){
+	    		if ($rootScope.search_products[i]._id == productid){
+	    			$rootScope.search_products[i].usersWatching.push(productid);
+	    			$rootScope.search_products[i].tmp_watch = 0;
+	    			$rootScope.search_products[i].tmp_unwatch = 1;
+	    			break;
+	    		}
+	    	}
+	    	CurrentUser.watchProduct(productid);
+	    }
 
 }]);
 
@@ -253,8 +313,13 @@ webAppControllers.controller('FooterController',['$scope', '$state','$window', f
 
 webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$rootScope', 'CurrentUser', '$window', function($scope,$state,$http,$rootScope, CurrentUser, $window) {
 	$scope.submitting = 0;
-	if($window.sessionStorage.user!="" || $window.sessionStorage.user!=undefined)
+	// if we're already logged in, redirect to the accounts page
+	if($window.sessionStorage.user!="" && $window.sessionStorage.user!=undefined)
 		$state.go('app.account');
+
+	$rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+		$window.sessionStorage.lastState = JSON.stringify(from);
+	});
 
  	$scope.login = function() {
  		$scope.submitting = 1;
@@ -265,10 +330,14 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 			if(!data.error) {
 				$window.sessionStorage.userdata = JSON.stringify(data.data);
 				$window.sessionStorage.loggedin = 1;
-				$state.go("app.account");
+				$rootScope.loggedin = 1;
+				if($window.sessionStorage.lastState=="" || $window.sessionStorage.lastState==undefined)
+					$state.go('app.account');
+				else
+					$state.go(JSON.parse($window.sessionStorage.lastState).name);
+					
 			}
-
-	   })
+	   	})
 	 	.error(function(){
 	 		$scope.submitting = 0;
 	 		$scope.loginError = 1;
@@ -692,42 +761,43 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
     })
     .error(function(data){
     	$state.go("app.login");
+    	console.log("going to login")
     });
 }]);
 
-webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentUser', function($scope, $state, CurrentUser) {
-	$scope.user;
-	$scope.useremaillist;
-	$scope.duplicate = false;
+webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentUser', 'CommonData', function($scope, $state, CurrentUser,CommonData) {
+	$scope.user = {};
+	$scope.submitting = 0;
+	$scope.ErrorMsg = 0;
+	$scope.EmailError = "";
 
-	CurrentUser.getAllUser().success(function(data){
-		$scope.useremaillist = data.data;
-
-	})
-
-	$scope.emailcheck = function(){
-		$scope.duplicate = false;
-		if($scope.user.email && $scope.useremaillist){
-			for (i=0; i<$scope.useremaillist.length; i++){
-				if ($scope.user.email == $scope.useremaillist[i].email)
-					$scope.duplicate = true;
-			}
+	CommonData.getAllUserEmails().success(function(data){
+		$scope.emails=data.data;
+		$scope.emails_array = [];
+		for(i = 0; i < $scope.emails.length; i++){
+			$scope.emails_array.push($scope.emails[i].email);
 		}
-		else{
-			$scope.duplicate = false;
-		}
+	});
+
+	$scope.emailCheck = function() {
+		if($scope.emails_array.indexOf($scope.user.email)>-1)
+			$scope.EmailError = 1;
+		else
+			$scope.EmailError = 0;
 	}
 
+	$scope.newUser = function() {
+		$scope.ErrorMsg = "";
+		$scope.submitting = 1;
+		CurrentUser.createUser($scope.user).success(function(){
+			$scope.submitting = 0;
+			$state.go('app.account');
+		}).error(function(error){
+			$scope.submitting = 0;
+			$scope.ErrorMsg = 1;
+		});
+	}
 
-	$scope.createUser = function(user, invalidEmail, noEmail, noPassword) {
-		if (invalidEmail == null && noEmail == null && noPassword == null) {
-			CurrentUser.createUser(user).success(function(data) {
-				if(data.message=="OK") {
-					$state.go("app");
-				}
-			});
-		}
-	};
 }]);
 
 webAppControllers.controller('CreateItemController', ['$scope', '$state', 'CurrentUser', 'Upload', function($scope, $state, CurrentUser, Upload) {
@@ -811,7 +881,7 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		
 		if(data.message=="OK") {
 			$scope.product = data.data;
-			if ($window.sessionStorage.userdata != "")
+			if ($window.sessionStorage.userdata != "" && $window.sessionStorage.userdata != undefined)
 				var user = JSON.parse($window.sessionStorage.userdata);
 			if(user._id==$scope.product.sellerUser)
 				$scope.seller = 1
@@ -900,12 +970,15 @@ webAppControllers.controller('UserDetailsController', ['$scope', '$state', 'Comm
 		}
 	})
 
-	CommonData.getUserSellingProducts($stateParams.user_id,1).success(function(data) {
+	CommonData.getUserSellingProducts($stateParams.user_id,0).success(function(data) {
 		$scope.loading2=0;
 		if(data.message=="OK") {
-			$scope.userProducts = data.data;
+			$scope.products = data.data;
+
 		}
 	});
+
+
 	
 	
 }]);

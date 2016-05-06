@@ -2,31 +2,31 @@
     <section class="row view-container">
         <div class="column small-12">
             <section class="row">
-                <div class="column small-5 text-centered">
+                <div class="columns small-12 medium-5 text-centered">
                     <div class="product-img-wrapper">
                         </br>
                         <img class="product-img" data-ng-src="{{product.img}}"/>
                     </div>
                 </div>
-                <div class="column small-7">
+                <div class="columns small-12 medium-7">
                      <div class="row column text-center">
                         <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="detail_progress"></i>
                      </div>
                      <div class="row">
-                        <div class="column small-12">
+                        <div class="columns small-12">
                             </br></br>
                             <h3 class="sectionheader">{{ product.name }}</h3>
                             </br>  
                         </div>
                      </div>
                     <section ng-show="itemdetail" class="row">           
-                        <div class="column small-6">
+                        <div class="columns small-12 medium-6">
                             <div>Current Price: <strong>${{ product.currentPrice | number:2 }}</strong></div>
                             <div>Shipping Fee: <strong>${{ product.shippingPrice | number:2  }}</strong></div>
                             <div>Total Price: <strong>${{ product.shippingPrice + product.currentPrice | number:2 }}</strong></div>
                             <div>Watched By: <strong>{{ product.usersWatching.length }} Users Watching</strong></div>
                         </div>
-                        <div class="column small-6">
+                        <div class="columns small-12 medium-6">
                             <p>Sold By: <a ui-sref="app.userDetails({user_id:product.sellerUser})"><strong>{{ product.sellerUserName }}</strong></a></p>
                             
                             <p>Seller Email: <a href="mailto:{{product.sellerUserEmail}}?Subject=Hello%20again" target="_top"><strong>{{ product.sellerUserEmail }}</strong>
@@ -35,7 +35,7 @@
                     </section>
                     <section class="row">
                         </br>
-                        <div class="column small-6">
+                        <div class="columns small-12 medium-6">
                             
                             <md-button ng-show = "buy" class="md-warn md-raised" ng-click="showConfirm($event,product._id)">
                              <i class="fa fa-shopping-bag" aria-hidden="true"></i> Buy
@@ -50,7 +50,7 @@
                                 <h6> This product is sold. </h6>
                             </div>
                         </div>
-                        <div class="column small-6" ng-hide="">
+                        <div class="columns small-12 medium-6" ng-hide="">
                             <md-button ng-click = "click_watch(product._id)" ng-show = "watch" class="md-raised md-warn md-fixed-width"><i class="fa fa-eye" ></i> Watch</md-button>
                             <md-button ng-click = "click_unwatch(product._id)" ng-show = "unwatch" class="md-raised md-primary md-fixed-width"><i class="fa fa-eye-slash"></i> Unwatch</md-button>
                         </div>
@@ -59,7 +59,8 @@
             </section>
             <section class="row">
                 <div class="column small-12">
-                </br></br>
+                </br>
+                <h6 ng-show="!detail_progress"><strong>Description:</strong></h6>
                     {{ product.description }}
                 </br>
                 </div>

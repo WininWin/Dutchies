@@ -42,11 +42,31 @@
 							<div class="columns small-6">
 								<a class="md-accent" ui-sref="app.itemDetails({item_id: item._id})">
 									<div class="product-listing-title">{{item.name}}</div>
-									<div class="product-listing-info">${{item.currentPrice | number:2}} | Watched By: {{item.usersWatching.length}} Users</div>
+									<div class="product-listing-info">Current Price: <strong>${{item.currentPrice | number:2}}</strong> | Watched By: <strong>{{item.usersWatching.length}} Users</strong></div>
 								</a>
 								<a class="md-accent md-hue-1" ui-sref="app.userDetails({user_id: item.sellerUser})">
 									<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
 								</a>
+							</div>
+							
+							<div class="desktop columns small-4 text-right">
+								<div><md-button class="md-raised md-warn md-fixed-width" ng-click="watch_refresh(item._id)" aria-label="watch button" ng-show="item.tmp_watch"><i class="fa fa-eye" aria-hidden="true"></i> Watch</md-button></div>
+								<div><md-button class="md-raised md-primary md-fixed-width" ng-click="unwatch_refresh(item._id)" aria-label="unwatch button" ng-show="item.tmp_unwatch"><i class="fa fa-eye-slash" aria-hidden="true"></i> Unwatch</md-button></div>
+								<div><md-button class="md-raised md-warn md-fixed-width" ui-sref="app.editItem({item_id: item._id})" aria-label="unwatch button" ng-show="show_edit(item)"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</md-button></div>
+								<div clas="text-small status-line" ng-show="show_edit(item)">You are selling this item.</div>
+							</div>
+
+							<div class="tablet columns small-4 text-right">
+								<div><md-button class="md-raised md-warn md-fixed-width" ng-click="watch_refresh(item._id)" aria-label="watch button" ng-show="item.tmp_watch"><i class="fa fa-eye" aria-hidden="true"></i> Watch</md-button></div>
+								<div><md-button class="md-raised md-primary md-fixed-width" ng-click="unwatch_refresh(item._id)" aria-label="unwatch button" ng-show="item.tmp_unwatch"><i class="fa fa-eye-slash" aria-hidden="true"></i> Unwatch</md-button></div>
+								<div><md-button class="md-raised md-warn md-fixed-width" ui-sref="app.editItem({item_id: item._id})" aria-label="unwatch button" ng-show="show_edit(item)"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</md-button></div>
+								<div clas="text-small status-line" ng-show="show_edit(item)">You are selling this item.</div>
+							</div>
+
+							<div class="mobile columns small-4 text-right">
+								<div><md-button class="md-raised md-warn" ng-click="watch_refresh(item._id)" aria-label="watch button" ng-show="item.tmp_watch"><i class="fa fa-eye" aria-hidden="true"></i> </md-button></div>
+								<div><md-button class="md-raised md-primary" ng-click="unwatch_refresh(item._id)" aria-label="unwatch button" ng-show="item.tmp_unwatch"><i class="fa fa-eye-slash" aria-hidden="true"></i> </md-button></div>
+								<div><md-button class="md-raised md-warn" ui-sref="app.editItem({item_id: item._id})" aria-label="unwatch button" ng-show="show_edit(item)"><i class="fa fa-pencil" aria-hidden="true"></i> </md-button></div>
 							</div>
 						</div>
 					</div>

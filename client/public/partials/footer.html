@@ -6,8 +6,9 @@
 				<h5>Dutchies</h5>
 				<ul class="menu vertical">
 					<li><a href="mailto:someone@example.com?Subject=Hello%20again" target="_top"><i class="fa fa-envelope-o" aria-hidden="true"></i> Contact Us</a> </li>
-					<li><a ui-sref="app.login" ng-show="!window.sessionStorage.user"><i class="fa fa-key" aria-hidden="true"></i> Login</a> </li>
-					<li><a ng-click="logout()" ng-show="window.sessionStorage.user"><i class="fa fa-key" aria-hidden="true"></i> Logout</a> </li>
+					<li><a ui-sref="app.login">Login</a> </li>
+					<li><a ng-click="logout()">Logout</a> </li>
+					<li><a ui-sref="app.signup"> Signup </a></li>
 				</ul>
 			</div>
 			<div class="small-12 medium-4 columns">

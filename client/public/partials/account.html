@@ -35,7 +35,7 @@
 
                                             <md-button class="md-raised md-primary" ng-click="change(1)"> Cancel </md-button> 
 
-                                            {{ErrorMsg}}
+                                            <div class="alert callout" ng-show="ErrorMsg.length">{{ErrorMsg}}</div>
                                             </br>
                                         </div>
                                     </div>
@@ -67,6 +67,7 @@
                                                 
                                                 <md-button class = "md-raised md-warn" type="submit"  ng-click='updateAddress()'>Update</md-button> 
                                                 <md-button class="md-raised md-primary" ng-click="change(2)"> Cancel </md-button> 
+                                                <div class="alert callout" ng-show="ErrorMsg.length">{{ErrorMsg}}</div>
                                             </form>
 
                                         </div>
@@ -96,9 +97,9 @@
                                                 <input type="text" ng-model="card.ExpireDate" maxlength="5" required="true" />
                                                
                                                 
-                                                {{ErrorMsg}}
                                                 <md-button  class = "md-raised md-warn" type="submit" ng-click="updateCard()" >Update</md-button> 
                                                 <md-button class="md-raised md-primary" ng-click="change(3)"> Cancel </md-button> 
+                                                <div class="alert callout" ng-show="ErrorMsg.length">{{ErrorMsg}}</div>
 
                                                 
                                             </form>
@@ -126,9 +127,10 @@
                                                 Confirm New Password*
                                                 <input type="password" ng-model="confirmPassword" required/>
                                                 
-                                                {{ErrorMsg}}
+                                                
                                                 <md-button  class = "md-raised md-warn" type="submit" ng-click="updatePassword()" >Set Password</md-button> 
                                                 <md-button class="md-raised md-primary" ng-click="change(4)"> Cancel </md-button> 
+                                                <div class="alert callout" ng-show="ErrorMsg.length">{{ErrorMsg}}</div>
 
                                                 
                                             </form>
@@ -147,9 +149,8 @@
                         </div>
                     </div>
             </section>          
-            <div class="page-header text-center">
-                <md-button ng-click="logout()" class="md-raised md-accent md-hue-1 float-right">Logout</md-button>
-                <i class="fa fa-spinner fa-spin fa-1x fa-fw margin-bottom" ng-show="loggingout"></i>
+            <div class="page-header float-right">
+                <i class="fa fa-spinner fa-spin fa-1x fa-fw" ng-show="loggingout"></i><md-button ng-click="logout()" class="md-raised md-accent md-hue-1 ">Logout</md-button>
             </div>
         </div>
     </section>
