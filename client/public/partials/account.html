@@ -15,13 +15,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="column small-5">
+                            <div class="column small-5 small-offset-1">
                                 <div ng-hide="loading">
                                     <strong>Name</strong>: {{user.name}}</br>
                                     <strong>Email</strong>: {{user.email}}</br></br>
                                     <div>
                                         <div ng-hide="phoneShow">
-                                            <strong>Phone</strong> <i class="fa fa-phone" aria-hidden="true"></i>
+                                            <i class="fa fa-phone" aria-hidden="true"></i> <strong>Phone</strong>
                                             <md-button class = "md-primary float-right" ng-click="change(1)"> EDIT </md-button> </br>
                                             {{user.mobilePhone}}   
                                             
@@ -43,7 +43,7 @@
 
                                     <div>
                                         <div ng-hide="addressShow">
-                                             <strong>Address</strong>  <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                             <i class="fa fa-map-marker" aria-hidden="true"></i> <strong>Address</strong>
                                              <md-button  class = "md-primary float-right" ng-click="change(2)"> EDIT </md-button> </br>
                                             {{user.address.streetAddress}}</br>
                                             {{user.address.city}}, {{user.address.state}} {{user.address.zipcode}}</br>                   
@@ -75,9 +75,9 @@
 
                                     <div>
                                         <div ng-hide="cardShow">
-                                            <strong>Credit Card</strong> <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i> <strong>Credit Card</strong>
                                             <md-button class = "md-primary float-right" ng-click="change(3)"> EDIT </md-button> </br>
-                                            {{user.card.holderName}}
+                                            {{user.card.holderName}}</br>
                                             {{creditcardfourdig}} 
                                            
                                         </div>
@@ -108,7 +108,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="small-4 column" ng-hide="loading">
+                            <div class="small-4 small-offset-1 column" ng-hide="loading">
                                 <a ui-sref="app.buy"><strong>Total Number of Purchases: <strong>{{buyCount}}</a></br>
                                 <a ui-sref="app.sell"><strong>Total Number of Products Listed: <strong>{{sellCount}}</a></br>
                                 <a ui-sref="app.watching"><strong>Total Number of Products Watching: <strong>{{watchCount}}</a>
