@@ -3,7 +3,9 @@
 		<div class="column small-12">
 			<section class="row">
 				<div class="column small-12 text-center ">
-					<h2 class="sectionheader">Your Watch List</h2></br>
+					<h2 class="sectionheader">Your Watch List</h2>
+					<p>View all the items that you are currently watching.</p>
+					<br>
 				</div>
 			</section>
 			<section class="row">
@@ -12,7 +14,7 @@
 				</div>
 				<div class="column small-12 small-centered" ng-show="watching_list">
 					<div class="row product-container" ng-repeat="item in products">
-						<div class="columns small-2 text-center small-offset thumbnail-wrapper">
+						<div ui-sref="app.itemDetails({item_id: item._id})" class="columns small-2 text-center small-offset thumbnail-wrapper">
 							<img class="thumbnail" data-ng-src={{item.img}}>
 						</div>
 						<div class="columns small-6">

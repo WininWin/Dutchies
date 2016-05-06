@@ -101,6 +101,15 @@ webAppServices.factory('CurrentUser', function($http) {
 			
 			return $http.get('/auth/products/watching?skip='+skipnum+'&limit=11&sort={dateCreated:-1}');
 		},
+		getUserBuyingCount : function(page) {
+			return $http.get('/auth/products/buying?count=true');
+		},
+		getUserSellingCount : function(page) {
+			return $http.get('/auth/products/selling?count=true');
+		},
+		getUserWatchingCount : function(page) {
+			return $http.get('/auth/products/watching?count=true');
+		},
 		getAccountInfo : function() {
 			return $http.get('/auth/user');
 		},

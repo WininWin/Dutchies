@@ -147,7 +147,7 @@ body{
 	vertical-align: center;
 }
 
-.small-text {
+.text-small {
 	font-size: 85%;
 }
 
@@ -181,6 +181,14 @@ body{
 	width:auto;
 }
 
+
+.status-line {
+	margin-right: 8px;
+}
+
+.margin-top-button {
+	margin-top:18px;
+}
 
 .md-button.md-fab.md-mini {
     background-color: rgb(183,28,28)

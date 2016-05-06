@@ -3,7 +3,9 @@
 		<div class="column small-12">	
 			<section class="row">
 				<div class="column small-12 text-center ">
-					<h2 class="sectionheader">Your Purchase History</h2></br>
+					<h2 class="sectionheader">Your Purchase History</h2>
+					<p>View all the items that you've purchased recently.</p>
+					</br>
 				</div>
 			</section>
 			
@@ -13,7 +15,7 @@
 				</div>
 				<div class="column small-12 small-centered" ng-show="purchase_list">
 					<div class="row product-container" ng-repeat="item in products">
-						<div class="columns small-2 text-center small-offset thumbnail-wrapper">
+						<div ui-sref="app.itemDetails({item_id: item._id})" class="columns small-2 text-center small-offset thumbnail-wrapper">
 							<img class="thumbnail" data-ng-src={{item.img}}>
 						</div>
 						<div class="columns small-6">
@@ -26,16 +28,23 @@
 								<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
 							</a>
 						</div>
+
 						<div class="desktop columns small-4 text-right">
-							<div><a href="mailto:{{item.sellerUserEmail}}" ><md-button class="md-raised md-warn" ng-click="unwatch_refresh(item._id)"><i class="fa fa-envelope" aria-hidden="true"></i> Contact Seller</md-button></a></div>
+							<div class="margin-top-button"><a href="mailto:{{item.sellerUserEmail}}" ><md-button class="md-raised md-warn" ng-click="unwatch_refresh(item._id)"><i class="fa fa-envelope" aria-hidden="true"></i> Contact Seller</md-button></a></div>
+							<div class="status-line">Status: <strong>{{status(item)}}</strong></div>
+
 						</div>
 
 						<div class="tablet columns small-4 text-right">
-							<div><a href="mailto:{{item.sellerUserEmail}}" ><md-button class="md-raised md-warn" ng-click="unwatch_refresh(item._id)"><i class="fa fa-envelope" aria-hidden="true"></i> Contact Seller</md-button></a></div>
+							<div class="margin-top-button"><a href="mailto:{{item.sellerUserEmail}}" ><md-button class="md-raised md-warn" ng-click="unwatch_refresh(item._id)"><i class="fa fa-envelope" aria-hidden="true"></i> Contact Seller</md-button></a></div>
+							<div class="status-line">Status: <strong>{{status(item)}}</strong></div>
+
 						</div>
 						
 						<div class="mobile columns small-4 text-right">
-							<div><a href="mailto:{{item.sellerUserEmail}}" ><md-button class="md-raised md-warn" ng-click="unwatch_refresh(item._id)" aria-label = "Contact Seller"><i class="fa fa-envelope" aria-hidden="false"></i></md-button></a></div>
+							<div class="margin-top-button"><a href="mailto:{{item.sellerUserEmail}}" ><md-button class="md-raised md-warn" ng-click="unwatch_refresh(item._id)"><i class="fa fa-envelope" aria-hidden="true"></i></md-button></a></div>
+							<div class="status-line">Status: <strong>{{status(item)}}</strong></div>
+
 						</div>
 
 					</div>

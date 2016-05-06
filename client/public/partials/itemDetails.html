@@ -3,7 +3,7 @@
         <div class="column small-12">
         	<section class="row">
                 <div class="column small-12">
-                    <h3>{{ product.name }}<h3>
+                    <h3 class="sectionheader">{{ product.name }}<h3>
                 </div>
             </section>
             <section class="row">
@@ -19,7 +19,7 @@
                                        
                         <div class="column small-6">
                             <p>Current Price: ${{ product.currentPrice | number:2 }}</p>
-                            <p>Shipping Fee: ${{ product.shippingPrice }}</p>
+                            <p>Shipping Fee: ${{ product.shippingPrice | number:2  }}</p>
                             <p>Total Price: ${{ product.shippingPrice + product.currentPrice | number:2 }}</p>
                             <p>Watching: {{ product.usersWatching.length }} Users Watching</p>
                         </div>
@@ -28,8 +28,8 @@
                             
                             <p>Seller Email: <a href="mailto:{{product.sellerUserEmail}}?Subject=Hello%20again" target="_top">{{ product.sellerUserEmail }}  <i class="fa fa-envelope-o" aria-hidden="true"></i></a> </p> 
 
-                            <md-button ng-click = "click_watch(product._id)" ng-show = "watch" class="md-raised md-warn"><i class="fa fa-eye" ></i> Watch</md-button>
-                            <md-button ng-click = "click_unwatch(product._id)" ng-show = "unwatch" class="md-raised md-primary fixed-width-button"><i class="fa fa-eye-slash"></i> Unwatch</md-button>
+                            <md-button ng-click = "click_watch(product._id)" ng-show = "watch" class="md-raised md-warn md-fixed-width"><i class="fa fa-eye" ></i> Watch</md-button>
+                            <md-button ng-click = "click_unwatch(product._id)" ng-show = "unwatch" class="md-raised md-primary md-fixed-width"><i class="fa fa-eye-slash"></i> Unwatch</md-button>
                         </div>
                     </section>
                     <section class="row">

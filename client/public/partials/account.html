@@ -2,114 +2,124 @@
     <section class="row view-container">
         <div class="column small-12">
             <div class="page-header text-center">
-                <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-                <i class="fa fa-spinner fa-spin fa-1x fa-fw margin-bottom invisible" ng-show="loggingout"></i>
-                <md-button ng-click="logout()" class="md-raised md-accent md-hue-1">Logout</md-button>
-                <i class="fa fa-spinner fa-spin fa-1x fa-fw margin-bottom" ng-show="loggingout"></i>
+                <h1><i class="fa fa-user"></i> Profile Page</h1>
             </div>
 
             <section class="row">
                 <!-- PROFILE INFORMATION -->
                     <div class="column small-12">
-                        <h3><span class="fa fa-user"></span> Profile</h3>
-                        <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="loading"></i>
-                            <div ng-hide="loading">
-                                <strong>Name</strong>: {{user.name}}</br>
-                                <strong>Email</strong>: {{user.email}}<br>
-                                <div>
-                                    <div ng-hide="phoneShow">
-                                        <strong>Phone</strong> <i class="fa fa-phone" aria-hidden="true"></i>
-                                        <md-button class = "md-raised md-warn" ng-click="change(1)"> EDIT </md-button> </br>
-                                        {{user.mobilePhone}}   
-                                        
-                                        </br>
-                                    </div>
-
-                                    <div ng-show="phoneShow">
-                                        <strong>New Phone Number</strong>
-                                        <input type="text" ng-model = "TempPhone" onkeypress='validate(event)' maxlength="10"> 
-                                        <md-button class = "md-raised md-warn" type="submit" ng-click="updatePhone()"> Update </md-button> 
-
-                                        <md-button class="md-raised md-primary" ng-click="change(1)"> Cancel </md-button> 
-
-                                        {{ErrorMsg}}
-                                        </br>
-                                    </div>
-                                </div>
-
-
-                                <div>
-                                    <div ng-hide="addressShow">
-                                         <strong>Address</strong>  <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                         <md-button  class = "md-raised md-warn" ng-click="change(2)"> EDIT </md-button> </br>
-                                        {{user.address.streetAddress}}</br>
-                                        {{user.address.city}}, {{user.address.state}} {{user.address.zipcode}}</br>                   
-                                    </div>
-
-                                    <div ng-show="addressShow">
-                                        <strong>New Address</strong>
-                                        <form>
-                                            <label>Address*</label>
-                                            <input type="text"  class="form-control"  ng-model="newaddress.streetAddress" required>
-
-                                            <label>City*</label>
-                                            <input type="text" class="form-control" ng-model="newaddress.city" required>
-
-                                            <label>State* </label>
-                                            <select ng-model="newaddress.state" ng-options="state for state in states" required> 
-                                            </select>
-
-                                            <label> Zip code*</label>
-                                            <input type='text' class="form-control" ng-model="newaddress.zipcode" onkeypress='validate(event)' maxlength="5" required>
+                        <div class="row">
+                            <div class="column small-12 text-center">
+                                </br>
+                                <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom text-centered" ng-show="loading"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="column small-5 small-offset-1">
+                                <div ng-hide="loading">
+                                    <strong>Name</strong>: {{user.name}}</br>
+                                    <strong>Email</strong>: {{user.email}}</br></br>
+                                    <div>
+                                        <div ng-hide="phoneShow">
+                                            <i class="fa fa-phone" aria-hidden="true"></i> <strong>Phone</strong>
+                                            <md-button class = "md-primary float-right" ng-click="change(1)"> EDIT </md-button> </br>
+                                            {{user.mobilePhone}}   
                                             
-                                            <md-button class = "md-raised md-warn" type="submit"  ng-click='updateAddress()'>Update</md-button> 
-                                            <md-button class="md-raised md-primary" ng-click="change(2)"> Cancel </md-button> 
-                                        </form>
+                                            </br></br>
+                                        </div>
 
-                                    </div>
-                                </div>
+                                        <div ng-show="phoneShow">
+                                            <strong>New Phone Number</strong>
+                                            <input type="text" ng-model = "TempPhone" onkeypress='validate(event)' maxlength="10"> 
+                                            <md-button class = "md-raised md-warn" type="submit" ng-click="updatePhone()"> Update </md-button> 
 
-                                <div>
-                                    <div ng-hide="cardShow">
-                                        <strong>Credit Card</strong> <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                                            <md-button class="md-raised md-primary" ng-click="change(1)"> Cancel </md-button> 
 
-                                          <md-button class = "md-raised md-warn" ng-click="change(3)"> EDIT </md-button> </br>
-                                         {{creditcardfourdig}} 
-                                       
-                                    </div>
-
-                                    <div ng-show="cardShow">
-                                        <strong>New Credit Card</strong>
-                                        <form name="paymentForm">
-                                            Card Number*
-                                            <input type="text" ng-model="card.number" onkeypress='validate(event)' required maxlength="16">
-                                           
-                                            Holder Name*
-                                            <input type="text" ng-model="card.holderName" required />
-                                            
-                                            Expiration Date*    MM/YY</br>
-                                            <input type="text" ng-model="card.ExpireDate" maxlength="5" required="true" />
-                                           
-                                            
                                             {{ErrorMsg}}
                                             </br>
-                                            <md-button  class = "md-raised md-warn" type="submit" ng-click="updateCard()" >Update</md-button> 
-                                            <md-button class="md-raised md-primary" ng-click="change(3)"> Cancel </md-button> 
+                                        </div>
+                                    </div>
 
-                                            
-                                        </form>
-                                       
+
+                                    <div>
+                                        <div ng-hide="addressShow">
+                                             <i class="fa fa-map-marker" aria-hidden="true"></i> <strong>Address</strong>
+                                             <md-button  class = "md-primary float-right" ng-click="change(2)"> EDIT </md-button> </br>
+                                            {{user.address.streetAddress}}</br>
+                                            {{user.address.city}}, {{user.address.state}} {{user.address.zipcode}}</br>                   
+                                        </div>
+
+                                        <div ng-show="addressShow">
+                                            <strong>New Address</strong>
+                                            <form>
+                                                <label>Address*</label>
+                                                <input type="text"  class="form-control"  ng-model="newaddress.streetAddress" required>
+
+                                                <label>City*</label>
+                                                <input type="text" class="form-control" ng-model="newaddress.city" required>
+
+                                                <label>State* </label>
+                                                <select ng-model="newaddress.state" ng-options="state for state in states" required> 
+                                                </select>
+
+                                                <label> Zip code*</label>
+                                                <input type='text' class="form-control" ng-model="newaddress.zipcode" onkeypress='validate(event)' maxlength="5" required>
+                                                
+                                                <md-button class = "md-raised md-warn" type="submit"  ng-click='updateAddress()'>Update</md-button> 
+                                                <md-button class="md-raised md-primary" ng-click="change(2)"> Cancel </md-button> 
+                                            </form>
+
+                                        </div>
+                                        </br>
+                                    </div>
+
+                                    <div>
+                                        <div ng-hide="cardShow">
+                                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i> <strong>Credit Card</strong>
+                                            <md-button class = "md-primary float-right" ng-click="change(3)"> EDIT </md-button> </br>
+                                            {{user.card.holderName}}</br>
+                                            {{creditcardfourdig}} 
+                                           
+                                        </div>
+
+                                        <div ng-show="cardShow">
+                                            </br>
+                                            <strong>New Credit Card</strong>
+                                            <form name="paymentForm">
+                                                Card Number*
+                                                <input type="text" ng-model="card.number" onkeypress='validate(event)' required maxlength="16">
+                                               
+                                                Holder Name*
+                                                <input type="text" ng-model="card.holderName" required />
+                                                
+                                                Expiration Date*    MM/YY</br>
+                                                <input type="text" ng-model="card.ExpireDate" maxlength="5" required="true" />
+                                               
+                                                
+                                                {{ErrorMsg}}
+                                                </br>
+                                                <md-button  class = "md-raised md-warn" type="submit" ng-click="updateCard()" >Update</md-button> 
+                                                <md-button class="md-raised md-primary" ng-click="change(3)"> Cancel </md-button> 
+
+                                                
+                                            </form>
+                                           
+                                        </div>
                                     </div>
                                 </div>
-                                
-
-
-
                             </div>
+                            <div class="small-4 small-offset-1 column" ng-hide="loading">
+                                <a ui-sref="app.buy"><strong>Total Number of Purchases: <strong>{{buyCount}}</a></br>
+                                <a ui-sref="app.sell"><strong>Total Number of Products Listed: <strong>{{sellCount}}</a></br>
+                                <a ui-sref="app.watching"><strong>Total Number of Products Watching: <strong>{{watchCount}}</a>
+                            </div>
+                        </div>
                     </div>
-            </section>
-           
-           
+            </section>          
+            <div class="page-header text-center">
+                <md-button ng-click="logout()" class="md-raised md-accent md-hue-1 float-right">Logout</md-button>
+                <i class="fa fa-spinner fa-spin fa-1x fa-fw margin-bottom" ng-show="loggingout"></i>
+            </div>
         </div>
     </section>
 </div>

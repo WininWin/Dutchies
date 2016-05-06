@@ -4,7 +4,7 @@
         	<form name="itemForm">
                 <section class="row">
                 	<div class="column small-5">
-                        <div class="text-center margin-bottom"><md-button class="md-raised md-accent md-hue-1" ngf-select ng-model="product.img" name="img" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="4MB" >Upload Image</md-button></div>
+                        <div class="text-center margin-bottom"><md-button class="md-raised md-accent md-hue-1" ngf-select ng-model="product.img" name="img" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="4MB" ng-change="changeImage()">Upload Image</md-button></div>
                         <div class="text-center margin-bottom"><img ngf-src="product.img" ngf-resize="{width: 400, height: 300, quality: 0.9}"/></div>
         			</div>
             		<div class="column small-7">

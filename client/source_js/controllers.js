@@ -333,6 +333,13 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
 
 	};
 
+	$scope.status = function(item){
+		if(item.shipped==undefined || item.shipped==false)
+			return "Waiting to Ship";
+		else
+			return "Shipped"
+	}
+
 
     CurrentUser.getUserBuying($scope.page).success(function(data) {
 		if(data.message=="OK") {
@@ -432,6 +439,26 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 
 	    $mdDialog.show(confirm).then(function() {
 	      $scope.deleteItemPart1(productid);
+	    });
+	  };
+
+	  $scope.showConfirm_ship = function(ev,productid) {
+    // Appending dialog to document.body to cover sidenav in docs app
+	    var confirm = $mdDialog.confirm()
+	          .title('Confirm that you are shipping this item.')
+	          .textContent('This action cannot be undone.')
+	          .targetEvent(ev)
+	          .ok('Ship')
+	          .cancel('Cancel');
+
+	    $mdDialog.show(confirm).then(function() {
+	      var temp = {};
+	      temp.shipped = true;
+	      temp.img="keep_current";
+	      console.log(temp);
+	      CurrentUser.editProductinfo(productid,temp);
+	      $state.go('app.sell');
+
 	    });
 	  };
 
@@ -559,8 +586,6 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	$scope.cardShow= false;
 	$scope.ErrorMsg = "";
 
-
-
 	$scope.updatePhone = function(){
 		if ($scope.TempPhone.match(/\d/g).length===10){
 			$scope.ErrorMsg = ""
@@ -598,7 +623,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$scope.user.card= $scope.card;
 			CurrentUser.editUserinfo($scope.user);
 			var cardnumstring = $scope.card.number.toString();
-			$scope.creditcardfourdig = 'XXXX XXXX XXXX '+cardnumstring.substr(cardnumstring.length-4);
+			$scope.creditcardfourdig = 'XXXX-XXXX-XXXX-'+cardnumstring.substr(cardnumstring.length-4);
 			return;
 		}
 		else{
@@ -630,6 +655,15 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 		$scope.user = $window.sessionStorage.userdata;
     CurrentUser.getAccountInfo().success(function(data) {
 		if(data.message=="OK") {
+			CurrentUser.getUserSellingCount().success(function(data) {
+		    	CurrentUser.getUserWatchingCount().success(function(data2) {
+		    		CurrentUser.getUserBuyingCount().success(function(data3) {
+		    			$scope.buyCount = data3.data;
+		    		});
+		    		$scope.watchCount = data2.data;
+		    	});
+		    	$scope.sellCount = data.data;
+		    });
 			$scope.user = data.data;
 			$scope.newaddress = $scope.user.address;
 			$scope.newaddress.zipcode = $scope.newaddress.zipcode.toString();
@@ -647,8 +681,6 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
     .error(function(data){
     	$state.go("app.login");
     });
-
-
 }]);
 
 webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentUser', function($scope, $state, CurrentUser) {
@@ -722,11 +754,14 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
 		if(data.message=="OK") {
+			$scope.product.img_replace="keep_current";
 			$scope.product = data.data;
 		}
 	});
 	$scope.submitting = 0;
 	$scope.updateItem = function (product) {
+		if($scope.product.img_replace=="keep_current")
+			$scope.product.img = "keep_current";
 		$scope.submitting = 1;
 		Upload.upload({
 			url: '/auth/products/'+$stateParams.item_id,
@@ -740,8 +775,11 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 		})
 	};
 
-}]);
+	$scope.changeImage = function() {
+		$scope.product.img_replace = "";
+	}
 
+}]);
 
 
 webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$rootScope', 'CurrentUser', '$stateParams','$window', '$mdDialog',function($scope, $state, $rootScope, CurrentUser, $stateParams, $window,$mdDialog) {
@@ -760,7 +798,6 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		
 
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
-
 		
 		if(data.message=="OK") {
 			$scope.product = data.data;
