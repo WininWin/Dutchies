@@ -266,8 +266,8 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 	 }
 
 	 // check if we are logged in, if not redirect to login
-	if($rootScope.loggedin)
-		$state.go("app.account");
+	// if($rootScope.loggedin)
+	// 	$state.go("app.account");
 
 	CurrentUser.getSampleUser().success(function(data) {
 		if(data.message=="OK") {
@@ -506,7 +506,7 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 
 
 webAppControllers.controller('AccountController', ['$scope', '$http' , '$window' , '$rootScope', '$state', 'CurrentUser', function($scope, $http, $window, $rootScope, $state, CurrentUser) {
-	
+	$scope.loading = 1;
 	$scope.phoneShow = false;
 	$scope.addressShow = false;
 	$scope.cardShow= false;
@@ -590,7 +590,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$rootScope.account = "My Account";
 			$scope.TempPhone =  data.data.mobilePhone;
 
-	
+			$scope.loading = 0;	
 			var cardnumstring = data.data.card.number.toString();
 			if (data.data.card)
 				$scope.creditcardfourdig = 'XXXX XXXX XXXX '+cardnumstring.substr(cardnumstring.length-4);
