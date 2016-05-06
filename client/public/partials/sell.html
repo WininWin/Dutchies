@@ -29,10 +29,22 @@
 								<div class="product-listing-info">Sold By: You</div>
 							</a>
 						</div>
-						<div class="columns small-4 text-right">
+						<div class="desktop columns small-4 text-right">
 							<div ng-hide = "item.sold"><md-button class="md-raised md-warn md-fixed-width" ui-sref="app.editItem({item_id: item._id})"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</md-button></div>
 							<div ng-hide = "item.sold"><md-button class="md-raised md-primary md-fixed-width" ng-click="showConfirm($event,item._id)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</md-button></div>
 							<div ng-show = "item.sold && !item.shipped"><md-button class="md-raised md-warn md-fixed-width" ng-click="showConfirm_ship($event,item._id)"><i class="fa fa-send-o" aria-hidden="true"></i> Ship</md-button></div>
+						</div>
+
+						<div class="tablet columns small-4 text-right">
+							<div ng-hide = "item.sold"><md-button class="md-raised md-warn md-fixed-width" ui-sref="app.editItem({item_id: item._id})"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</md-button></div>
+							<div ng-hide = "item.sold"><md-button class="md-raised md-primary md-fixed-width" ng-click="showConfirm($event,item._id)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</md-button></div>
+							<div ng-show = "item.sold && !item.shipped"><md-button class="md-raised md-warn md-fixed-width" ng-click="showConfirm_ship($event,item._id)"><i class="fa fa-send-o" aria-hidden="true"></i> Ship</md-button></div>
+						</div>
+
+						<div class="mobile columns small-4 text-right">
+							<div ng-hide = "item.sold"><md-button class="md-raised md-warn" ui-sref="app.editItem({item_id: item._id})"><i class="fa fa-pencil" aria-hidden="true"></i></md-button></div>
+							<div ng-hide = "item.sold"><md-button class="md-raised md-primary" ng-click="showConfirm($event,item._id)"><i class="fa fa-trash-o" aria-hidden="true"></i></md-button></div>
+							<div ng-show = "item.sold && !item.shipped"><md-button class="md-raised md-warn" ng-click="showConfirm_ship($event,item._id)"><i class="fa fa-send-o" aria-hidden="true"></i></md-button></div>
 						</div>
 					</div>
 				</div>
