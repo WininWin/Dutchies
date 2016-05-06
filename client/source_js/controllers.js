@@ -817,12 +817,10 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		
 		if(data.message=="OK") {
 			$scope.product = data.data;
-			var user = JSON.parse($window.sessionStorage.userdata);
+			if ($window.sessionStorage.userdata != "")
+				var user = JSON.parse($window.sessionStorage.userdata);
 			if(typeof user != 'undefined' && ($scope.product).sold==false){
-				if($scope.product.sellerUser == user._id){
-						seller = 1;
-				}
-			
+
 				if (($scope.product.usersWatching).indexOf(user._id)!=-1){
 					$scope.unwatch = true;
 					$scope.buy = true;
