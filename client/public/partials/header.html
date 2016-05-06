@@ -38,8 +38,8 @@
 			<md-button class="nav-button" ui-sref-active="active-state" ui-sref="app.account">My Account</md-button>
 		</div>
 		<div class="md-toolbar-tools md-toolbar-tools-bottom">
-				<input name = "search_input" type="text" ng-model = "query" ng-minlength="1" placeholder="Search products..." class="searchinput">
-				<button class="button searchbutton" type="submit" ng-click="search(query)"><i class="fa fa-search" aria-hidden="true"></i></button>
+			<input name = "search_input" type="text" ng-model = "query" ng-minlength="1" placeholder="Search products..." class="searchinput" ng-keypress="searchOnEnter($event)">
+			<button class="searchbutton" type="submit" ng-click="search(query)"><i class="fa fa-search" aria-hidden="true"></i></button>
 		</div>
 	</md-toolbar>
 

@@ -51,6 +51,12 @@ webAppControllers.run(function($rootScope,$http,$state, CurrentUser) {
 webAppControllers.controller('HeaderController',['$scope', '$state', '$rootScope', function($scope,$state, $rootScope) {
   	$rootScope.query = ''
 	//After login, login button should changed to My Account
+	$scope.searchOnEnter = function (keyEvent) {
+		if (keyEvent.keyIdentifier == "Enter") {
+			$scope.search($scope.query);
+		}
+	}
+
   	$scope.search = function(query){
   		$rootScope.query = query;
 		$scope.prevDisabled = true;

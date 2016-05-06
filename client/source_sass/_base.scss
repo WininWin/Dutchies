@@ -92,6 +92,9 @@ body{
 }
 
 .searchbutton {
+	@include button(
+	);
+	background-color: rgb(120,144,156);
 	display: inline-block;
 	text-align: center;
 	line-height: 1;
@@ -101,7 +104,6 @@ body{
 	border-right: 1px solid rgba(0, 0, 0, 0.4);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.4);
 	font-size: 0.9rem;
-	background-color: rgb(120,144,156);
 	color: white;
 	border-top-right-radius: 8px;
 	border-bottom-right-radius: 8px;
@@ -109,6 +111,10 @@ body{
 
 .searchbutton:hover {
 	background-color: rgb(55,71,79);
+}
+
+.searchbutton:focus {
+	background-color: rgb(120,144,156);
 }
 
  .margin-bottom {
