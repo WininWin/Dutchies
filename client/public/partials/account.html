@@ -108,9 +108,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="small-4 column">
-                                <a ui-sref="app.buy"><strong>Total Number of Purchases: <strong>{{buyCount}}</a>
-                                <a ui-sref="app.sell"><strong>Total Number of Products Listed: <strong>{{sellCount}}</a>
+                            <div class="small-4 column" ng-hide="loading">
+                                <a ui-sref="app.buy"><strong>Total Number of Purchases: <strong>{{buyCount}}</a></br>
+                                <a ui-sref="app.sell"><strong>Total Number of Products Listed: <strong>{{sellCount}}</a></br>
                                 <a ui-sref="app.watching"><strong>Total Number of Products Watching: <strong>{{watchCount}}</a>
                             </div>
                         </div>

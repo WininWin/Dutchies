@@ -655,6 +655,15 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 		$scope.user = $window.sessionStorage.userdata;
     CurrentUser.getAccountInfo().success(function(data) {
 		if(data.message=="OK") {
+			CurrentUser.getUserSellingCount().success(function(data) {
+		    	CurrentUser.getUserWatchingCount().success(function(data2) {
+		    		CurrentUser.getUserBuyingCount().success(function(data3) {
+		    			$scope.buyCount = data3.data;
+		    		});
+		    		$scope.watchCount = data2.data;
+		    	});
+		    	$scope.sellCount = data.data;
+		    });
 			$scope.user = data.data;
 			$scope.newaddress = $scope.user.address;
 			$scope.newaddress.zipcode = $scope.newaddress.zipcode.toString();
@@ -672,18 +681,6 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
     .error(function(data){
     	$state.go("app.login");
     });
-
-    CurrentUser.getUserSellingCount().success(function(data) {
-    	CurrentUser.getUserWatchingCount().success(function(data2) {
-    		CurrentUser.getUserBuyingCount().success(function(data3) {
-    			$scope.buyCount = data3.data;
-    		});
-    		$scope.watchCount = data2.data;
-    	});
-    	$scope.sellCount = data.data;
-    });
-
-
 }]);
 
 webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentUser', function($scope, $state, CurrentUser) {
