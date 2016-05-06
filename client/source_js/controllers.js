@@ -31,6 +31,7 @@ webAppControllers.run(function($rootScope,$http,$state,$window, CurrentUser) {
         	$state.go('app');
         	$window.sessionStorage.userdata = {};
         	$window.sessionStorage.loggedin = 0;
+        	$rootScope.loggedin = 0;
         	$rootScope.account = "Login";
         	$rootScope.loggingout = 0;
         })
@@ -245,8 +246,8 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 
 }]);
 
-webAppControllers.controller('FooterController',['$scope', '$state', function($scope,$state) {
- 
+webAppControllers.controller('FooterController',['$scope', '$state','$window', function($scope,$state,$window) {
+ 	
 
 
 }]);
