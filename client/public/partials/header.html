@@ -1,36 +1,8 @@
-<!-- <div ng-controller='HeaderController'>
-	<a class="button" ui-sref-active-eq="active-state" ui-sref="app">Home</a>
-	<a class="button float-right" ui-sref-active-eq="active-state" ui-sref="app.login">Login</a>
-	<div class="row text-center">
-		<a class="button" ui-sref-active-eq="active-state" ui-sref="app.buy">Buy</a>
-		<a class="button" ui-sref-active-eq="active-state" ui-sref="app.sell">Sell</a>
-	    <a class="button" ui-sref-active-eq="active-state" ui-sref="app.watching">Watching</a>
-	    <a class="button" ui-sref-active-eq="active-state" ui-sref="app.account">Account</a>
-	</div>
-</div>
+<div ng-controller='HeaderController' style="height:128px">
 
-<hr> -->
-
-<div ng-controller='HeaderController'>
-<!--<div class="top-bar">
-		<div class="top-bar-left">
-			<ul class="menu">
-				<li class="menu-text headerText" ui-sref-active-eq="active-state" ui-sref="app">Dutchies</li>
-			</ul>
-		</div>
-		<div class="top-bar-right">
-			<ul class="menu">
-				<li class="menu-text headerText" ui-sref-active-eq="active-state" ui-sref="app.buy">Purchased</li>
-				<li class="menu-text headerText" ui-sref-active-eq="active-state" ui-sref="app.sell">Selling</li>
-				<li class="menu-text headerText" ui-sref-active-eq="active-state" ui-sref="app.watching">Watching</li>
-				<li class="menu-text headerText" ui-sref-active-eq="active-state" ui-sref="app.account">{{account}}</li>
-			</ul>
-		</div>	
-	</div>-->
-	<md-toolbar class="md-tall" layout="column">
+	<md-toolbar class="md-tall fixed" layout="column" >
 		<div class="md-toolbar-tools">
 			<img src="/data/images/logo.png"/ ui-sref="app" class="header-logo">
-			<!-- <md-button class="nav-button" ui-sref="app">Dutchies</md-button> -->
 			<span flex="auto"></span>
 			<md-button class="nav-button" ui-sref-active="active-state" ui-sref="app.buy">Purchased</md-button>
 			<md-button class="nav-button" ui-sref-active="active-state" ui-sref="app.sell">Your Auctions</md-button>
@@ -42,7 +14,5 @@
 			<button class="searchbutton" type="submit" ng-click="search(query)"><i class="fa fa-search" aria-hidden="true"></i></button>
 		</div>
 	</md-toolbar>
-
+	
 </div>
-
-<!--<hr>-->

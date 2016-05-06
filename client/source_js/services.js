@@ -25,8 +25,8 @@ webAppServices.factory('CommonData', function($http){
 			var skipnum  = 10*page;
 			
 			if (filter == "All"){
-				var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false}&skip='+skipnum+'&limit=11&sort={'+sortval
-				+':' + sortorder.toString() + '}';	
+				var querystring = '/api/products?where={name:{$in:[/'+query+'/i]},sold:false}&skip='+skipnum+'&limit=11&sort={"'+sortval
+				+'":' + sortorder.toString() + '}';	
 				return $http.get(querystring);
 			}
 
@@ -135,6 +135,9 @@ webAppServices.factory('CurrentUser', function($http) {
 		unwatchProduct : function(productid){
 			console.log(productid);
 			return $http.put('/auth/products/unwatch/' + productid);
+		},
+		deleteProduct : function(productid) {
+			return $http.delete('/auth/products/'+productid);
 		}
 
 	}

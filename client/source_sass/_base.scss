@@ -4,6 +4,14 @@ body{
 	background-repeat: repeat;
 }
 
+.fixed {
+	position: fixed;
+	top:0;
+}
+.extra-padding {
+	padding: 0 10px !important;
+}
+
 .view-container {
 	margin-top: 2%;
 	padding: 5% 2% 5% 2%;
