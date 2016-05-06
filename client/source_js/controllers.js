@@ -176,7 +176,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 			if(typeof query != 'undefined' && query != ""){
 				// $state.go("app.search");
 				$scope.page = 0;
-				$scope.result = query;
+				//$scope.result = query;
 				CommonData.searchProducts($rootScope.query,$scope.page,$scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
 					//console.log(data.data);	
 					$scope.search_progress = false; 
