@@ -143,15 +143,12 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 			$scope.result = false;
 		    CommonData.searchProducts($rootScope.query, $scope.page, $scope.sortselector,$scope.sortorder,$scope.filtercategory).success(function(data){
 		 
-				if (data.data.length==0){
-					$scope.page=$scope.page-1;
-					return;
-				}
+
 				$scope.search_progress = false; 
 				$rootScope.search_products = data.data;
 				$scope.result = true;
 
-				if ($scope.search_products.length < 10)
+				if ($scope.search_products.length <= 10)
 					$scope.nextDisabled = true;
 				else {
 					$scope.nextDisabled = false;
@@ -182,7 +179,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
 					$scope.result = true;
-					if ($scope.search_products.length < 10){
+					if ($scope.search_products.length <= 10){
 						$scope.noresults = 0;
 						$scope.nextDisabled = true;
 					}
@@ -233,7 +230,7 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
 					$scope.result = true;
-					if ($scope.search_products.length < 10)
+					if ($scope.search_products.length <= 10)
 						$scope.nextDisabled = true;
 					else {
 						$scope.nextDisabled = false;
@@ -324,12 +321,9 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
 	    CurrentUser.getUserBuying($scope.page).success(function(data){
 	 		$scope.purchase_list = true;
    			$scope.list_progress = false;
-		    if (data.data.length==0){
-		        $scope.page=$scope.page-1;
-		        return;
-		    }
+
 		    $scope.products = data.data;
-		    if ($scope.products.length < 10)
+		    if ($scope.products.length <= 10)
 				$scope.nextDisabled = true;
 			else {
 				$scope.nextDisabled = false;
@@ -347,7 +341,7 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
 				$scope.purchase_list = true;
    				$scope.list_progress = false;
    				$scope.prevDisabled = true;
-   				if ($scope.products.length < 10)
+   				if ($scope.products.length <= 10)
 						$scope.nextDisabled = true;
 				else {
 					$scope.nextDisabled = false;
@@ -395,12 +389,9 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 	    CurrentUser.getUserSelling($scope.page).success(function(data){
 	 		$scope.selling_list = true;
    			$scope.list_progress = false;
-	    	if (data.data.length==0){
-	    	  $scope.page=$scope.page-1;
-	    	  return;
-	    	}
+
 	    	$scope.products = data.data;
-	    	if ($scope.products.length < 10)
+	    	if ($scope.products.length <= 10)
 				$scope.nextDisabled = true;
 			else {
 				$scope.nextDisabled = false;
@@ -418,7 +409,7 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 			$scope.selling_list = true;
    			$scope.list_progress = false;
    			$scope.prevDisabled = true;
-			if ($scope.products.length < 10)
+			if ($scope.products.length <= 10)
 					$scope.nextDisabled = true;
 			else {
 				$scope.nextDisabled = false;
@@ -485,12 +476,9 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 	    CurrentUser.getUserWatching($scope.page).success(function(data){
 	 		$scope.watching_list = true;
    			$scope.list_progress = false;
-	    	if (data.data.length==0){
-	    	  $scope.page=$scope.page-1;
-	    	  return;
-	    	}
+
 	    	$scope.products = data.data;
-	    	if ($scope.products.length < 10)
+	    	if ($scope.products.length <= 10)
 				$scope.nextDisabled = true;
 			else {
 				$scope.nextDisabled = false;
@@ -508,7 +496,8 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 			$scope.watching_list = true;
    			$scope.list_progress = false;
    			$scope.prevDisabled = true;
-   			if ($scope.products.length < 10)
+   			console.log($scope.products.length)
+   			if ($scope.products.length <= 10)
 				$scope.nextDisabled = true;
 			else {
 				$scope.nextDisabled = false;
