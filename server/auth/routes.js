@@ -24,7 +24,7 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 	/* get all the products that the logged in user has sold or is selling */
 	app.get('/auth/products/selling', isLoggedIn, function(req, res) {
 		if(req.query.count) {
-			User.count({"sellerUser":req.user._id})
+			Product.count({"sellerUser":req.user._id})
 			.exec(function(error,result){
 				if(error) {
 					res.status(500);
@@ -58,7 +58,7 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 	/* get all the products that the logged in user has bought */
 	app.get('/auth/products/buying', isLoggedIn, function(req, res) {
 		if(req.query.count) {
-			User.count({"soldToUser":req.user._id})
+			Product.count({"soldToUser":req.user._id})
 			.exec(function(error,result){
 				if(error) {
 					res.status(500);
@@ -92,7 +92,7 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 	/* get all the products that the logged in user is watching */
 	app.get('/auth/products/watching', isLoggedIn, function(req, res) {
 		if(req.query.count) {
-			User.count({"usersWatching":req.user._id,sold:false})
+			Product.count({"usersWatching":req.user._id,sold:false})
 			.exec(function(error,result){
 				if(error) {
 					res.status(500);
