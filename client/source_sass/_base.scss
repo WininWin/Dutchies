@@ -30,7 +30,7 @@ body{
 }
 
 .product-container {
-	padding-top: 2%;
+	padding-top: 1%;
 	padding-bottom: 1%;
 	background-color: white;
 	border-style: solid;
@@ -63,8 +63,8 @@ body{
 }
 
 .thumbnail-wrapper {
-	height: 100px;
-	width: 150px;
+	height: 110px;
+	// width: 150px;
 	text-align: center;
 	margin: 0 auto;
 }
@@ -159,6 +159,10 @@ body{
 	font-family: 'Ubuntu', sans-serif;
 }
 
+.fixed-width-button {
+	width:100px ;
+}
+
 .md-raised {
-	padding: auto 10px !important;
+	width: 120px !important;
 }

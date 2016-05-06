@@ -20,7 +20,7 @@
 
 			<div class="row">
 				<div ng-repeat = "item in mostRecentProducts"  class="column small-12 medium-3 text-center">
-					${{item.currentPrice}}
+					${{item.currentPrice | number:2}}
 				</div>
 
 			</div>
@@ -43,7 +43,7 @@
 			</div>
 			<div class="row">
 				<div ng-repeat = "item in mostWatchedProducts"  class="column small-12 medium-2 text-center">
-					${{item.currentPrice}}
+					${{item.currentPrice | number:2}}
 				</div>
 
 			</div>
@@ -71,7 +71,7 @@
 
 			<div class="row">
 				<div ng-repeat = "item in randomProducts"  class="column small-12 medium-2 text-center">
-					${{item.currentPrice}}
+					${{item.currentPrice | number:2}}
 				</div>
 			</div>
 		</div>

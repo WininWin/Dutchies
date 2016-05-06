@@ -21,16 +21,16 @@ webAppControllers.directive("fileread", [function () {
 }]);
 
 //global functions
-webAppControllers.run(function($rootScope,$http,$state, CurrentUser) {
-	$rootScope.loggedin = 0;
+webAppControllers.run(function($rootScope,$http,$state,$window, CurrentUser) {
+	$window.sessionStorage.loggedin = 0;
 	$rootScope.account = "";
 	$rootScope.loggingout = 0;
     $rootScope.logout = function() {
     	$rootScope.loggingout = 1;
         CurrentUser.userLogout().success(function(data){
         	$state.go('app');
-        	$rootScope.userdata = {};
-        	$rootScope.loggedin = 0; 
+        	$window.sessionStorage.userdata = {};
+        	$window.sessionStorage.loggedin = 0;
         	$rootScope.account = "Login";
         	$rootScope.loggingout = 0;
         })
@@ -252,7 +252,7 @@ webAppControllers.controller('FooterController',['$scope', '$state', function($s
 }]);
 
 
-webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$rootScope', 'CurrentUser', function($scope,$state,$http,$rootScope, CurrentUser) {
+webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$rootScope', 'CurrentUser', '$window', function($scope,$state,$http,$rootScope, CurrentUser, $window) {
 	$scope.submitting = 0;
  	$scope.login = function() {
  		$scope.submitting = 1;
@@ -261,8 +261,8 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 	 	CurrentUser.userLogin(login_creds).success(function(data) {
 	 		$scope.submitting = 0;
 			if(!data.error) {
-				$rootScope.userdata = data;
-				$rootScope.loggedin = 1;
+				$window.sessionStorage.userdata = data;
+				$window.sessionStorage.loggedin = 1;
 				$state.go("app.account");
 			}
 
@@ -609,14 +609,14 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	}
 
 	$scope.creditcardfourdig;
-	if($rootScope.userdata!=undefined)
-		$scope.user = $rootScope.userdata;
+	if($window.sessionStorage.userdata!=undefined)
+		$scope.user = $window.sessionStorage.userdata;
     CurrentUser.getAccountInfo().success(function(data) {
 		if(data.message=="OK") {
 			$scope.user = data.data;
 			$scope.newaddress = $scope.user.address;
 			$scope.newaddress.zipcode = $scope.newaddress.zipcode.toString();
-			$rootScope.userdata = data.data;
+			$window.sessionStorage.userdata = data.data;
 			$rootScope.account = "My Account";
 			$scope.TempPhone =  data.data.mobilePhone;
 
@@ -726,7 +726,7 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 }]);
 
 
-webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$rootScope', 'CurrentUser', '$stateParams', function($scope, $state, $rootScope, CurrentUser, $stateParams) {
+webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$rootScope', 'CurrentUser', '$stateParams','$window', function($scope, $state, $rootScope, CurrentUser, $stateParams, $window) {
 
 	// $('#watch').hide();
 	// $('#unwatch').hide();
@@ -747,12 +747,12 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		if(data.message=="OK") {
 			$scope.product = data.data;
 
-			if(typeof $rootScope.userdata != 'undefined' && ($scope.product).sold==false){
-				if($scope.product.sellerUser == $rootScope.userdata._id){
+			if(typeof $window.sessionStorage.userdata != 'undefined' && ($scope.product).sold==false){
+				if($scope.product.sellerUser == $window.sessionStorage.userdata._id){
 						seller = 1;
 				}
 			
-				if (($scope.product.usersWatching).indexOf($rootScope.userdata._id)!=-1){
+				if (($scope.product.usersWatching).indexOf($window.sessionStorage.userdata._id)!=-1){
 					$scope.unwatch = true;
 					$scope.buy = true;
 				}
@@ -766,8 +766,8 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 			}
 
-			if(typeof $rootScope.userdata != 'undefined' && ($scope.product).sold==true){
-				if($scope.product.soldToUser == $rootScope.userdata._id){
+			if(typeof $window.sessionStorage.userdata != 'undefined' && ($scope.product).sold==true){
+				if($scope.product.soldToUser == $window.sessionStorage.userdata._id){
 					$scope.buyer = true;
 				}
 
