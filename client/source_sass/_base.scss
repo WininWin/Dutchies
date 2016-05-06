@@ -169,8 +169,10 @@ body{
 
 .banner-wrapper {
 	background-color: #E9D9A6;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
 }
 
 .banner {
-	width:700px;
+	width:auto;
 }
