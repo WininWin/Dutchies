@@ -272,8 +272,8 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 	 }
 
 	 // check if we are logged in, if not redirect to login
-	if($rootScope.loggedin)
-		$state.go("app.account");
+	// if($rootScope.loggedin)
+	// 	$state.go("app.account");
 
 	CurrentUser.getSampleUser().success(function(data) {
 		if(data.message=="OK") {
@@ -512,7 +512,7 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 
 
 webAppControllers.controller('AccountController', ['$scope', '$http' , '$window' , '$rootScope', '$state', 'CurrentUser', function($scope, $http, $window, $rootScope, $state, CurrentUser) {
-	
+	$scope.loading = 1;
 	$scope.phoneShow = false;
 	$scope.addressShow = false;
 	$scope.cardShow= false;
@@ -596,7 +596,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$rootScope.account = "My Account";
 			$scope.TempPhone =  data.data.mobilePhone;
 
-	
+			$scope.loading = 0;	
 			var cardnumstring = data.data.card.number.toString();
 			if (data.data.card)
 				$scope.creditcardfourdig = 'XXXX XXXX XXXX '+cardnumstring.substr(cardnumstring.length-4);
@@ -649,17 +649,29 @@ webAppControllers.controller('CreateItemController', ['$scope', '$state', 'Curre
 	$scope.submitting = 0;
 	$scope.product;
 	$scope.categories = ["Automotive & Powersports","Baby Products (Excluding Apparel)","Beauty","Books","Camera & Photo","Cell Phones","Clothing & Accessories","Collectible Coins","Collectibles (Books)","Collectibles (Entertainment)","Electronics (Accessories)","Electronics (Consumer)","Fine Art","Grocery & Gourmet Food","Handmade","Health & Personal Care","Historical & Advertising Collectibles","Home & Garden","Industrial & Scientific","Jewelry","Luggage & Travel Accessories","Music","Musical Instruments","Office Products","Outdoors","Personal Computers","Shoes, Handbags & Sunglasses","Software & Computer Games","Sports","Sports Collectibles","Tools & Home Improvement","Toys & Games","Video, DVD & Blu-Ray","Video Games & Video Game Consoles","Watches","Wine"]
-
+	$scope.ErrorMsg="";
 	$scope.createItem = function (product) {
+		
+		if (product.reservePrice > product.startPrice){
+			$scope.ErrorMsg = "Your starting price should be higher than reserve price!";
+			return;
+		}
+
+
+
+
 		$scope.submitting = 1;
 		$scope.product.currentPrice = $scope.product.startPrice;
 		Upload.upload({
 			url: '/auth/products',
 			data: $scope.product
 		}).success(function(){
+			$scope.ErrorMsg="";
 			$scope.submitting = 0;
+			$state.go("app.sell");
 		}).error(function(){
 			$scope.submitting = 0;
+			$ErrorMsg = "Some datas in your form is wrong!"
 		})
 	};
 }]);
@@ -681,6 +693,7 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 			method: 'PUT'
 		}).success(function(){
 			$scope.submitting = 0;
+			$state.go("app.sell");
 		}).error(function(){
 			$scope.submitting = 0;
 		})
@@ -704,48 +717,30 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
 
-		console.log("get!!")
 		
 		if(data.message=="OK") {
 			$scope.product = data.data;
-			console.log(data.data);
 
-			console.log($rootScope.userdata);
+
 			if(typeof $rootScope.userdata != 'undefined' && ($scope.product).sold==false){
 				if($scope.product.sellerUser == $rootScope.userdata._id){
-			
 						seller = 1;
 				}
 			
-
-				CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
-				console.log(data.data);
-	
-				$scope.userdata = data.data;
-
-				//If user is already watching the product, the user does need watch button.
-				if(typeof $scope.userdata!='undefined'){
-					if(($scope.userdata.productsWatching).indexOf($stateParams.item_id) != -1){
-						console.log("watched")
-						$scope.unwatch = true;
-					}				
-					else{
-						console.log("not watched")
-						if(!seller){
-							$scope.watch = true; 
-						}
-						
-					}
+				if (($scope.product.usersWatching).indexOf($rootScope.userdata._id)!=-1){
+					$scope.unwatch = true;
 				}
 
+				else{
+					if (!seller)
+						$scope.watch = true;
+				}
 
-		});
-			}	
-
+			}
 		}
 
 		$scope.detail_progress = false;
-		$scope.itemdetail = true; 
+		$scope.itemdetail = true;
 	});
 
 	
