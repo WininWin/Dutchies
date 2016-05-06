@@ -21,15 +21,15 @@
                      </div>
                     <section ng-show="itemdetail" class="row">           
                         <div class="column small-6">
-                            <div>Current Price: ${{ product.currentPrice | number:2 }}</div>
-                            <div>Shipping Fee: ${{ product.shippingPrice | number:2  }}</div>
-                            <div>Total Price: ${{ product.shippingPrice + product.currentPrice | number:2 }}</div>
-                            <div>Watching: {{ product.usersWatching.length }} Users Watching</div>
+                            <div>Current Price: <strong>${{ product.currentPrice | number:2 }}</strong></div>
+                            <div>Shipping Fee: <strong>${{ product.shippingPrice | number:2  }}</strong></div>
+                            <div>Total Price: <strong>${{ product.shippingPrice + product.currentPrice | number:2 }}</strong></div>
+                            <div>Watched By: <strong>{{ product.usersWatching.length }} Users Watching</strong></div>
                         </div>
                         <div class="column small-6">
-                            <p>Sold By: <a ui-sref="app.userDetails({user_id:product.sellerUser})">{{ product.sellerUserName }}</a></p>
+                            <p>Sold By: <a ui-sref="app.userDetails({user_id:product.sellerUser})"><strong>{{ product.sellerUserName }}</strong></a></p>
                             
-                            <p>Seller Email: <a href="mailto:{{product.sellerUserEmail}}?Subject=Hello%20again" target="_top">{{ product.sellerUserEmail }}
+                            <p>Seller Email: <a href="mailto:{{product.sellerUserEmail}}?Subject=Hello%20again" target="_top"><strong>{{ product.sellerUserEmail }}</strong>
                             <i class="fa fa-envelope-o" aria-hidden="true"></i></a> </p>                            
                         </div>
                     </section>
@@ -38,19 +38,19 @@
                         <div class="column small-6">
                             
                             <md-button ng-show = "buy" class="md-warn md-raised" ng-click="showConfirm($event,product._id)">
-                              Buy
+                             <i class="fa fa-shopping-bag" aria-hidden="true"></i> Buy
                             </md-button>
 
                             <div ng-show = "buyer">
-                                <h5> You bought this item on: </h5>
-                                {{product.dateSold | date:"MMMM dd, yyyy"}}
+                                <h6> You bought this on {{product.dateSold | date:"MMMM dd, yyyy"}}.</h6>
+                                
                             </div>
 
                             <div ng-show = "sold">
-                                <h5> This product is sold </h5>
+                                <h6> This product is sold. </h6>
                             </div>
                         </div>
-                        <div class="column small-6">
+                        <div class="column small-6" ng-hide="">
                             <md-button ng-click = "click_watch(product._id)" ng-show = "watch" class="md-raised md-warn md-fixed-width"><i class="fa fa-eye" ></i> Watch</md-button>
                             <md-button ng-click = "click_unwatch(product._id)" ng-show = "unwatch" class="md-raised md-primary md-fixed-width"><i class="fa fa-eye-slash"></i> Unwatch</md-button>
                         </div>

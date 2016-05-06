@@ -253,6 +253,9 @@ webAppControllers.controller('FooterController',['$scope', '$state','$window', f
 
 webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$rootScope', 'CurrentUser', '$window', function($scope,$state,$http,$rootScope, CurrentUser, $window) {
 	$scope.submitting = 0;
+	if($window.sessionStorage.user!="" || $window.sessionStorage.user!=undefined)
+		$state.go('app.account');
+
  	$scope.login = function() {
  		$scope.submitting = 1;
  		$scope.loginError = 0;
@@ -272,10 +275,6 @@ webAppControllers.controller('LoginController',['$scope', '$state', '$http', '$r
 	 	});
 	 }
 
-	 // check if we are logged in, if not redirect to login
-	// if($rootScope.loggedin)
-	// 	$state.go("app.account");
-
 	CurrentUser.getSampleUser().success(function(data) {
 		if(data.message=="OK") {
 			$scope.sample_user = data.data[0].email;
@@ -294,10 +293,7 @@ webAppControllers.controller('BuyController', ['$scope', '$state' , '$http', '$r
 
    	$scope.PrevList = function(){
 
-
 	    $scope.nextDisabled = false;
-
-
 
 	    $scope.page = $scope.page-1;
 	    if ($scope.page == 0)
@@ -800,9 +796,7 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 
 webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$rootScope', 'CurrentUser', '$stateParams','$window', '$mdDialog',function($scope, $state, $rootScope, CurrentUser, $stateParams, $window,$mdDialog) {
 
-	// $('#watch').hide();
-	// $('#unwatch').hide();
-	var seller = 0;
+	$scope.seller = 0;
 
 	$scope.watch = false;
 	$scope.unwatch = false;
@@ -819,6 +813,8 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 			$scope.product = data.data;
 			if ($window.sessionStorage.userdata != "")
 				var user = JSON.parse($window.sessionStorage.userdata);
+			if(user._id==$scope.product.sellerUser)
+				$scope.seller = 1
 			if(typeof user != 'undefined' && ($scope.product).sold==false){
 
 				if (($scope.product.usersWatching).indexOf(user._id)!=-1){
@@ -827,7 +823,7 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 				}
 
 				else{
-					if (!seller){
+					if (!$scope.seller){
 						$scope.watch = true;
 						$scope.buy = true;
 					}
