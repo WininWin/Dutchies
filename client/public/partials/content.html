@@ -10,9 +10,11 @@
 			</div>
 			<div class="row small-up-2 large-up-4">
 				<div ng-repeat = "item in mostRecentProducts"  class="column text-center">
-					<div class="thumbnail-wrapper text-center">
-						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
-					</div>
+					<center>
+						<div class="thumbnail-wrapper text-center">
+							<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
+						</div>
+					</center>
 					<h5 ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</h5>
 					<p>${{item.currentPrice}}</p>
 				</div>
@@ -27,9 +29,11 @@
 			</div>
 			<div class="row small-up-2 medium-up-3 large-up-6">
 				<div ng-repeat = "item in mostWatchedProducts" class="column">
-					<div class="thumbnail-wrapper">
-						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
-					</div>
+					<center>
+						<div class="thumbnail-wrapper">
+							<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
+						</div>
+					</center>
 					<h7 ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</h7>
 					<p>${{item.currentPrice}}</p>
 				</div>
@@ -44,9 +48,11 @@
 			</div>
 			<div class="row small-up-2 medium-up3 large-up-6">
 				<div ng-repeat = "item in randomProducts" class="column">
-					<div class="thumbnail-wrapper">
-						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
-					</div>
+					<center>
+						<div class="thumbnail-wrapper">
+							<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
+						</div>
+					</center>
 					<p ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
 					<p>${{item.currentPrice}}</p>
 				</div>
