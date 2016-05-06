@@ -151,8 +151,13 @@ webAppServices.factory('CurrentUser', function($http) {
 		
 		deleteProduct : function(productid) {
 			return $http.delete('/auth/products/'+productid);
+		},
+		changePassword : function(email,password) {
+			var temp = {};
+			temp.email = email;
+			temp.password = password;			
+			return $http.post('/auth/password',temp);
 		}
-
 	}
 });
 

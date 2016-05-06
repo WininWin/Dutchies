@@ -15,7 +15,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="column small-5 small-offset-1">
+                            <div class="column medium-5 medium-offset-1 small-12">
                                 <div ng-hide="loading">
                                     <strong>Name</strong>: {{user.name}}</br>
                                     <strong>Email</strong>: {{user.email}}</br></br>
@@ -97,7 +97,6 @@
                                                
                                                 
                                                 {{ErrorMsg}}
-                                                </br>
                                                 <md-button  class = "md-raised md-warn" type="submit" ng-click="updateCard()" >Update</md-button> 
                                                 <md-button class="md-raised md-primary" ng-click="change(3)"> Cancel </md-button> 
 
@@ -105,14 +104,46 @@
                                             </form>
                                            
                                         </div>
+                                        <br>
+                                    </div>
+
+
+                                    <div>
+                                        <div ng-hide="passwordShow">
+                                            <i class="fa fa-key" aria-hidden="true"></i> <strong>Password</strong>
+                                            <md-button class = "md-primary float-right" ng-click="change(4)"> EDIT </md-button> </br>
+                                            Password: ************
+                                           
+                                        </div>
+
+                                        <div ng-show="passwordShow">
+                                            </br>
+                                            <strong>Set a New Password</strong>
+                                            <form name="paymentForm">
+                                                New Password*
+                                                <input type="password" ng-model="password" required/>
+                                               
+                                                Confirm New Password*
+                                                <input type="password" ng-model="confirmPassword" required/>
+                                                
+                                                {{ErrorMsg}}
+                                                <md-button  class = "md-raised md-warn" type="submit" ng-click="updatePassword()" >Set Password</md-button> 
+                                                <md-button class="md-raised md-primary" ng-click="change(4)"> Cancel </md-button> 
+
+                                                
+                                            </form>
+                                           
+                                        </div>
                                     </div>
                                 </div>
+                                <br>
                             </div>
-                            <div class="small-4 small-offset-1 column" ng-hide="loading">
+                            <div class="medium-4 medium-offset-1 column small-12" ng-hide="loading">
                                 <a ui-sref="app.buy"><strong>Total Number of Purchases: <strong>{{buyCount}}</a></br>
                                 <a ui-sref="app.sell"><strong>Total Number of Products Listed: <strong>{{sellCount}}</a></br>
                                 <a ui-sref="app.watching"><strong>Total Number of Products Watching: <strong>{{watchCount}}</a>
                             </div>
+                            <br>
                         </div>
                     </div>
             </section>          
