@@ -13,9 +13,20 @@
 			</div>
 			<div class="row">
 				<div ng-repeat = "item in mostRecentProducts"  class="column small-12 medium-3 text-center">
-					<div class="thumbnail-wrapper-big">
+					<div class="desktop thumbnail-wrapper-big">
 						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
 					</div>
+
+					<div class="tablet thumbnail-wrapper">
+						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
+					</div>
+
+					<div class="mobile thumbnail-wrapper">
+						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
+					</div>
+
+
+
 					<h5  class="homepage-label" ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</h5>
 
 					<div class="mobile text-center">
