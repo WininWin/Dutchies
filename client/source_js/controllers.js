@@ -769,7 +769,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
     });
 }]);
 
-webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentUser', 'CommonData', function($scope, $state, CurrentUser,CommonData) {
+webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentUser', 'CommonData', '$window','$rootScope',function($scope, $state, CurrentUser,CommonData,$window,$rootScope) {
 	$scope.user = {};
 	$scope.submitting = 0;
 	$scope.ErrorMsg = 0;
@@ -793,8 +793,13 @@ webAppControllers.controller('SignupController', ['$scope' , '$state', 'CurrentU
 	$scope.newUser = function() {
 		$scope.ErrorMsg = "";
 		$scope.submitting = 1;
-		CurrentUser.createUser($scope.user).success(function(){
+		CurrentUser.createUser($scope.user).success(function(data){
+			console.log('success for account creation!');
 			$scope.submitting = 0;
+			$window.sessionStorage.userdata = JSON.stringify(data.data);
+			console.log(data.data);
+			$window.sessionStorage.loggedin = 1;
+			$rootScope.loggedin = 1;
 			$state.go('app.account');
 		}).error(function(error){
 			$scope.submitting = 0;
