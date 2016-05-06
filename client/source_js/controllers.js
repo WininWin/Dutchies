@@ -559,8 +559,6 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 	$scope.cardShow= false;
 	$scope.ErrorMsg = "";
 
-
-
 	$scope.updatePhone = function(){
 		if ($scope.TempPhone.match(/\d/g).length===10){
 			$scope.ErrorMsg = ""
@@ -598,7 +596,7 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
 			$scope.user.card= $scope.card;
 			CurrentUser.editUserinfo($scope.user);
 			var cardnumstring = $scope.card.number.toString();
-			$scope.creditcardfourdig = 'XXXX XXXX XXXX '+cardnumstring.substr(cardnumstring.length-4);
+			$scope.creditcardfourdig = 'XXXX-XXXX-XXXX-'+cardnumstring.substr(cardnumstring.length-4);
 			return;
 		}
 		else{
@@ -646,6 +644,16 @@ webAppControllers.controller('AccountController', ['$scope', '$http' , '$window'
     })
     .error(function(data){
     	$state.go("app.login");
+    });
+
+    CurrentUser.getUserSellingCount().success(function(data) {
+    	CurrentUser.getUserWatchingCount().success(function(data2) {
+    		CurrentUser.getUserBuyingCount().success(function(data3) {
+    			$scope.buyCount = data3.data;
+    		});
+    		$scope.watchCount = data2.data;
+    	});
+    	$scope.sellCount = data.data;
     });
 
 

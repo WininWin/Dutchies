@@ -84,7 +84,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider', functi
   })
   
   .state('app.watching', {
-    url: 'watching',
+    url: 'watchlist',
     views: {
       'content@': {
         templateUrl: 'partials/watching.html',
