@@ -1,6 +1,6 @@
 <div ng-controller='HeaderController' class="header">
 
-	<md-toolbar class="md-tall fixed" layout="column" >
+	<md-toolbar class="desktop tablet md-tall fixed" layout="column" >
 		<div class="md-toolbar-tools">
 			<img src="/data/images/logo.png"/ ui-sref="app" class="header-logo">
 			<span flex="auto"></span>
@@ -16,5 +16,27 @@
 			<button class="searchbutton" type="submit" ng-click="search(query)"><i class="fa fa-search" aria-hidden="true"></i></button>
 		</div>
 	</md-toolbar>
+
+
+	<md-toolbar class="mobile md-tall fixed">
+		<div class="md-toolbar-tools">
+			<span>Ductchies</span>
+			<span flex="auto"></span>
+			<md-button class="md-fab md-mini" ui-sref-active="active-state" ui-sref="app.buy" aria-label="Buy"><i class="fa fa-shopping-cart" aria-hidden="true"></i></md-button>
+			<md-button class="md-fab md-mini" ui-sref-active="active-state" ui-sref="app.sell" aria-label="Your Auctions"><i class="fa fa-gavel" aria-hidden="true"></i></md-button>
+			<md-button class="md-fab md-mini" ui-sref-active="active-state" ui-sref="app.watching" aria-label="Watching"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></md-button>
+			<md-button class="md-fab md-mini" ui-sref-active="active-state" ui-sref="app.account" aria-label="My Account"><i class="fa fa-user fa-2x" aria-hidden="true"></i></md-button>
+
+		</div>
+
+
+
+	  	<div class="md-toolbar-tools md-toolbar-tools-bottom">
+			<input name = "search_input" type="text" ng-model = "query" ng-minlength="1" placeholder="Search products..." class="searchinput" ng-keypress="searchOnEnter($event)">
+			<button class="searchbutton" type="submit" ng-click="search(query)"><i class="fa fa-search" aria-hidden="true"></i></button>
+		</div>
+
+	</md-toolbar>
+
 	
 </div>
