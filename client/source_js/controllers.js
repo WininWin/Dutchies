@@ -445,15 +445,17 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 	  $scope.showConfirm_ship = function(ev,productid) {
     // Appending dialog to document.body to cover sidenav in docs app
 	    var confirm = $mdDialog.confirm()
-	          .title('Confirm that you are shipping this item below.')
+	          .title('Confirm that you are shipping this item.')
 	          .textContent('This action cannot be undone.')
 	          .targetEvent(ev)
 	          .ok('Ship')
 	          .cancel('Cancel');
 
 	    $mdDialog.show(confirm).then(function() {
-	      var temp;
+	      var temp = {};
 	      temp.shipped = true;
+	      temp.img="keep_current";
+	      console.log(temp);
 	      CurrentUser.editProductinfo(productid,temp);
 	      $state.go('app.sell');
 

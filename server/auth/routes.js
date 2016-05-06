@@ -23,27 +23,42 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 
 	/* get all the products that the logged in user has sold or is selling */
 	app.get('/auth/products/selling', isLoggedIn, function(req, res) {
-		Product.find({"sellerUser":req.user._id})
-		.sort(getParam(req.query.sort))
-		.select(getParam(req.query.select))
-		.skip(req.query.skip)
-		.limit(req.query.limit)
-		.exec(function(error,result){
-			if(error) {
-				res.status(500);
-				res.json({"message":errorToString(error),"data":[]});
-			}
-			else {
-				res.status(200);
-				res.json({"message":"OK","data":result})
-			}
-		})
+		if(req.query.count) {
+			User.count({"sellerUser":req.user._id})
+			.exec(function(error,result){
+				if(error) {
+					res.status(500);
+					res.json({"message":errorToString(error),"data":[]});
+				}
+				else {
+					res.status(200);
+					res.json({"message":"OK","data":result})
+				}
+			})
+		}
+		else {
+			Product.find({"sellerUser":req.user._id})
+			.sort(getParam(req.query.sort))
+			.select(getParam(req.query.select))
+			.skip(req.query.skip)
+			.limit(req.query.limit)
+			.exec(function(error,result){
+				if(error) {
+					res.status(500);
+					res.json({"message":errorToString(error),"data":[]});
+				}
+				else {
+					res.status(200);
+					res.json({"message":"OK","data":result})
+				}
+			})
+		}
 	});
 	
 	/* get all the products that the logged in user has bought */
 	app.get('/auth/products/buying', isLoggedIn, function(req, res) {
 		if(req.query.count) {
-			User.count(getParam(req.query.where))
+			User.count({"soldToUser":req.user._id})
 			.exec(function(error,result){
 				if(error) {
 					res.status(500);
@@ -76,22 +91,36 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 
 	/* get all the products that the logged in user is watching */
 	app.get('/auth/products/watching', isLoggedIn, function(req, res) {
-		console.log(req.user._id);
-		Product.find({"usersWatching":req.user._id,sold:false})
-		.sort(getParam(req.query.sort))
-		.select(getParam(req.query.select))
-		.skip(req.query.skip)
-		.limit(req.query.limit)
-		.exec(function(error,result){
-			if(error) {
-				res.status(500);
-				res.json({"message":errorToString(error),"data":[]});
-			}
-			else {
-				res.status(200);
-				res.json({"message":"OK","data":result})
-			}
-		})
+		if(req.query.count) {
+			User.count({"usersWatching":req.user._id,sold:false})
+			.exec(function(error,result){
+				if(error) {
+					res.status(500);
+					res.json({"message":errorToString(error),"data":[]});
+				}
+				else {
+					res.status(200);
+					res.json({"message":"OK","data":result})
+				}
+			})
+		}
+		else {
+			Product.find({"usersWatching":req.user._id,sold:false})
+			.sort(getParam(req.query.sort))
+			.select(getParam(req.query.select))
+			.skip(req.query.skip)
+			.limit(req.query.limit)
+			.exec(function(error,result){
+				if(error) {
+					res.status(500);
+					res.json({"message":errorToString(error),"data":[]});
+				}
+				else {
+					res.status(200);
+					res.json({"message":"OK","data":result})
+				}
+			})
+		}
 	});
 
 	// add a new product to sell
