@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="md-toolbar-tools md-toolbar-tools-bottom">
-			<input name = "search_input" type="text" ng-model = "query" ng-minlength="1" placeholder="Search products..." class="searchinput" ng-keypress="searchOnEnter($event)">
+			<input name = "search_input" type="text" ng-model = "query" ng-minlength="1" placeholder="Search products" class="searchinput" ng-keypress="searchOnEnter($event)">
 			<button class="searchbutton" type="submit" ng-click="search(query)"><i class="fa fa-search" aria-hidden="true"></i></button>
 		</div>
 	</md-toolbar>
@@ -20,7 +20,7 @@
 
 	<md-toolbar class="mobile md-tall fixed">
 		<div class="md-toolbar-tools">
-			<span>Ductchies</span>
+			<span ui-sref="app">Ductchies</span>
 			<span flex="auto"></span>
 			<md-button class="md-fab md-mini" ui-sref-active="active-state" ui-sref="app.buy" aria-label="Buy"><i class="fa fa-shopping-cart" aria-hidden="true"></i></md-button>
 			<md-button class="md-fab md-mini" ui-sref-active="active-state" ui-sref="app.sell" aria-label="Your Auctions"><i class="fa fa-gavel" aria-hidden="true"></i></md-button>
@@ -32,7 +32,7 @@
 
 
 	  	<div class="md-toolbar-tools md-toolbar-tools-bottom">
-			<input name = "search_input" type="text" ng-model = "query" ng-minlength="1" placeholder="Search products..." class="searchinput" ng-keypress="searchOnEnter($event)">
+			<input name = "search_input" type="text" ng-model = "query" ng-minlength="1" placeholder="Search products" class="searchinput" ng-keypress="searchOnEnter($event)">
 			<button class="searchbutton" type="submit" ng-click="search(query)"><i class="fa fa-search" aria-hidden="true"></i></button>
 		</div>
 

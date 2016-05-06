@@ -23,16 +23,43 @@
 						<div class="columns small-6">
 							<a class="md-accent" ui-sref="app.itemDetails({item_id: item._id})">
 								<div class="product-listing-title">{{item.name}}</div>
-								<div class="product-listing-info">Current Price: <strong>${{item.currentPrice | number:2}}</strong> | Watched By: <strong>{{item.usersWatching.length}} Users</strong></div>
+								<div class="product-listing-info" ng-show="item.sold">Sold Price: <strong>${{item.soldPrice | number:2}}</strong></strong></div>
+								<div class="product-listing-info" ng-show="!item.sold">Current Price: <strong>${{item.currentPrice | number:2}}</strong> | Watched By: <strong>{{item.usersWatching.length}} Users</strong></div>
 							</a>
-							<a class="md-accent md-hue-1" ui-sref="app.account">
-								<div class="product-listing-info">Sold By: You</div>
+							<a class="md-accent md-hue-1" ui-sref="app.userDetails({user_id: item.soldToUser})" ng-show="item.sold">
+								<div class="product-listing-info" >Sold To: <strong>{{item.soldToUserName}}</div>
+							</a>
+							<a class="md-accent md-hue-1" ui-sref="app.account" ng-show="!item.sold">
+								<div class="product-listing-info" >Sold By: <strong>You</div>
 							</a>
 						</div>
-						<div class="columns small-4 text-right">
+						
+						<div class="desktop columns small-4 text-right">
 							<div ng-hide = "item.sold"><md-button class="md-raised md-warn md-fixed-width" ui-sref="app.editItem({item_id: item._id})"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</md-button></div>
 							<div ng-hide = "item.sold"><md-button class="md-raised md-primary md-fixed-width" ng-click="showConfirm($event,item._id)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</md-button></div>
-							<div ng-show = "item.sold && !item.shipped"><md-button class="md-raised md-warn md-fixed-width" ng-click="showConfirm_ship($event,item._id)"><i class="fa fa-send-o" aria-hidden="true"></i> Ship</md-button></div>
+							<div ng-show = "item.sold && !item.shipped" class="margin-top-button"><md-button class="md-raised md-warn md-fixed-width" ng-click="showConfirm_ship($event,item._id,item)"><i class="fa fa-send-o" aria-hidden="true"></i> Ship</md-button></div>
+							<br ng-show = "item.sold && item.shipped">
+							<div class="status-line" ng-show = "item.sold && !item.shipped"><p>Status: <strong>Waiting to Ship</strong></p></div>
+							<div class="status-line margin-top-button" ng-show = "item.sold && item.shipped"><p>Status: <strong>Shipped</strong></p></div>
+						</div>
+
+						<div class="tablet columns small-4 text-right">
+							<div ng-hide = "item.sold"><md-button class="md-raised md-warn md-fixed-width" ui-sref="app.editItem({item_id: item._id})"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</md-button></div>
+							<div ng-hide = "item.sold"><md-button class="md-raised md-primary md-fixed-width" ng-click="showConfirm($event,item._id)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</md-button></div>
+							<div ng-show = "item.sold && !item.shipped" class="margin-top-button"><md-button class="md-raised md-warn md-fixed-width" ng-click="showConfirm_ship($event,item._id,item)"><i class="fa fa-send-o" aria-hidden="true"></i> Ship</md-button></div>
+							<br ng-show = "item.sold && item.shipped">
+							<div class="status-line" ng-show = "item.sold && !item.shipped"><p>Status: <strong>Waiting to Ship</strong></p></div>
+							<div class="status-line margin-top-button" ng-show = "item.sold && item.shipped"><p>Status: <strong>Shipped</strong></p></div>
+						</div>
+
+						<div class="mobile columns small-4 text-right">
+							<div ng-hide = "item.sold"><md-button class="md-raised md-warn" ui-sref="app.editItem({item_id: item._id})" aria-label = "Edit"><i class="fa fa-pencil" aria-hidden="true"></i></md-button></div>
+							<div ng-hide = "item.sold"><md-button class="md-raised md-primary" ng-click="showConfirm($event,item._id)" aria-label = "Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></md-button></div>
+							<div ng-show = "item.sold && !item.shipped"><md-button class="md-raised md-warn" ng-click="showConfirm_ship($event,item._id)" aria-label="ship"><i class="fa fa-send-o" aria-hidden="true"></i></md-button></div>
+							<br ng-show = "item.sold && item.shipped">
+							<div class="status-line product-listing-info" ng-show = "item.sold && !item.shipped">Status: Waiting to Ship</p></div>
+							<div class="status-line margin-top-button product-listing-info" ng-show = "item.sold && item.shipped">Status: Shipped</div>
+
 						</div>
 					</div>
 				</div>

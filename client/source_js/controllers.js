@@ -31,6 +31,7 @@ webAppControllers.run(function($rootScope,$http,$state,$window, CurrentUser) {
         	$state.go('app');
         	$window.sessionStorage.userdata = "";
         	$window.sessionStorage.loggedin = 0;
+        	$rootScope.loggedin = 0;
         	$rootScope.account = "Login";
         	$rootScope.loggingout = 0;
         })
@@ -243,8 +244,8 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 
 }]);
 
-webAppControllers.controller('FooterController',['$scope', '$state', function($scope,$state) {
- 
+webAppControllers.controller('FooterController',['$scope', '$state','$window', function($scope,$state,$window) {
+ 	
 
 
 }]);
@@ -440,7 +441,7 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 	    });
 	  };
 
-	  $scope.showConfirm_ship = function(ev,productid) {
+	  $scope.showConfirm_ship = function(ev,productid,item) {
     // Appending dialog to document.body to cover sidenav in docs app
 	    var confirm = $mdDialog.confirm()
 	          .title('Confirm that you are shipping this item.')
@@ -454,7 +455,7 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
 	      temp.shipped = true;
 	      temp.img="keep_current";
 	      CurrentUser.editProductinfo(productid,temp);
-	      $state.go('app.sell');
+	      item.shipped = true;
 
 	    });
 	  };
@@ -746,8 +747,8 @@ webAppControllers.controller('EditItemController', ['$scope', '$state', 'Current
 
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
 		if(data.message=="OK") {
-			$scope.product.img_replace="keep_current";
 			$scope.product = data.data;
+			$scope.product.img_replace="keep_current";
 		}
 	});
 	$scope.submitting = 0;

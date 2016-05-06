@@ -135,7 +135,7 @@ webAppServices.factory('CurrentUser', function($http) {
 			return $http.put('/auth/user/update', data);
 		},
 		editProductinfo : function(productid, data){
-			return $http.put('api/products/' + productid, data);
+			return $http.put('/auth/products/' + productid, data);
 		},
 		watchProduct : function(productid) {
 			console.log(productid);
