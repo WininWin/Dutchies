@@ -133,6 +133,7 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 			if(result){
 				result.sold = true;
 				result.dateSold = Date.now();
+				result.soldPrice = result.currentPrice;
 				result.soldToUser = req.user._id;
 				result.soldToUserName = req.user.name;
 				result.soldToUserEmail = req.user.email;
@@ -150,15 +151,6 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 	})
 
 
-
-	// allow a user to create a new product for sale POST
-
-
-
-	// allow a user to delete their product DELETE
-
-
-	// change details about item PUT
 
 
 	// delete a product

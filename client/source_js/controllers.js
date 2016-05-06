@@ -425,10 +425,10 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
     // Appending dialog to document.body to cover sidenav in docs app
 	    var confirm = $mdDialog.confirm()
 	          .title('Would you like to delete this product?')
-	          .textContent('You cannot restore the data if you delete it')
+	          .textContent('This action cannot be undone.')
 	          .targetEvent(ev)
-	          .ok('Yes!')
-	          .cancel('No!');
+	          .ok('Delete')
+	          .cancel('Cancel');
 
 	    $mdDialog.show(confirm).then(function() {
 	      $scope.deleteItemPart1(productid);
@@ -494,11 +494,11 @@ webAppControllers.controller('WatchingController', ['$scope', '$state', '$http',
 	$scope.showConfirm = function(ev,productid) {
     // Appending dialog to document.body to cover sidenav in docs app
 	    var confirm = $mdDialog.confirm()
-	          .title('Would you like to buy this product?')
-	          .textContent('Your credit card will be charged if you click yes!')
+	          .title('Would you like to purchase this product?')
+	          .textContent('Your credit card will be charged if you click \'Purchase\'.')
 	          .targetEvent(ev)
-	          .ok('Yes!')
-	          .cancel('No!');
+	          .ok('Purchase')
+	          .cancel('Cancel');
 
 	    $mdDialog.show(confirm).then(function() {
 	      $scope.buy_refresh(productid);
@@ -829,11 +829,11 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 	$scope.showConfirm = function(ev,productid) {
     // Appending dialog to document.body to cover sidenav in docs app
 	    var confirm = $mdDialog.confirm()
-	          .title('Would you like to buy this product?')
-	          .textContent('Your credit card will be charged if you click yes!')
+	          .title('Would you like to purchase this product?')
+	          .textContent('Your credit card will be charged if you click \'Purchase\'.')
 	          .targetEvent(ev)
-	          .ok('Yes!')
-	          .cancel('No!');
+	          .ok('Purchase')
+	          .cancel('Cancel');
 
 	    $mdDialog.show(confirm).then(function() {
 	      $scope.click_buy(productid);

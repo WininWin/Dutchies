@@ -19,7 +19,7 @@ body{
 
 .view-container {
 	margin-top: 2%;
-	padding: 5% 2% 5% 2%;
+	padding: 2%;
 	background-color: white;
 	border-radius: 8px;
 	border: solid 1px #E0E0E0;
@@ -164,7 +164,11 @@ body{
 }
 
 .md-raised {
-	width: 120px !important;
+	padding: 0px 10px !important;
+}
+
+.md-fixed-width {
+	width: 120px;
 }
 
 .banner-wrapper {
