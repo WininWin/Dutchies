@@ -165,7 +165,7 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 	// user wants to watch an item
 	app.put('/auth/products/watch/:id',isLoggedIn,function(req,res){
 
-		Product.findById(req.params.id, function(error,result)){
+		Product.findById(req.params.id, function(error,result){
 			if(result){
 				result.usersWatching.push(req.user._id);
 				result.numUsersWatching +=1;
@@ -174,7 +174,7 @@ module.exports = function(app, passport, User, Product, fs, uploading) {
 					res.json({"message":"OK","data":result})
 				})
 			}
-		}
+		});
 
 	})
 

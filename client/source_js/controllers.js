@@ -711,48 +711,30 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
 
-		console.log("get!!")
 		
 		if(data.message=="OK") {
 			$scope.product = data.data;
-			console.log(data.data);
 
-			console.log($rootScope.userdata);
+
 			if(typeof $rootScope.userdata != 'undefined' && ($scope.product).sold==false){
 				if($scope.product.sellerUser == $rootScope.userdata._id){
-			
 						seller = 1;
 				}
 			
-
-				CurrentUser.getUserInfo($rootScope.userdata._id).success(function(data){
-				console.log(data.data);
-	
-				$scope.userdata = data.data;
-
-				//If user is already watching the product, the user does need watch button.
-				if(typeof $scope.userdata!='undefined'){
-					if(($scope.userdata.productsWatching).indexOf($stateParams.item_id) != -1){
-						console.log("watched")
-						$scope.unwatch = true;
-					}				
-					else{
-						console.log("not watched")
-						if(!seller){
-							$scope.watch = true; 
-						}
-						
-					}
+				if (($scope.product.usersWatching).indexOf($rootScope.userdata._id)!=-1){
+					$scope.unwatch = true;
 				}
 
+				else{
+					if (!seller)
+						$scope.watch = true;
+				}
 
-		});
-			}	
-
+			}
 		}
 
 		$scope.detail_progress = false;
-		$scope.itemdetail = true; 
+		$scope.itemdetail = true;
 	});
 
 	
