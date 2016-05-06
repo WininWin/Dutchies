@@ -41,7 +41,7 @@
 
                             <div ng-show = "buyer">
                                 <h5> You bought it on: </h5>
-                                {{product.dateSold}}
+                                {{product.dateSold| date:"MMMM dd, yyyy"}}
                             </div>
 
                             <div ng-show = "sold">
