@@ -12,6 +12,7 @@ var ProductSchema = new mongoose.Schema({
   cyclesSinceLastPriceUpdate: { type: Number, default: 0 },
   soldPrice: { type: Number },
   sold: { type: Boolean, default: false},
+  shipped: { type: Boolean, default: false},
   dateCreated: {type: Date, default: Date.now },
   dateSold:{type:Date},
   usersWatching: { type: [String], default: []},
