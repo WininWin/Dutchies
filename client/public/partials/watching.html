@@ -24,9 +24,19 @@
 								<div class="product-listing-info">Sold By: {{item.sellerUserName}}</div>
 							</a>
 						</div>
-						<div class="columns small-4 text-right">
-							<div><md-button class="md-raised md-primary md-fixed-width" ng-click="unwatch_refresh(item._id)"><i class="fa fa-eye-slash" aria-hidden="true"></i> Unwatch</md-button></div>
-							<div><md-button class="md-raised md-warn md-fixed-width" ng-click="showConfirm($event,item._id)"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Buy</md-button></div>
+						<div class="desktop columns small-4 text-right">
+							<div><md-button class="md-raised md-primary md-fixed-width" ng-click="unwatch_refresh(item._id)" aria-label="unwatch button"><i class="fa fa-eye-slash" aria-hidden="true"></i> Unwatch</md-button></div>
+							<div><md-button class="md-raised md-warn md-fixed-width" ng-click="showConfirm($event,item._id)" aria-label="Buy button"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Buy</md-button></div>
+						</div>
+
+						<div class="tablet columns small-4 text-right">
+							<div><md-button class="md-raised md-primary md-fixed-width" ng-click="unwatch_refresh(item._id)" aria-label="unwatch button"><i class="fa fa-eye-slash" aria-hidden="true"></i> Unwatch</md-button></div>
+							<div><md-button class="md-raised md-warn md-fixed-width" ng-click="showConfirm($event,item._id)" aria-label="Buy button"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Buy</md-button></div>
+						</div>
+
+						<div class="mobile columns small-4 text-right">
+							<div><md-button class="md-raised md-primary" ng-click="unwatch_refresh(item._id)" aria-label="unwatch button"><i class="fa fa-eye-slash" aria-hidden="true"></i></md-button></div>
+							<div><md-button class="md-raised md-warn" ng-click="showConfirm($event,item._id)" aria-label="Buy button"><i class="fa fa-shopping-bag" aria-hidden="true"></i></md-button></div>
 						</div>
 					</div>
 				</div>

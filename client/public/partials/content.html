@@ -17,16 +17,31 @@
 						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
 					</div>
 					<h5  class="homepage-label" ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</h5>
+
+					<div class="mobile text-center">
+						${{item.currentPrice | number:2}}
+					</div>
 					
 				</div>
 			</div>
+			
 
-			<div class="row">
+			<div class="desktop row">
 				<div ng-repeat = "item in mostRecentProducts"  class="column small-12 medium-3 text-center">
 					${{item.currentPrice | number:2}}
 				</div>
 
 			</div>
+
+
+			<div class="tablet row">
+				<div ng-repeat = "item in mostRecentProducts"  class="column small-12 medium-3 text-center">
+					${{item.currentPrice | number:2}}
+				</div>
+
+			</div>
+
+
 			<hr>
 			<div class="row column">
 				<h4><strong>Most Popular Products</strong></h4>
@@ -41,11 +56,26 @@
 						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
 					</div>
 					<p class="homepage-label" ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
+
+					<div class="mobile text-center text-small">
+						${{item.currentPrice | number:2}}
+					</div>
+
+
 					
 				</div>
 			</div>
-			<div class="row">
-				<div ng-repeat = "item in mostWatchedProducts"  class="column small-12 medium-2 text-center">
+			
+			<div class="desktop row">
+				<div ng-repeat = "item in mostRecentProducts"  class="column small-12 medium-3 text-center text-small">
+					${{item.currentPrice | number:2}}
+				</div>
+
+			</div>
+
+
+			<div class="tablet row">
+				<div ng-repeat = "item in mostRecentProducts"  class="column small-12 medium-3 text-center text-small">
 					${{item.currentPrice | number:2}}
 				</div>
 
@@ -66,16 +96,28 @@
 						</div>
 						<p ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
 					</center>
-					
+					<div class="mobile text-center">
+						${{item.currentPrice | number:2}}
+					</div>
+
 					
 				</div>
 
 			</div>
 
-			<div class="row">
-				<div ng-repeat = "item in randomProducts"  class="column small-12 medium-2 text-center">
+			<div class="desktop row">
+				<div ng-repeat = "item in mostRecentProducts"  class="column small-12 medium-3 text-center">
 					${{item.currentPrice | number:2}}
 				</div>
+
+			</div>
+
+
+			<div class="tablet row">
+				<div ng-repeat = "item in mostRecentProducts"  class="column small-12 medium-3 text-center">
+					${{item.currentPrice | number:2}}
+				</div>
+
 			</div>
 		</div>
 	</section>		
