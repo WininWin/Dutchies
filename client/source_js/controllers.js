@@ -717,6 +717,8 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 	$scope.itemdetail = false; 
 	$scope.buy = false;
 	$scope.detail_progress =true; 
+	$scope.buyer = false;
+	$scope.sold = false;
 		
 
 	CurrentUser.getProductInfo($stateParams.item_id).success(function(data) {
@@ -724,7 +726,6 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		
 		if(data.message=="OK") {
 			$scope.product = data.data;
-			console.log(data.data);
 
 			if(typeof $rootScope.userdata != 'undefined' && ($scope.product).sold==false){
 				if($scope.product.sellerUser == $rootScope.userdata._id){
@@ -733,24 +734,38 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 			
 				if (($scope.product.usersWatching).indexOf($rootScope.userdata._id)!=-1){
 					$scope.unwatch = true;
+					$scope.buy = true;
 				}
 
 				else{
-					if (!seller)
+					if (!seller){
 						$scope.watch = true;
+						$scope.buy = true;
+					}
 				}
 
 			}
+
+			if(typeof $rootScope.userdata != 'undefined' && ($scope.product).sold==true){
+				if($scope.product.soldToUser == $rootScope.userdata._id){
+					$scope.buyer = true;
+				}
+
+				else{
+
+					$scope.sold = true;
+				}
+
+
+			}
+
+		
 		}
 
 		$scope.detail_progress = false;
 		$scope.itemdetail = true;
 	});
 
-	
-	
-
-	
 
 	$scope.click_watch = function(productid){
 
@@ -766,9 +781,11 @@ webAppControllers.controller('ItemDetailsController', ['$scope', '$state', '$roo
 		$scope.unwatch = false;
 	};
 
+	$scope.click_buy = function(productid){
+		CurrentUser.buyProduct(productid);
+		$state.go("app.buy");
 
-
-
+	};
 
 
 }]);
