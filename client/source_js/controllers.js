@@ -182,12 +182,17 @@ webAppControllers.controller('SearchController',['$scope' ,'$state','$http', '$r
 					$scope.search_progress = false; 
 					$rootScope.search_products = data.data;
 					$scope.result = true;
-					if ($scope.search_products.length < 10)
+					if ($scope.search_products.length < 10){
+						$scope.noresults = 0;
 						$scope.nextDisabled = true;
+					}
 					else {
+						$scope.noresults = 0;
 						$scope.nextDisabled = false;
 						$rootScope.search_products.pop();
 					}
+					if(!$scope.search_products.length)
+						$scope.noresults = 1;
 
 				});
 
@@ -424,11 +429,8 @@ webAppControllers.controller('SellController', ['$scope',  '$state', '$http', '$
     	$state.go("app.login");
     });
   
-    $scope.deleteItemPart1 = function(productid) {
-    	$scope.products.delete = true;
-    }
 
-    $scope.deleteItemPart2 = function(productid) {
+    $scope.deleteItem = function(productid) {
     	CurrentUser.deleteProduct(productid);
     	$('#'+productid).remove();
     }

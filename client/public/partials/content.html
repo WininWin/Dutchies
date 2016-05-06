@@ -2,53 +2,53 @@
 	<section class="row view-container-no-border">
 		<div class="column small-12">
 			<div class="row column">
-				</br><h5>Recently Added</h5>
+				</br><h4><strong>Recently Added</strong></h4>
 				  <hr>
 			</div>
 			<div class="row column text-center">
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="progress[0]"></i>
 			</div>
-			<div class="row small-up-2 large-up-4">
-				<div ng-repeat = "item in mostRecentProducts"  class="column text-center">
-					<div class="thumbnail-wrapper text-center">
+			<div class="row">
+				<div ng-repeat = "item in mostRecentProducts"  class="column small-12 medium-3 text-center">
+					<div class="thumbnail-wrapper-big">
 						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
 					</div>
-					<h5 ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</h5>
-					<p>${{item.currentPrice}}</p>
+					<h5  class="homepage-label" ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</h5>
+					<p class="small-text">${{item.currentPrice}}</p>
 				</div>
 			</div>
 			<hr>
 			<div class="row column">
-				<h5>Most Popular Products</h5>
+				<h4><strong>Most Popular Products</strong></h4>
 				<hr>
 			</div>
 			<div class="row column text-center">
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="progress[1]"></i>
 			</div>
-			<div class="row small-up-2 medium-up-3 large-up-6">
-				<div ng-repeat = "item in mostWatchedProducts" class="column">
+			<div class="row">
+				<div ng-repeat = "item in mostWatchedProducts" class="column small-12 medium-2 text-center">
 					<div class="thumbnail-wrapper">
 						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
 					</div>
-					<h7 ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</h7>
-					<p>${{item.currentPrice}}</p>
+					<p class="homepage-label" ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
+					<p class="small-text">${{item.currentPrice}}</p>
 				</div>
 			</div>
 			<hr>
 			<div class="row column">
-				<h5>Explore New Products</h5>
+				<h4><strong>Explore New Products</strong></h4>
 				<hr>
 			</div>
 			<div class="row column text-center">
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="progress[2]"></i>
 			</div>
 			<div class="row small-up-2 medium-up3 large-up-6">
-				<div ng-repeat = "item in randomProducts" class="column">
+				<div ng-repeat = "item in randomProducts" class="column small-12 medium-2 text-center">
 					<div class="thumbnail-wrapper">
 						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
 					</div>
-					<p ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
-					<p>${{item.currentPrice}}</p>
+					<p class="homepage-label" ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
+					<p class="small-text">${{item.currentPrice}}</p>
 				</div>
 
 			</div>

@@ -8,8 +8,13 @@ body{
 	position: fixed;
 	top:0;
 }
+
 .extra-padding {
 	padding: 0 10px !important;
+}
+
+.header {
+	height: 128px;
 }
 
 .view-container {
@@ -60,6 +65,15 @@ body{
 .thumbnail-wrapper {
 	height: 100px;
 	width: 150px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.thumbnail-wrapper-big {
+	height: 150px;
+	width: 200px;
+	text-align: center;
+	margin: 0 auto;
 }
 
 .thumbnail {
@@ -128,3 +142,15 @@ body{
  .margin-bottom {
  	margin-bottom: 15px;
  }
+
+.text-center {
+	vertical-align: center;
+}
+
+.small-text {
+	font-size: 85%;
+}
+
+.homepage-label {
+	margin-top: 5px;
+}
