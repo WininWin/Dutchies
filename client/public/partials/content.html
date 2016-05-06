@@ -14,8 +14,15 @@
 						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
 					</div>
 					<h5  class="homepage-label" ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</h5>
-					<p class="small-text">${{item.currentPrice}}</p>
+					
 				</div>
+			</div>
+
+			<div class="row">
+				<div ng-repeat = "item in mostRecentProducts"  class="column small-12 medium-3 text-center">
+					${{item.currentPrice}}
+				</div>
+
 			</div>
 			<hr>
 			<div class="row column">
@@ -31,8 +38,14 @@
 						<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
 					</div>
 					<p class="homepage-label" ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
-					<p class="small-text">${{item.currentPrice}}</p>
+					
 				</div>
+			</div>
+			<div class="row">
+				<div ng-repeat = "item in mostWatchedProducts"  class="column small-12 medium-2 text-center">
+					${{item.currentPrice}}
+				</div>
+
 			</div>
 			<hr>
 			<div class="row column">
@@ -42,17 +55,24 @@
 			<div class="row column text-center">
 				<i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="progress[2]"></i>
 			</div>
-			<div class="row small-up-2 medium-up3 large-up-6">
-				<div ng-repeat = "item in randomProducts" class="column">
+			<div class="row">
+				<div ng-repeat = "item in randomProducts" class="column small-12 medium-2 text-center">
 					<center>
 						<div class="thumbnail-wrapper">
 							<img ui-sref="app.itemDetails({item_id: item._id})" class="thumbnail" data-ng-src={{item.img}}>
 						</div>
+						<p ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
 					</center>
-					<p ui-sref="app.itemDetails({item_id: item._id})">{{item.name}}</p>
-					<p>${{item.currentPrice}}</p>
+					
+					
 				</div>
 
+			</div>
+
+			<div class="row">
+				<div ng-repeat = "item in randomProducts"  class="column small-12 medium-2 text-center">
+					${{item.currentPrice}}
+				</div>
 			</div>
 		</div>
 	</section>		
