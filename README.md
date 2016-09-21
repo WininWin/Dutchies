@@ -12,5 +12,3 @@ To serve the both the front and back end, run the following command:
 Running ```./serve.sh``` will launch both Grunt and the Express server on detached screens. To stop serving, simply run ```killall screen```.
 
 You can view the console output of Grunt and Express in ```grunt.log``` and ```server.log``` respectively.
-
-Site : http://162.243.30.179:3000/ 
